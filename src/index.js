@@ -1,13 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./App.css";
+import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-
+import { HelmetProvider } from "react-helmet-async";
+import { ContextProvider } from "./context/Statecontext";
 function Index() {
   return (
     <div className="component">
-      <App />
+      <ContextProvider>
+        <App />
+      </ContextProvider>
     </div>
   );
 }
