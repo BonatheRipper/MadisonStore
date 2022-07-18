@@ -12,6 +12,7 @@ const Sidebar = () => {
       themeBG ? `border-[#D2B6A2] border-b hover:border-x rounded-xl` : ""
     }`;
   };
+  console.log(sidebarButtonsClass);
   return (
     <aside
       id="sideBar"
@@ -19,12 +20,12 @@ const Sidebar = () => {
         sidebar
           ? `${
               themeBG ? `${themeBG} text-c-gold ` : ""
-            }  flex w-full h-screen fixed top-0 transition duration-500 justify-center md:hidden`
+            }  flex w-full h-screen z-40  fixed top-0 transition duration-500 justify-center md:hidden`
           : "w-0 bg-white "
       }
     >
       {sidebar && (
-        <div className="flex flex-col items-center mt-20 -full ">
+        <div className="flex  flex-col items-center mt-20 -full ">
           <NavLink to="/account" className={sidebarButtonsClass}>
             Account
           </NavLink>

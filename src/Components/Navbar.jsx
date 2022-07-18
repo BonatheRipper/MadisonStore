@@ -1,10 +1,12 @@
 import React from "react";
 import "../App.css";
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
 import { useStateContext } from "../context/Statecontext";
 const Navbar = (props) => {
-  const { themeBG, setTheme, sidebar, setSidebar } = useStateContext();
+  const { themeBG, sidebar, setSidebar } = useStateContext();
+  const navButtonsClass = () => {
+    return `mx-2 hover:text-white transition duration-500`;
+  };
   return (
     <nav
       className={`
@@ -30,37 +32,24 @@ const Navbar = (props) => {
           alt="Logo"
           className="w-8 h-8 mx-2"
         />
-        <h2 className="mx-0">MarpleStore</h2>
+        <NavLink to="/" className="mx-2">
+          <h2 className="">MarpleStore</h2>
+        </NavLink>
       </div>
       <div className="menus md:flex flex-row justify-between  items-center hidden">
-        <NavLink
-          to="about"
-          className="mx-2 hover:text-white transition duration-500"
-        >
+        <NavLink to="about" className={navButtonsClass}>
           About
         </NavLink>
-        <NavLink
-          to="/categories"
-          className="mx-2 hover:text-white transition duration-500"
-        >
+        <NavLink to="/categories" className={navButtonsClass}>
           Categories
         </NavLink>
-        <NavLink
-          to="/contact"
-          className="mx-2 hover:text-white transition duration-500"
-        >
+        <NavLink to="/contact" className={navButtonsClass}>
           Contact
         </NavLink>
-        <NavLink
-          to="/shop"
-          className="mx-2 hover:text-white transition duration-500"
-        >
+        <NavLink to="/shop" className={navButtonsClass}>
           Shop
         </NavLink>
-        <NavLink
-          to="/account"
-          className="mx-2 hover:text-white transition duration-500"
-        >
+        <NavLink to="/account" className={navButtonsClass}>
           Account
         </NavLink>
       </div>

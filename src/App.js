@@ -5,6 +5,7 @@ import Four0Four from "./Pages/Four0Four";
 import Navbar from "./Components/Navbar";
 import Home from "./Pages/Home";
 import { useStateContext } from "./context/Statecontext";
+import LoadingScreen from "./Screens/LoadingScreen";
 const App = () => {
   const { themeBG, setTheme, sidebar, setSidebar } = useStateContext();
 
@@ -14,6 +15,8 @@ const App = () => {
       ${themeBG ? `text-c-gold  ` : ""} relative`}
     >
       <BrowserRouter>
+        {/* <LoadingScreen /> */}
+
         <Navbar />
         <Sidebar />
 

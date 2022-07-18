@@ -7,11 +7,9 @@ import { HelmetProvider } from "react-helmet-async";
 import { ContextProvider } from "./context/Statecontext";
 function Index() {
   return (
-    <div className="component">
-      <ContextProvider>
-        <App />
-      </ContextProvider>
-    </div>
+    <ContextProvider>
+      <App />
+    </ContextProvider>
   );
 }
 ReactDOM.render(<Index />, document.getElementById("root"));
