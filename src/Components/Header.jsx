@@ -30,7 +30,11 @@ const Header = () => {
               Stylish accesories that will set you apart from the crowd,
               durability and uniqueness is the mantra we live in
             </p>
-            <LongButtons to={"/shop"} css="hidden md:block" text="SHOP" />
+            <LongButtons
+              to={"/shop"}
+              css="hidden md:block text-c-green"
+              text="SHOP"
+            />
           </div>
           <div className="Header-img  mt-6 md:mt-0 px-2 md:px-4 w-full md:w-96 h-3/5  flex flex-col items-center">
             <div
@@ -45,7 +49,7 @@ const Header = () => {
 
             <LongButtons
               to={"/shop"}
-              css="bg-c-gold mt-6 hover:bg-white md:hidden"
+              css="bg-c-gold mt-6 hover:bg-white md:hidden text-c-green"
               text="SHOP"
             />
           </div>

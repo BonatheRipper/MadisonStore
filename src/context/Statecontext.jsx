@@ -14,11 +14,11 @@ const ThemeColours = {
 };
 const ThemeShapes = {
   Rounded: "rounded-full",
-  Square: "",
+  Square: null,
 };
 const ThemeBorders = {
   Rounded: "rounded-t-full",
-  Square: "",
+  Square: null,
 };
 export const ContextProvider = ({ children }) => {
   const [themeShape, setThemeShape] = useState(ThemeShapes.Rounded);

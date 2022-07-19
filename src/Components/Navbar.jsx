@@ -3,7 +3,7 @@ import "../App.css";
 import { NavLink } from "react-router-dom";
 import { useStateContext } from "../context/Statecontext";
 const Navbar = (props) => {
-  const { themeBG, sidebar, setSidebar } = useStateContext();
+  const { themeBG, sidebar, setSidebar, themeShape } = useStateContext();
   const navButtonsClass = () => {
     return `mx-2 hover:text-white transition duration-500`;
   };
@@ -55,7 +55,13 @@ const Navbar = (props) => {
       </div>
       <div className="rightMenus flex flex-row justify-between  items-center">
         <NavLink to="cart" className=" relative hover:text-white mx-2">
-          <span className=" bg-c-gold cart-badge">1</span>
+          <span
+            className={`${
+              themeShape ? themeShape : "rounded-sm"
+            } bg-c-gold cart-badge`}
+          >
+            1
+          </span>
           <i class="fa fa-shopping-basket" aria-hidden="true"></i>
         </NavLink>
         <NavLink
@@ -66,7 +72,7 @@ const Navbar = (props) => {
         </NavLink>
         <NavLink
           to="login"
-          className="hidden md:block border-c-gold border px-5 py-1 hover:bg-c-gold hover:text-black mx-2"
+          className={`${themeShape} hidden md:block border-c-gold border px-5 py-1 hover:bg-c-gold hover:text-black mx-2`}
         >
           Login
         </NavLink>

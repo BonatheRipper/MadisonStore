@@ -56,7 +56,7 @@ const WelcomeHome = () => {
           to={"/products"}
           text="Explore"
           css={
-            "w-full mt-12 px-40 md:px-60 hover:bg-c-gold bg-c-green text-white hover:text-black "
+            "w-full mt-12 px-40 md:px-60 hover:bg-c-gold bg-c-green text-c-gold hover:text-black "
           }
         />
       </div>

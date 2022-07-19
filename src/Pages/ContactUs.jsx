@@ -1,13 +1,14 @@
 import React from "react";
+import Contact from "../Components/Contact";
 import Footer from "../Components/Footer";
 
-const Four0Four = () => {
+const ContactUs = () => {
   return (
     <div>
-      <h1>Page Not found</h1>
+      <Contact />
       <Footer />
     </div>
   );
 };
 
-export default Four0Four;
+export default ContactUs;
