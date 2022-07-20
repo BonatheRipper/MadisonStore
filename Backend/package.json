@@ -1,0 +1,21 @@
+{
+  "name": "back_end_of_ecom",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "This is just the backend to marple store",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "bona9ja",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-async-handler": "^1.2.0",
+    "mongoose": "^6.4.5"
+  }
+}

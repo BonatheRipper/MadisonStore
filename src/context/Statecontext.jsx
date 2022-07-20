@@ -7,11 +7,12 @@ import React, {
 } from "react";
 
 const StateContext = createContext();
-const ThemeColours = {
-  Blackish: "bg-black ",
-  Greenish: "bg-c-green ",
-  Indigo: "bg-c-indigo",
-};
+const ThemeBackground = [
+  { color: "bg-black " },
+  { color: "bg-c-green " },
+  { color: "bg-c-indigo " },
+];
+
 const ThemeShapes = {
   Rounded: "rounded-full",
   Square: null,
@@ -24,16 +25,20 @@ export const ContextProvider = ({ children }) => {
   const [themeShape, setThemeShape] = useState(ThemeShapes.Rounded);
   const [themeBorder, setThemeBorder] = useState(ThemeBorders.Rounded);
 
-  const [themeBG, setTheme] = useState(ThemeColours.Blackish);
+  const [themeBG, setThemeBG] = useState(ThemeBackground[1].color);
   const [sidebar, setSidebar] = useState(false);
 
   return (
     <StateContext.Provider
       value={{
         themeBG,
+        ThemeBackground,
+        setThemeBG,
+        ThemeShapes,
+        setThemeShape,
         themeBorder,
         themeShape,
-        setTheme,
+
         sidebar,
         setSidebar,
       }}

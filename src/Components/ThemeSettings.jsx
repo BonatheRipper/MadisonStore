@@ -1,28 +1,86 @@
-import React, { useRef } from "react";
-import { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
+import { useStateContext } from "../context/Statecontext";
+
 import { ScrollRotate } from "react-scroll-rotate";
+import { useEffect } from "react";
 
 const ThemeSettings = () => {
-  const [goingUp, setGoingUp] = useState(1);
-  useEffect(() => {
-    const handleScroll = () => {
-      setGoingUp(goingUp + 1);
-    };
-    console.log(goingUp);
-    window.addEventListener("scroll", handleScroll, { passive: true });
+  const [toggleLeftSideBar, setToggleLeftSideBar] = useState(false);
+  const {
+    themeBG,
+    setThemeShape,
+    setThemeBG,
+    ThemeBackground,
+    themeShape,
+    ThemeShapes,
+  } = useStateContext();
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [goingUp]);
   return (
-    <div
-      onClick=""
-      className="w-8 h8  fixed z-50 text-3xl text=green bottom-0 right-1"
-    >
-      <ScrollRotate>
-        <i class="fa fa-cog w-full h-full" aria-hidden="true"></i>
-      </ScrollRotate>
-    </div>
+    <>
+      {toggleLeftSideBar && (
+        <div
+          style={{ zIndex: 99 }}
+          className={`${themeBG} border-2 border-c-gold fixed w-64 h-screen right-0 `}
+        >
+          <div className="py-6 px-4">
+            <h4 className="text-center p-4 border-b  border-c-gold">
+              Setup Theme
+            </h4>
+          </div>
+
+          <div className="py-6 px-4 flex flex-col ">
+            <h4 className="text-sm  border-b  border-c-gold">Theme Shape</h4>
+            <div className="flex py-4 px-4 items-center justify-evenly">
+              <div
+                onClick={() => setThemeShape(ThemeShapes.Square)}
+                className="w-10 h-10 border border-c-gold mx-2 flex items-center justify-center"
+              >
+                {themeShape === ThemeShapes.Square && (
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                )}
+              </div>
+              <div
+                onClick={() => setThemeShape(ThemeShapes.Rounded)}
+                className="w-10 h-10 border border-c-gold mx-2 rounded-full flex items-center justify-center"
+              >
+                {themeShape === ThemeShapes.Rounded && (
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="py-6 px-4 flex flex-col ">
+            <h4 className="text-sm  border-b  border-c-gold">Theme Colors</h4>
+            <div className="flex py-4 px-4 items-center justify-evenly">
+              {ThemeBackground.map((bg) => {
+                return (
+                  <div
+                    key={bg.color}
+                    onClick={() => setThemeBG(bg.color)}
+                    className={`${bg.color}  w-10 h-10  border-4 border-c-gold mx-2 rounded-full flex items-center justify-center`}
+                  >
+                    {themeBG === bg.color && (
+                      <i class="fa fa-check" aria-hidden="true"></i>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+      <div
+        style={{ zIndex: 100 }}
+        onClick={() => setToggleLeftSideBar(!toggleLeftSideBar)}
+        className="w-8 h8 hover:text-white  fixed z-50 text-3xl text=green bottom-0 right-1"
+      >
+        <ScrollRotate className="w-full h-full">
+          <i class="fa fa-cog w-full h-full " aria-hidden="true"></i>
+        </ScrollRotate>
+      </div>
+    </>
   );
 };
 
