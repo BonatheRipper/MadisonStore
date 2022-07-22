@@ -1,7 +1,10 @@
 import React from "react";
 import TestimonialCard from "./TestimonialCard";
 import { Swiper, SwiperSlide } from "swiper/react";
+import "../App.css";
 import "swiper/css";
+import "swiper/css/navigation";
+import { Navigation } from "swiper";
 
 const TestimonialsArr = [
   {
@@ -45,17 +48,44 @@ const Testimonials = () => {
           What Our Clients Say
         </h3>
       </div>
-      {TestimonialsArr.map((item) => {
-        return (
-          <TestimonialCard
-            key={item.name}
-            name={item.name}
-            image={item.image}
-            testimony={item.testimony}
-            ocuppation={item.ocuppation}
-          />
-        );
-      })}
+      <Swiper
+        navigation={true}
+        modules={[Navigation]}
+        scrollbar={{ draggable: true }}
+        pagination={{ clickable: true }}
+        freeMode={true}
+        grabCursor={true}
+        className="MySwipper w-full"
+        slidesPerView={3}
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+            spaceBetween: 10,
+          },
+          760: {
+            slidesPerView: 2,
+            spaceBetween: 10,
+          },
+          960: {
+            slidesPerView: 2,
+            spaceBetween: 10,
+          },
+        }}
+      >
+        {TestimonialsArr.map((item) => {
+          return (
+            <SwiperSlide>
+              <TestimonialCard
+                key={Math.random() * 16928 + item.name}
+                name={item.name}
+                image={item.image}
+                testimony={item.testimony}
+                ocuppation={item.ocuppation}
+              />
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
     </div>
   );
 };

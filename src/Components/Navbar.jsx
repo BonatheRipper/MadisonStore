@@ -2,8 +2,10 @@ import React from "react";
 import "../App.css";
 import { NavLink } from "react-router-dom";
 import { useStateContext } from "../context/Statecontext";
+
 const Navbar = (props) => {
-  const { themeBG, sidebar, setSidebar, themeShape } = useStateContext();
+  const { themeBG, sidebar, setSidebar, themeShape, cart } = useStateContext();
+
   const navButtonsClass = () => {
     return `mx-2 hover:text-white transition duration-500`;
   };
@@ -20,9 +22,9 @@ const Navbar = (props) => {
       >
         <span className="mx-2 text-2xl">
           {sidebar ? (
-            <i class="fa fa-times" aria-hidden="true"></i>
+            <i className="fa fa-times" aria-hidden="true"></i>
           ) : (
-            <i class="fa fa-bars" aria-hidden="true"></i>
+            <i className="fa fa-bars" aria-hidden="true"></i>
           )}
         </span>
       </div>
@@ -55,20 +57,24 @@ const Navbar = (props) => {
       </div>
       <div className="rightMenus flex flex-row justify-between  items-center">
         <NavLink to="cart" className=" relative hover:text-white mx-2">
-          <span
-            className={`${
-              themeShape ? themeShape : "rounded-sm"
-            } bg-c-gold cart-badge`}
-          >
-            1
-          </span>
-          <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+          {cart.cart.cartItems.length !== 0 && (
+            <span
+              className={`${
+                themeShape ? themeShape : "rounded-sm"
+              } bg-c-gold cart-badge`}
+            >
+              {cart.cart.cartItems.reduce((previousValue, currentValue) => {
+                return previousValue + currentValue.quantity;
+              }, 0)}
+            </span>
+          )}
+          <i className="fa fa-shopping-basket" aria-hidden="true"></i>
         </NavLink>
         <NavLink
           to="wishlist"
           className="hidden md:block hover:text-white  mx-2"
         >
-          <i class="fa fa-heart-o" aria-hidden="true"></i>
+          <i className="fa fa-heart-o" aria-hidden="true"></i>
         </NavLink>
         <NavLink
           to="login"

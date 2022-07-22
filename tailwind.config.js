@@ -8,6 +8,7 @@ module.exports = {
         "cc-gold": "rgb(210,182,162)",
         "c-green": "rgb(31, 51, 48)",
         "c-indigo": "#12083B",
+        "c-darkGreen": "#022302",
       },
       backgroundColor: {
         "cb-gold": "#D2B6A2",

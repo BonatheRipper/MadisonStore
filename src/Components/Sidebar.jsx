@@ -1,9 +1,6 @@
 import React from "react";
-import { CgCloseR } from "react-icons/cg";
 import { NavLink } from "react-router-dom";
-import { MdDashboard } from "react-icons/md";
-import { BiMessageSquareEdit } from "react-icons/bi";
-import { TiShoppingBag } from "react-icons/ti";
+
 import { useStateContext } from "../context/Statecontext";
 const Sidebar = () => {
   const { sidebar, themeBG } = useStateContext();
@@ -12,7 +9,6 @@ const Sidebar = () => {
       themeBG ? `border-[#D2B6A2] border-b hover:border-x rounded-xl` : ""
     }`;
   };
-  console.log(sidebarButtonsClass);
   return (
     <aside
       id="sideBar"

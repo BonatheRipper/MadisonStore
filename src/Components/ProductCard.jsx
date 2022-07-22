@@ -1,10 +1,12 @@
 import React from "react";
-import LongButtons from "./LongButtons";
+import LongButtons, { NormalButton } from "./LongButtons";
 import { useStateContext } from "../context/Statecontext";
 import { NavLink } from "react-router-dom";
-
-const ProductCard = ({ image, catName, pName, price }) => {
+import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import { useState } from "react";
+const ProductCard = ({ image, pID, click, catName, pName, pDesc, price }) => {
   const { themeBG, themeShape } = useStateContext();
+  const [desc, setDesc] = useState(false);
 
   return (
     <div
@@ -16,9 +18,29 @@ const ProductCard = ({ image, catName, pName, price }) => {
         <div
           className={` h-64 ${
             themeShape ? `${themeShape} w-64` : "w-full"
-          } border-8 border-c-gold  p-2  flex justify-center items-center`}
+          } border-8 border-c-gold  p-2  flex justify-center items-center relative`}
         >
           <img src={image} alt="Product-Img" className="W-52 h-52 " />
+          <div
+            className={`absolute ${desc ? "bg-black " : ""}  ${
+              themeShape ? themeShape : ""
+            } transition duration-1000 opacity-70 w-full  h-full justify-center flex text-c-green `}
+          >
+            {desc && (
+              <div className="  h-full font-sans text-white px-2 py-20 text-ellipsis text-center w-50">
+                {pDesc}
+              </div>
+            )}
+
+            <div
+              onClick={() => setDesc(!desc)}
+              className={`absolute ${
+                desc ? "text-white" : "text-c-gold "
+              } bottom-0 text-center hover:rotate-180 transition duration-700 `}
+            >
+              <IoIosArrowDown className="text-2xl  h-full w-full" />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -27,19 +49,19 @@ const ProductCard = ({ image, catName, pName, price }) => {
           <NavLink to={catName}>{catName}</NavLink>
         </p>
         <span className="cursor-pointer transition duration-500">
-          <i class="fa fa-heart-o" aria-hidden="true"></i>
+          <i className="fa fa-heart-o" aria-hidden="true"></i>
         </span>
       </div>
       <div className="flex justify-between">
         <p className=" text-lg hover:cursor-pointer hover:font-extrabold transition duration-5000">
-          <NavLink to={pName}>{pName}</NavLink>
+          <NavLink to={`/products/${pID}`}>{pName}</NavLink>
         </p>
-        <p className="tracking-widest font-bold">{price}</p>
+        <p className="tracking-widest font-bold">${price}</p>
       </div>
       <div className="flex items-center justify-center">
-        <LongButtons
-          to=""
+        <NormalButton
           text="Add to Cart"
+          click={click}
           css={`border border-c-gold ${themeBG} hover:text-c-green hover:bg-c-gold`}
         />
       </div>

@@ -6,7 +6,6 @@ const CategoriesPage = () => {
   return (
     <div>
       <Categories />
-      <Footer />
     </div>
   );
 };

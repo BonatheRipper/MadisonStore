@@ -10,8 +10,10 @@ import AboutPage from "./Pages/About";
 import ContactUs from "./Pages/ContactUs";
 import Categories from "./Components/Categories";
 import ThemeSettings from "./Components/ThemeSettings";
+import ProductsPage from "./Pages/ProductsPage";
+import Footer from "./Components/Footer";
 const App = () => {
-  const { themeBG } = useStateContext();
+  const { themeBG, products } = useStateContext();
 
   return (
     <div
@@ -19,19 +21,19 @@ const App = () => {
       ${themeBG ? `text-c-gold  ` : ""} relative`}
     >
       <BrowserRouter>
-        {/* <LoadingScreen /> */}
+        {/* {products.loading && <LoadingScreen />} */}
         <ThemeSettings />
-
         <Navbar />
         <Sidebar />
-
         <Routes>
           <Route component={<Four0Four />} />
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/products/:id" element={<ProductsPage />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/categories" element={<Categories />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   );
@@ -39,3 +41,4 @@ const App = () => {
 
 export default App;
 // https://maplestore.netlify.app/
+// npm link ../node_modules/react

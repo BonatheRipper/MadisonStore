@@ -22,7 +22,7 @@ const Contact = () => {
             <div
               className={`text-2xl w-8 h-8 text-gold flex justify-center items-center px-4 py-4`}
             >
-              <i class="fa fa-map-marker" aria-hidden="true"></i>
+              <i className="fa fa-map-marker" aria-hidden="true"></i>
             </div>
             <h5 className=" uppercase tracking-widest font-medium ">
               our office address
@@ -35,7 +35,7 @@ const Contact = () => {
             <div
               className={`text-2xl w-8 h-8 text-gold flex justify-center items-center px-4 py-4`}
             >
-              <i class="fa fa-comments" aria-hidden="true"></i>
+              <i className="fa fa-comments" aria-hidden="true"></i>
             </div>
             <h5 className="uppercase tracking-widest font-medium text-gold">
               Let us talk
@@ -46,7 +46,7 @@ const Contact = () => {
             <div
               className={`text-2xl w-8 h-8 text-gold flex justify-center items-center px-4 py-4`}
             >
-              <i class="fa fa-envelope" aria-hidden="true"></i>
+              <i className="fa fa-envelope" aria-hidden="true"></i>
             </div>
             <h5 className="uppercase tracking-widest font-medium ">Mail us</h5>
             <p className="text-base ">contact@example.com</p>
@@ -55,7 +55,7 @@ const Contact = () => {
             <div
               className={`text-2xl w-8 h-8 text-gold flex justify-center items-center px-4 py-4`}
             >
-              <i class="fa fa-globe" aria-hidden="true"></i>
+              <i className="fa fa-globe" aria-hidden="true"></i>
             </div>
             <h5 className="uppercase tracking-widest font-medium ">
               Our website
@@ -67,7 +67,7 @@ const Contact = () => {
           <div className="flex flex-col py-6">
             <label className="relative focus-within:text-c-gold block">
               <span className="pointer-events-none w-8 h-8 absolute top-1/2 transform -translate-y-1/2 left-3">
-                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <i className="fa fa-envelope" aria-hidden="true"></i>
               </span>
               <input
                 type="email"
@@ -79,7 +79,7 @@ const Contact = () => {
             <div className="flex flex-col py-6">
               <label className="relative focus-within:text-c-gold block">
                 <span className="pointer-events-none w-8 h-8 absolute top-1/2 transform -translate-y-1/2 left-3">
-                  <i class="fa fa-user" aria-hidden="true"></i>
+                  <i className="fa fa-user" aria-hidden="true"></i>
                 </span>
                 <input
                   type="text"
@@ -92,7 +92,7 @@ const Contact = () => {
             <div className="flex flex-col py">
               <label className="relative focus-within:text-c-gold block">
                 <span className="pointer-events-none w-8 h-8 absolute top-1/2 transform -translate-y-1/2 left-3">
-                  <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                  <i className="fa fa-commenting-o" aria-hidden="true"></i>
                 </span>
                 <input
                   type="text"

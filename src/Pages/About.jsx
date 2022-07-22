@@ -5,7 +5,6 @@ const AboutPage = () => {
   return (
     <div className="py-12">
       <About />
-      <Footer />
     </div>
   );
 };

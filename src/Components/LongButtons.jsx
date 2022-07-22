@@ -15,4 +15,16 @@ const LongButtons = ({ to, css, text }) => {
   );
 };
 
+export const NormalButton = ({ to, css, text, click }) => {
+  const { themeShape } = useStateContext();
+
+  return (
+    <button
+      onClick={click}
+      className={`${themeShape}  bg-c-gold w-full md:w-10/12  px-3 py-3 text-center hover:bg-white  transition duration-1000 ${css}`}
+    >
+      {text}
+    </button>
+  );
+};
 export default LongButtons;

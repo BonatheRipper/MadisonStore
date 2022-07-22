@@ -37,7 +37,7 @@ const ThemeSettings = () => {
                 className="w-10 h-10 border border-c-gold mx-2 flex items-center justify-center"
               >
                 {themeShape === ThemeShapes.Square && (
-                  <i class="fa fa-check" aria-hidden="true"></i>
+                  <i className="fa fa-check" aria-hidden="true"></i>
                 )}
               </div>
               <div
@@ -45,7 +45,7 @@ const ThemeSettings = () => {
                 className="w-10 h-10 border border-c-gold mx-2 rounded-full flex items-center justify-center"
               >
                 {themeShape === ThemeShapes.Rounded && (
-                  <i class="fa fa-check" aria-hidden="true"></i>
+                  <i className="fa fa-check" aria-hidden="true"></i>
                 )}
               </div>
             </div>
@@ -57,12 +57,14 @@ const ThemeSettings = () => {
               {ThemeBackground.map((bg) => {
                 return (
                   <div
-                    key={bg.color}
+                    key={Math.random() * 16928 + bg.color}
                     onClick={() => setThemeBG(bg.color)}
-                    className={`${bg.color}  w-10 h-10  border-4 border-c-gold mx-2 rounded-full flex items-center justify-center`}
+                    className={`${bg.color} ${
+                      themeShape ? themeShape : ""
+                    } w-10 h-10  border-4 border-c-gold mx-2  flex items-center justify-center transition duration-1000`}
                   >
                     {themeBG === bg.color && (
-                      <i class="fa fa-check" aria-hidden="true"></i>
+                      <i className="fa fa-check" aria-hidden="true"></i>
                     )}
                   </div>
                 );
@@ -77,7 +79,7 @@ const ThemeSettings = () => {
         className="w-8 h8 hover:text-white  fixed z-50 text-3xl text=green bottom-0 right-1"
       >
         <ScrollRotate className="w-full h-full">
-          <i class="fa fa-cog w-full h-full " aria-hidden="true"></i>
+          <i className="fa fa-cog w-full h-full " aria-hidden="true"></i>
         </ScrollRotate>
       </div>
     </>

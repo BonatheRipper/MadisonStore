@@ -12,12 +12,7 @@ const TestimonialCard = ({ testimony, ocuppation, name, image }) => {
 
   return (
     <>
-      <Swiper
-        spaceBetween={50}
-        slidesPerView={3}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
-      >
+      <Swiper spaceBetween={50} slidesPerView={3}>
         <div className=" flex  justify-between space-x-6 w-full">
           <div
             className={`${themeBG} ${

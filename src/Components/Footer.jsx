@@ -23,19 +23,19 @@ const Footer = () => {
               href="/"
               className="hover:text-white md:text-3xl rounded-full transition duration-300"
             >
-              <i class="fa fa-facebook-official " aria-hidden="true"></i>
+              <i className="fa fa-facebook-official " aria-hidden="true"></i>
             </a>
             <a
               href="/"
               className="hover:text-white md:text-3xl  transition duration-300"
             >
-              <i class="fa fa-twitter" aria-hidden="true"></i>
+              <i className="fa fa-twitter" aria-hidden="true"></i>
             </a>
             <a
               href="/"
               className="hover:text-white md:text-3xl  transition duration-300"
             >
-              <i class="fa fa-instagram" aria-hidden="true"></i>
+              <i className="fa fa-instagram" aria-hidden="true"></i>
             </a>
           </div>
         </div>
@@ -73,7 +73,7 @@ const Footer = () => {
             <div className="flex flex-col py">
               <label className="relative focus-within:text-c-gold block">
                 <span className="pointer-events-none w-8 h-8 absolute top-1/2 transform -translate-y-1/2 left-3">
-                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                  <i className="fa fa-envelope" aria-hidden="true"></i>
                 </span>
                 <input
                   type="text"

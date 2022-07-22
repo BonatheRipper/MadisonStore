@@ -34,3 +34,10 @@
 .uppercase {
   text-transform: uppercase;
 }
+.swiper-button-prev {
+  color: #d2b6a2 !important;
+}
+
+.swiper-button-next {
+  color: #d2b6a2 !important;
+}

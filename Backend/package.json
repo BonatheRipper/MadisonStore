@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "description": "This is just the backend to marple store",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

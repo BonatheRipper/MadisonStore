@@ -18,7 +18,6 @@ const Home = () => {
         <Products />
         <Testimonials />
         <Contact />
-        <Footer />
       </div>
     </>
   );

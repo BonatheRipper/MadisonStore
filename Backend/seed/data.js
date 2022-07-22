@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 
-const Data = {
+const data = {
   users: [
     {
       name: "Bona Andrews",
@@ -52,6 +52,8 @@ const Data = {
       slug: "Nivaraga-Earring",
       category: "Earrings",
       gallery: [],
+      price: 200,
+
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654969479856andrew-hutchings-Asngw4A5_tM-unsplash-removebg-preview.png?alt=media&token=cc88b966-286e-49d6-bd1c-264ec815ec39",
       countInStock: 101,
@@ -67,7 +69,7 @@ const Data = {
       category: "NECKLACES",
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654969596389sabrianna-u1Hv_erOQH0-unsplash.png?alt=media&token=b1de1a27-068d-4cd7-a24d-b549f514d972",
-      price: 50,
+      price: 500,
       countInStock: 5,
       material: "silver",
       gallery: [],
@@ -82,7 +84,7 @@ const Data = {
       category: "WATCHES",
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654968503622pexels-pixabay-364822.png?alt=media&token=73ebc4d3-ff43-484e-b9cd-14f18710fab5",
-      price: 120,
+      price: 1200,
       countInStock: 10,
       material: "Silver",
       gallery: [],
@@ -113,7 +115,7 @@ const Data = {
       category: "Rings",
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654969943903sabrianna-NhrcL_C0sFA-unsplash.png?alt=media&token=e55cc7d6-717a-4f27-b9ca-1b0fd6503797",
-      price: 120,
+      price: 2000,
       countInStock: 10,
       numReviews: 5,
       description:
@@ -173,7 +175,7 @@ const Data = {
       category: "shirts",
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654970297950miao-xiang-leFR7Fj3J6I-unsplash.png?alt=media&token=edd455fa-b80e-4453-a3b1-dfec4032b760",
-      price: 120,
+      price: 3200,
       countInStock: 10,
       gallery: [],
       material: "Gold",
@@ -189,7 +191,7 @@ const Data = {
       category: "Earrings",
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654969479856andrew-hutchings-Asngw4A5_tM-unsplash-removebg-preview.png?alt=media&token=cc88b966-286e-49d6-bd1c-264ec815ec39",
-      price: 120,
+      price: 2920,
       countInStock: 10,
       material: "Leather",
       rating: 4.5,
@@ -205,7 +207,7 @@ const Data = {
       gallery: [],
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654969025672arno-senoner-oCXVxwTFwqE-unsplash-removebg-preview.png?alt=media&token=d2782f30-6239-4d63-ae9a-ce2587217547",
-      price: 20,
+      price: 2000,
       countInStock: 10,
       material: "Leather",
       rating: 4.5,
@@ -220,7 +222,7 @@ const Data = {
       gallery: [],
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654969479856andrew-hutchings-Asngw4A5_tM-unsplash-removebg-preview.png?alt=media&token=cc88b966-286e-49d6-bd1c-264ec815ec39",
-      countInStock: 101,
+      countInStock: 1021,
       material: "Gold",
       rating: 4.5,
       numReviews: 4,
@@ -233,7 +235,7 @@ const Data = {
       category: "NECKLACES",
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654969596389sabrianna-u1Hv_erOQH0-unsplash.png?alt=media&token=b1de1a27-068d-4cd7-a24d-b549f514d972",
-      price: 50,
+      price: 5000,
       countInStock: 5,
       material: "silver",
       gallery: [],
@@ -248,7 +250,7 @@ const Data = {
       category: "WATCHES",
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654968503622pexels-pixabay-364822.png?alt=media&token=73ebc4d3-ff43-484e-b9cd-14f18710fab5",
-      price: 120,
+      price: 1230,
       countInStock: 10,
       material: "Silver",
       gallery: [],
@@ -263,7 +265,7 @@ const Data = {
       category: "Shoes",
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654969785257gavin-allanwood-ndpX28miBtE-unsplash.png?alt=media&token=a2226fcf-4564-4a14-868b-19b1fda97f95",
-      price: 120,
+      price: 1203,
       countInStock: 10,
       material: "Sweat",
       numReviews: 5,
@@ -279,7 +281,7 @@ const Data = {
       category: "Rings",
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654969943903sabrianna-NhrcL_C0sFA-unsplash.png?alt=media&token=e55cc7d6-717a-4f27-b9ca-1b0fd6503797",
-      price: 120,
+      price: 1900,
       countInStock: 10,
       numReviews: 5,
       description:
@@ -294,7 +296,7 @@ const Data = {
       category: "Bags",
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654970141986alvaro-serrano-pFLNV4gkXsc-unsplash-removebg-preview.png?alt=media&token=f7d3c9cd-2b36-4b7a-91ca-5cfe7e4fb0c5",
-      price: 120,
+      price: 3900,
       countInStock: 10,
       numReviews: 5,
       description:
@@ -309,7 +311,7 @@ const Data = {
       category: "Rings",
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654970740605antonio-uquiche-xD_XnntwCw0-unsplash-removebg-preview.png?alt=media&token=7e78a011-0b1d-4553-a026-5195f6ea74e0",
-      price: 120,
+      price: 2090,
       countInStock: 10,
       numReviews: 5,
       description:
@@ -324,7 +326,7 @@ const Data = {
       category: "Necklaces",
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654970455690bulbul-ahmed-QFWGnLHnBNQ-unsplash__1_-removebg-preview.png?alt=media&token=9feb1ecc-65da-4bf5-9391-979083f15f88",
-      price: 120,
+      price: 4630,
       countInStock: 10,
       material: "Gold",
       rating: 3.5,
@@ -339,7 +341,7 @@ const Data = {
       category: "shirts",
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654970297950miao-xiang-leFR7Fj3J6I-unsplash.png?alt=media&token=edd455fa-b80e-4453-a3b1-dfec4032b760",
-      price: 120,
+      price: 4900,
       countInStock: 10,
       gallery: [],
       material: "Gold",
@@ -355,7 +357,7 @@ const Data = {
       category: "Earrings",
       image:
         "https://firebasestorage.googleapis.com/v0/b/ecommerce-abdaf.appspot.com/o/1654969479856andrew-hutchings-Asngw4A5_tM-unsplash-removebg-preview.png?alt=media&token=cc88b966-286e-49d6-bd1c-264ec815ec39",
-      price: 120,
+      price: 5990,
       countInStock: 10,
       material: "Leather",
       rating: 4.5,
@@ -517,4 +519,4 @@ const Data = {
   ],
 };
 
-export default Data;
+export default data;
