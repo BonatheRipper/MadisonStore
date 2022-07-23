@@ -29,6 +29,7 @@ const ProductsPage = () => {
     };
     fetchProducts();
   }, []);
+
   const handleGalleryClick = (imgLink) => {
     setCurrentImg(imgLink);
   };
@@ -89,7 +90,7 @@ const ProductsPage = () => {
                   {singleProduct.gallery.map((item) => {
                     return (
                       <SwiperSlide
-                        key={item}
+                        key={item + Math.random() * 353}
                         onClick={() => handleGalleryClick(item)}
                         className="relative flex items-center justify-center"
                       >

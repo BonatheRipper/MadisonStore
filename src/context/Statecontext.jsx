@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import { useReducer } from "react";
-
+import axios from "axios";
 const productsReducer = (state, action) => {
   switch (action.type) {
     case "FETCH_REQUEST":
@@ -14,13 +14,13 @@ const productsReducer = (state, action) => {
   }
 };
 const cartReducer = (state, action) => {
+  var newItem = action.payload;
+  var cartItems;
+  var newItemExist = state.cart.cartItems.find(
+    (item) => item._id === action.payload._id
+  );
   switch (action.type) {
     case "ADD_TO_CART":
-      let newItem = action.payload;
-      let cartItems;
-      var newItemExist = state.cart.cartItems.find(
-        (item) => item._id === newItem._id
-      );
       if (newItemExist) {
         newItemExist.quantity = newItemExist.quantity + 1;
         cartItems = state.cart.cartItems.map((item) =>
@@ -38,7 +38,36 @@ const cartReducer = (state, action) => {
             : [...state.cart.cartItems, newItem],
         },
       };
-
+    case "REMOVE_FROM_CART":
+      const newCartItems = state.cart.cartItems.filter(
+        (item) => item._id !== action.payload._id
+      );
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          cartItems: newCartItems,
+        },
+      };
+    case "MINUS_FROM_CART":
+      if (newItemExist) {
+        newItemExist.quantity =
+          newItemExist.quantity > 1 ? newItemExist.quantity - 1 : 1;
+        cartItems = state.cart.cartItems.map((item) =>
+          item._id === newItemExist._id ? newItemExist : item
+        );
+      } else {
+        newItem.quantity = 1;
+      }
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          cartItems: newItemExist
+            ? cartItems
+            : [...state.cart.cartItems, newItem],
+        },
+      };
     default:
       return state;
   }
@@ -74,14 +103,52 @@ export const ContextProvider = ({ children }) => {
     shippingDetails: "",
     PaymentMethod: "",
   });
-  const handleAddProductToCart = (productToAddToCart) => {
+  const handleAddProductToCart = async (productToAddToCart) => {
+    try {
+      const existItem = cart.cart.cartItems.find(
+        (x) => x._id === productToAddToCart._id
+      );
+      const id = productToAddToCart._id;
+      const results = await axios.get(`/api/products/${id}`);
+      const quantity = existItem ? existItem.quantity : 1;
+      if (results.data.countInStock <= quantity) {
+        return alert("Out of fucking stock");
+      }
+    } catch (e) {
+      alert(e);
+    }
     cartDispatch({ type: "ADD_TO_CART", payload: productToAddToCart });
+  };
+  const updateCartHandler = async (item, action) => {
+    try {
+      const existItem = cart.cart.cartItems.find((x) => x._id === item._id);
+      const id = item._id;
+      const results = await axios.get(`/api/products/${id}`);
+      const quantity = existItem ? existItem.quantity : 1;
+      if (action === "DELETE") {
+        cartDispatch({ type: "REMOVE_FROM_CART", payload: item });
+        return;
+      }
+      if (action === "ADD") {
+        if (results.data.countInStock <= quantity) {
+          return console.log("Out of fucking stock");
+        }
+        cartDispatch({ type: "ADD_TO_CART", payload: item });
+      }
+    } catch (e) {
+      alert(e);
+    }
+
+    if (action === "MINUS") {
+      cartDispatch({ type: "MINUS_FROM_CART", payload: item });
+    }
   };
   return (
     <StateContext.Provider
       value={{
         themeBG,
         handleAddProductToCart,
+        updateCartHandler,
         ThemeBackground,
         cart,
         cartDispatch,

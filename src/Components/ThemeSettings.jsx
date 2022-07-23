@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useStateContext } from "../context/Statecontext";
 
 import { ScrollRotate } from "react-scroll-rotate";
-import { useEffect } from "react";
 
 const ThemeSettings = () => {
   const [toggleLeftSideBar, setToggleLeftSideBar] = useState(false);

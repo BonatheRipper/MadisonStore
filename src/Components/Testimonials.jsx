@@ -76,7 +76,7 @@ const Testimonials = () => {
           return (
             <SwiperSlide>
               <TestimonialCard
-                key={Math.random() * 16928 + item.name}
+                key={Math.random() * 16928}
                 name={item.name}
                 image={item.image}
                 testimony={item.testimony}

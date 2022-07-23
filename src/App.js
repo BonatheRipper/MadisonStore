@@ -5,16 +5,15 @@ import Four0Four from "./Pages/Four0Four";
 import Navbar from "./Components/Navbar";
 import Home from "./Pages/Home";
 import { useStateContext } from "./context/Statecontext";
-import LoadingScreen from "./Screens/LoadingScreen";
 import AboutPage from "./Pages/About";
 import ContactUs from "./Pages/ContactUs";
 import Categories from "./Components/Categories";
 import ThemeSettings from "./Components/ThemeSettings";
 import ProductsPage from "./Pages/ProductsPage";
 import Footer from "./Components/Footer";
+import CartPage from "./Pages/CartPage";
 const App = () => {
-  const { themeBG, products } = useStateContext();
-
+  const { themeBG } = useStateContext();
   return (
     <div
       className={`
@@ -31,6 +30,8 @@ const App = () => {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/products/:id" element={<ProductsPage />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/cart" element={<CartPage />} />
+
           <Route path="/categories" element={<Categories />} />
         </Routes>
         <Footer />

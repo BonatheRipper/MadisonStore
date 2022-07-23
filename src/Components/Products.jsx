@@ -5,16 +5,9 @@ import { useStateContext } from "../context/Statecontext";
 import ProductCard from "./ProductCard";
 import ProductsMenuBtn from "./ProductsMenuBtn";
 import axios from "axios";
-
 const Products = ({}) => {
-  const {
-    themeBG,
-    products,
-    handleAddProductToCart,
-    productsDispatch,
-    cart,
-    cartDispatch,
-  } = useStateContext();
+  const { themeBG, products, handleAddProductToCart, productsDispatch } =
+    useStateContext();
 
   useEffect(() => {
     const fetchProducts = async () => {
