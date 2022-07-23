@@ -6,6 +6,7 @@ import { useState } from "react";
 import LongButtons, { NormalButton } from "../Components/LongButtons";
 import { useStateContext } from "../context/Statecontext";
 import { Swiper, SwiperSlide } from "swiper/react";
+import ReactImageMagnify from "react-image-magnify";
 import "../App.css";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -58,10 +59,23 @@ const ProductsPage = () => {
                   themeShape ? themeShape : "rounded-lg"
                 }  w-full h-full my-4 flex justify-center items-center`}
               >
-                <img
+                {/* <img
                   className={`${themeShape} transition  duration-1000 h-96 w-96`}
-                  src={currentImg || singleProduct.image}
                   alt="Product-Pic"
+                /> */}
+
+                <ReactImageMagnify
+                  {...{
+                    smallImage: {
+                      alt: "Wristwatch by Ted Baker London",
+                      isFluidWidth: true,
+                      src: currentImg || singleProduct.image,
+                    },
+                    largeImage: {
+                      width: 1200,
+                      height: 1800,
+                    },
+                  }}
                 />
               </div>
               <div className="flex justify-center items-center my-4 overflow-hidden	relative">

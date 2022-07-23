@@ -43,3 +43,11 @@ const App = () => {
 export default App;
 // https://maplestore.netlify.app/
 // npm link ../node_modules/react
+
+const number = [23, 474, 74, 37, 27];
+
+function shuffleArray(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+console.log(shuffleArray(number));
