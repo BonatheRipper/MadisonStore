@@ -59,23 +59,10 @@ const ProductsPage = () => {
                   themeShape ? themeShape : "rounded-lg"
                 }  w-full h-full my-4 flex justify-center items-center`}
               >
-                {/* <img
+                <img
                   className={`${themeShape} transition  duration-1000 h-96 w-96`}
+                  src={currentImg || singleProduct.image}
                   alt="Product-Pic"
-                /> */}
-
-                <ReactImageMagnify
-                  {...{
-                    smallImage: {
-                      alt: "Wristwatch by Ted Baker London",
-                      isFluidWidth: true,
-                      src: currentImg || singleProduct.image,
-                    },
-                    largeImage: {
-                      width: 1200,
-                      height: 1800,
-                    },
-                  }}
                 />
               </div>
               <div className="flex justify-center items-center my-4 overflow-hidden	relative">
@@ -161,7 +148,7 @@ const ProductsPage = () => {
                 to="products/all"
                 click={() => handleAddProductToCart(singleProduct)}
                 text="ADD TO CART"
-                css={`bg-[#F1FFFD] border border-c-green hover:${themeBG} hover:text-grey`}
+                css={`hover:bg-[#F1FFFD] text-c-gold border border-c-green ${themeBG} hover:text-black`}
               />
             </div>
           </div>

@@ -21,7 +21,7 @@ export const NormalButton = ({ to, css, text, click }) => {
   return (
     <button
       onClick={click}
-      className={`${themeShape}  bg-c-gold w-full md:w-10/12  px-3 py-3 text-center hover:bg-white  transition duration-1000 ${css}`}
+      className={`${themeShape}  bg-c-gold w-full   px-3 py-3 text-center hover:bg-white  transition duration-1000 ${css}`}
     >
       {text}
     </button>

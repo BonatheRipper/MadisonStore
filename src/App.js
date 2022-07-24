@@ -12,6 +12,8 @@ import ThemeSettings from "./Components/ThemeSettings";
 import ProductsPage from "./Pages/ProductsPage";
 import Footer from "./Components/Footer";
 import CartPage from "./Pages/CartPage";
+import Register from "./Pages/Register";
+import Login from "./Pages/Login";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
@@ -31,6 +33,8 @@ const App = () => {
           <Route path="/products/:id" element={<ProductsPage />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
 
           <Route path="/categories" element={<Categories />} />
         </Routes>
@@ -41,13 +45,3 @@ const App = () => {
 };
 
 export default App;
-// https://maplestore.netlify.app/
-// npm link ../node_modules/react
-
-const number = [23, 474, 74, 37, 27];
-
-function shuffleArray(array) {
-  return array.sort(() => Math.random() - 0.5);
-}
-
-console.log(shuffleArray(number));

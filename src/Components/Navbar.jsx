@@ -77,7 +77,13 @@ const Navbar = (props) => {
           <i className="fa fa-heart-o" aria-hidden="true"></i>
         </NavLink>
         <NavLink
-          to="login"
+          to="/register"
+          className={`${themeShape} hidden md:block hover:border-c-gold hover:border px-5 py-1 hover:bg-c-gold hover:text-black mx-2`}
+        >
+          Register
+        </NavLink>
+        <NavLink
+          to="/login"
           className={`${themeShape} hidden md:block border-c-gold border px-5 py-1 hover:bg-c-gold hover:text-black mx-2`}
         >
           Login
