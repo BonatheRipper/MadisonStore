@@ -33,6 +33,11 @@ productRouter.get("/allproducts", async (req, res, next) => {
     totalPages: Math.ceil(Number(total) / Number(PAGE_SIZE)),
   });
 });
+productRouter.get("/category/:catType", async (req, res, next) => {
+  const products = await Products.find({ category: req.params.catType });
+  if (products) return res.send(products);
+  return res.status(404).json({ error: "Product not found" });
+});
 productRouter.get("/:id", async (req, res, next) => {
   const product = await Products.findById(req.params.id);
   if (product) return res.send(product);

@@ -4,7 +4,7 @@ import { useStateContext } from "../context/Statecontext";
 import LongButtons from "./LongButtons";
 
 const Footer = () => {
-  const { themeBG } = useStateContext();
+  const { themeBG, categories } = useStateContext();
 
   return (
     <footer
@@ -44,12 +44,13 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row  justify-center space-y-6 md:space-y-0 md:justify-between w-full">
           <div className="flex flex-col justify-between space-y-6 md:space-y-4">
             <h6 className=" md:tracking-widest  text-2xl md:text-xl ">Shop</h6>
-            <NavLink to="/writchwatch">Wristwact</NavLink>
-            <NavLink to="/necklace">Necklace</NavLink>
-            <NavLink to="/bracelets">Bracelets</NavLink>
-            <NavLink to="/Earrings">Earrings</NavLink>
-            <NavLink to="/Rings">Rings</NavLink>
-            <NavLink to="/shoes">Shoes</NavLink>
+            {categories.map((cat) => {
+              return (
+                <NavLink key={cat} to={`/category/${cat}`}>
+                  {cat}
+                </NavLink>
+              );
+            })}
           </div>
           <div className="flex flex-col justify-between space-y-6 md:space-y-4">
             <h6 className=" md:tracking-widest  text-2xl md:text-xl ">

@@ -6,10 +6,15 @@ import ProductsMenuBtn from "./ProductsMenuBtn";
 import axios from "axios";
 import { useState } from "react";
 const Products = () => {
-  const { themeBG, products, handleAddProductToCart, productsDispatch } =
-    useStateContext();
+  const {
+    themeBG,
+    products,
+    handleAddProductToCart,
+    categories,
+    setCats,
+    productsDispatch,
+  } = useStateContext();
   const [querySearch, setQuerySearch] = useState("");
-  const [categories, setCats] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {

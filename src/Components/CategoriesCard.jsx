@@ -4,21 +4,21 @@ import LongButtons from "./LongButtons";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
-const CategoriesCard = ({ catName, catDesc }) => {
+const CategoriesCard = ({ catName, catDesc, to }) => {
   const { themeBG, themeBorder, themeShape } = useStateContext();
   useEffect(() => {
-    Aos.init({ duration: 3000 });
+    Aos.init({ duration: 500 });
   }, []);
   const CardClass = () => {
     return `${themeBG} ${themeShape}  flex flex-col items-center justify-center md:w-2/5 w-full space-y-2 mb-6  px-12  md:px-8 py-6`;
   };
   return (
-    <div data-aos="fade-up" className={CardClass()}>
+    <div data-aos="fade-down" className={CardClass()}>
       <div className="flex flex-col items-center w-full space-y-2 mb-6">
         <img
           src="https://maplestore.netlify.app/static/media/rings.c75e207079315a9e5dbd.jpg"
           alt="Categories"
-          className={`h-64 ${themeShape ? `${themeShape} w-64 ` : "w-full "}`}
+          className={`h-64 ${themeShape ? `${themeShape} ` : "w-full "}`}
         />
       </div>
       <div className="flex flex-col justify-center items-center space-y-4">
@@ -29,7 +29,7 @@ const CategoriesCard = ({ catName, catDesc }) => {
           {catDesc}
         </p>
         <LongButtons
-          to="/collections"
+          to={to}
           text="BROWSE COLLECTIONS"
           css={`
             ${themeBG}

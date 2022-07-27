@@ -91,6 +91,8 @@ export const ContextProvider = ({ children }) => {
   const [themeShape, setThemeShape] = useState(
     localStorage.getItem("themeShape") || ThemeShapes.Rounded
   );
+  const [categories, setCats] = useState([]);
+
   const [themeBorder, setThemeBorder] = useState(ThemeBorders.Rounded);
 
   const [themeBG, setThemeBG] = useState(
@@ -156,6 +158,8 @@ export const ContextProvider = ({ children }) => {
         ThemeBackground,
         cart,
         cartDispatch,
+        categories,
+        setCats,
         setThemeBG,
         products,
         productsDispatch,
