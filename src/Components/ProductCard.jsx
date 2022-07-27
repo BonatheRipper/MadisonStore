@@ -4,7 +4,17 @@ import { useStateContext } from "../context/Statecontext";
 import { NavLink } from "react-router-dom";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
-const ProductCard = ({ image, pID, click, catName, pName, pDesc, price }) => {
+const ProductCard = ({
+  image,
+  css,
+  css2,
+  pID,
+  click,
+  catName,
+  pName,
+  pDesc,
+  price,
+}) => {
   const { themeBG, themeShape } = useStateContext();
   const [desc, setDesc] = useState(false);
 
@@ -12,15 +22,15 @@ const ProductCard = ({ image, pID, click, catName, pName, pDesc, price }) => {
     <div
       className={`${
         themeShape ? "rounded-xl " : ""
-      }flex flex-col it justify-between space-y-8  w-full md:w-96  mb-24 border border-c-gold p-4 `}
+      }flex flex-col it justify-between space-y-8  w-full md:w-96  mb-24 border border-c-gold p-4 ${css}`}
     >
       <div className="flex items-center justify-center">
         <div
           className={` h-64 ${
-            themeShape ? `${themeShape} w-64` : "w-full"
-          } border-8 border-c-gold  p-2  flex justify-center items-center relative`}
+            themeShape ? `${themeShape} w-full` : "w-full"
+          } border-8 border-c-gold  p-2  flex justify-center items-center relative ${css2}`}
         >
-          <img src={image} alt="Product-Img" className="W-52 h-52 " />
+          <img src={image} alt="Product-Img" className="W-60 h-52 " />
           <div
             className={`absolute ${desc ? "bg-black " : ""}  ${
               themeShape ? themeShape : ""

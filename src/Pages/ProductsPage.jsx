@@ -6,7 +6,6 @@ import { useState } from "react";
 import LongButtons, { NormalButton } from "../Components/LongButtons";
 import { useStateContext } from "../context/Statecontext";
 import { Swiper, SwiperSlide } from "swiper/react";
-import ReactImageMagnify from "react-image-magnify";
 import "../App.css";
 import "swiper/css";
 import "swiper/css/navigation";

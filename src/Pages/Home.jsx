@@ -6,7 +6,10 @@ import About from "../Components/About";
 import Products from "../Components/Products";
 import Testimonials from "../Components/Testimonials";
 import Contact from "../Components/Contact";
+import LoadingScreen from "../Screens/LoadingScreen";
+import { useStateContext } from "../context/Statecontext";
 const Home = () => {
+  const { products } = useStateContext();
   return (
     <>
       <Header />

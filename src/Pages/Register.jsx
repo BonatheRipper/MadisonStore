@@ -11,9 +11,26 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleRegisterFormSubmit = (e) => {
-    console.log(password, email, username, confirmPassword);
+  const handleRegisterFormSubmit = async (e) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert("password does not match");
+      return;
+    }
+    try {
+      const { data } = await axios.post("/api/users/register", {
+        email,
+        password,
+        username,
+        confirmPassword,
+      });
+      if (data) {
+        console.log(data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <div className="py-20 flex flex-col px-12">
@@ -28,7 +45,7 @@ const Register = () => {
             className="flex w-full flex-col items-center justify-between space-y-4"
           >
             <div className="flex flex-col w-full">
-              <label for="name" className="text-md text-c-green">
+              <label htmlFor="name" className="text-md text-c-green">
                 Username
               </label>
               <input
@@ -42,7 +59,7 @@ const Register = () => {
               <p className="text-pry-100 font-normal text-sm font-body"></p>
             </div>
             <div className="flex flex-col w-full">
-              <label for="email" className="text-md text-c-green">
+              <label htmlFor="email" className="text-md text-c-green">
                 Email address
               </label>
               <input
@@ -56,7 +73,7 @@ const Register = () => {
               <p className="text-pry-100 font-normal text-sm font-body"></p>
             </div>
             <div className="flex flex-col w-full mb-6">
-              <label for="password" className="text-md text-c-green ">
+              <label htmlFor="password" className="text-md text-c-green ">
                 Password
               </label>
               <input
@@ -70,14 +87,14 @@ const Register = () => {
               <p className="text-pry-100 font-normal text-sm font-body"></p>
             </div>
             <div className="flex flex-col w-full mb-6">
-              <label for="password" className="text-md text-c-green">
+              <label htmlFor="password" className="text-md text-c-green">
                 Confirm Password
               </label>
               <input
                 placeholder="Confirm your password"
                 name="confirmPassword"
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                id="password"
+                id="confirmPassword"
                 type="password"
                 className="px-4  py-2  placeholder:text-pry-100 text-pry-100 border border-c-green  focus:outline-none focus:border  focus:ring-pry-100 focus:ring-1 transition duration-300 w-full"
               />

@@ -2,12 +2,11 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import productRouter from "./routes/productRoutes.js";
-import data from "./seed/data.js";
-import Products from "./models/products.js";
+
 // import seedRouter from "./routes/seedRouter.js";
 // import productRouter from "./routes/productRoutes.js";
 // import ordersRouter from "./routes/ordersRouter.js";
-// import usersRouter from "./routes/users.js";
+import usersRouter from "./routes/usersRoutes.js";
 const port = 500;
 const app = express();
 // Dotenv comfig.
@@ -21,10 +20,10 @@ mongoose.connect(
   }
 );
 
-// app.use(express.json());
+app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
 // app.use("/api/seed", seedRouter);
-// app.use("/api/users", usersRouter);
+app.use("/api/users", usersRouter);
 // app.use("/api/orders", ordersRouter);
 app.use("/api/products", productRouter);
 // app.get("/api/keys/paypal", (req, res) => {

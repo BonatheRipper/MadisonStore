@@ -6,9 +6,9 @@ const productsReducer = (state, action) => {
     case "FETCH_REQUEST":
       return { ...state, loading: true };
     case "FETCH_SUCCESS":
-      return { ...state, items: action.payload, loading: false };
+      return { ...state, items: action.payload || [], loading: false };
     case "FETCH_FAIL":
-      return { ...state, items: false, error: action.payload };
+      return { ...state, items: false, loading: false, error: action.payload };
     default:
       return state;
   }
@@ -77,21 +77,25 @@ const ThemeBackground = [
   { color: "bg-black " },
   { color: "bg-c-green " },
   { color: "bg-c-indigo " },
-  { color: "bg-c-darkGreen " },
+  // { color: "bg-c-darkGreen " },
 ];
 const ThemeShapes = {
   Rounded: "rounded-full",
-  Square: null,
+  Square: "null",
 };
 const ThemeBorders = {
   Rounded: "rounded-t-full",
   Square: null,
 };
 export const ContextProvider = ({ children }) => {
-  const [themeShape, setThemeShape] = useState(ThemeShapes.Rounded);
+  const [themeShape, setThemeShape] = useState(
+    localStorage.getItem("themeShape") || ThemeShapes.Rounded
+  );
   const [themeBorder, setThemeBorder] = useState(ThemeBorders.Rounded);
 
-  const [themeBG, setThemeBG] = useState(ThemeBackground[1].color);
+  const [themeBG, setThemeBG] = useState(
+    localStorage.getItem("themeBG") || ThemeBackground[1].color
+  );
   const [sidebar, setSidebar] = useState(false);
   const [products, productsDispatch] = useReducer(productsReducer, {
     loading: true,

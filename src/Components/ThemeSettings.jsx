@@ -14,7 +14,14 @@ const ThemeSettings = () => {
     themeShape,
     ThemeShapes,
   } = useStateContext();
-
+  const handleThemeBg = (colour) => {
+    localStorage.setItem("themeBG", colour);
+    setThemeBG(colour);
+  };
+  const handleThemeShape = (shape) => {
+    localStorage.setItem("themeShape", shape);
+    setThemeShape(shape);
+  };
   return (
     <>
       {toggleLeftSideBar && (
@@ -32,7 +39,7 @@ const ThemeSettings = () => {
             <h4 className="text-sm  border-b  border-c-gold">Theme Shape</h4>
             <div className="flex py-4 px-4 items-center justify-evenly">
               <div
-                onClick={() => setThemeShape(ThemeShapes.Square)}
+                onClick={() => handleThemeShape("null")}
                 className="w-10 h-10 border border-c-gold mx-2 flex items-center justify-center"
               >
                 {themeShape === ThemeShapes.Square && (
@@ -40,7 +47,7 @@ const ThemeSettings = () => {
                 )}
               </div>
               <div
-                onClick={() => setThemeShape(ThemeShapes.Rounded)}
+                onClick={() => handleThemeShape(ThemeShapes.Rounded)}
                 className="w-10 h-10 border border-c-gold mx-2 rounded-full flex items-center justify-center"
               >
                 {themeShape === ThemeShapes.Rounded && (
@@ -57,7 +64,7 @@ const ThemeSettings = () => {
                 return (
                   <div
                     key={Math.random() * 16928 + bg.color}
-                    onClick={() => setThemeBG(bg.color)}
+                    onClick={() => handleThemeBg(bg.color)}
                     className={`${bg.color} ${
                       themeShape ? themeShape : ""
                     } w-10 h-10  border-4 border-c-gold mx-2  flex items-center justify-center transition duration-1000`}

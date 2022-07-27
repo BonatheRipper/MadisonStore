@@ -14,6 +14,7 @@ import Footer from "./Components/Footer";
 import CartPage from "./Pages/CartPage";
 import Register from "./Pages/Register";
 import Login from "./Pages/Login";
+import AllProducts from "./Pages/AllProducts";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
@@ -22,7 +23,6 @@ const App = () => {
       ${themeBG ? `text-c-gold  ` : ""} relative`}
     >
       <BrowserRouter>
-        {/* {products.loading && <LoadingScreen />} */}
         <ThemeSettings />
         <Navbar />
         <Sidebar />
@@ -35,6 +35,7 @@ const App = () => {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/shop" element={<AllProducts />} />
 
           <Route path="/categories" element={<Categories />} />
         </Routes>
