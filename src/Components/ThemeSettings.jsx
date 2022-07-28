@@ -11,12 +11,19 @@ const ThemeSettings = () => {
     setThemeShape,
     setThemeBG,
     ThemeBackground,
+    currentThemeLoader,
+    setCurrentThemeLoader,
     themeShape,
+    ThemeLoaders,
     ThemeShapes,
   } = useStateContext();
   const handleThemeBg = (colour) => {
     localStorage.setItem("themeBG", colour);
     setThemeBG(colour);
+  };
+  const handleLoader = (name) => {
+    localStorage.setItem("currentThemeLoader", name);
+    setCurrentThemeLoader(localStorage.getItem("currentThemeLoader") || name);
   };
   const handleThemeShape = (shape) => {
     localStorage.setItem("themeShape", shape);
@@ -67,11 +74,36 @@ const ThemeSettings = () => {
                     onClick={() => handleThemeBg(bg.color)}
                     className={`${bg.color} ${
                       themeShape ? themeShape : ""
-                    } w-10 h-10  border-4 border-c-gold mx-2  flex items-center justify-center transition duration-1000`}
+                    } w-10 h-10  border border-c-gold mx-2  flex items-center justify-center transition duration-1000`}
                   >
                     {themeBG === bg.color && (
                       <i className="fa fa-check" aria-hidden="true"></i>
                     )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="py-6 px-4 flex flex-col ">
+            <h4 className="text-sm  border-b  border-c-gold">Theme Loaders</h4>
+            <div className="flex py-4 px-4 items-center justify-evenly">
+              {ThemeLoaders.map((loader) => {
+                return (
+                  <div
+                    key={loader.name}
+                    onClick={() => handleLoader(loader.name)}
+                    className={`${themeBG} ${
+                      themeShape ? themeShape : ""
+                    } relative w-10 h-10  border border-c-gold mx-2  flex items-center justify-center transition duration-1000`}
+                  >
+                    {loader.image}
+                    {loader.name === currentThemeLoader && (
+                      <i
+                        className="fa fa-check absolute"
+                        aria-hidden="true"
+                      ></i>
+                    )}{" "}
                   </div>
                 );
               })}

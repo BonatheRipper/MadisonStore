@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { useReducer } from "react";
 import axios from "axios";
+import { CircleLoaderx, HashLoaderx, RingLoaderx } from "../Screens/Loaders";
 const productsReducer = (state, action) => {
   switch (action.type) {
     case "FETCH_REQUEST":
@@ -13,6 +14,11 @@ const productsReducer = (state, action) => {
       return state;
   }
 };
+const ThemeLoaders = [
+  { name: "CircleLoader", image: <CircleLoaderx size={15} /> },
+  { name: "HashLoader", image: <HashLoaderx size={15} /> },
+  { name: "RingLoader", image: <RingLoaderx size={15} /> },
+];
 const cartReducer = (state, action) => {
   var newItem = action.payload;
   var cartItems;
@@ -97,12 +103,16 @@ export const ContextProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("user"))
       : null
   );
-
+  const [currentThemeLoader, setCurrentThemeLoader] = useState(
+    localStorage.getItem("currentThemeLoader") || ThemeLoaders[2].name
+  );
   const [themeBorder, setThemeBorder] = useState(ThemeBorders.Rounded);
 
   const [themeBG, setThemeBG] = useState(
     localStorage.getItem("themeBG") || ThemeBackground[1].color
   );
+  let [loadingScreen, setLoadingScreen] = useState(true);
+
   const [sidebar, setSidebar] = useState(false);
   const [products, productsDispatch] = useReducer(productsReducer, {
     loading: true,
@@ -154,6 +164,7 @@ export const ContextProvider = ({ children }) => {
       cartDispatch({ type: "MINUS_FROM_CART", payload: item });
     }
   };
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
@@ -163,11 +174,16 @@ export const ContextProvider = ({ children }) => {
       value={{
         themeBG,
         handleLogout,
+        loadingScreen,
+        setLoadingScreen,
         handleAddProductToCart,
         updateCartHandler,
         ThemeBackground,
         user,
+        currentThemeLoader,
+        setCurrentThemeLoader,
         setUser,
+        ThemeLoaders,
         cart,
         cartDispatch,
         categories,

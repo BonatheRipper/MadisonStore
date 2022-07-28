@@ -1,40 +1,12 @@
 import React from "react";
-import { useEffect } from "react";
 import { useStateContext } from "../context/Statecontext";
 import ProductCard from "./ProductCard";
 import ProductsMenuBtn from "./ProductsMenuBtn";
-import axios from "axios";
 import { useState } from "react";
 const Products = () => {
-  const {
-    themeBG,
-    products,
-    handleAddProductToCart,
-    categories,
-    setCats,
-    productsDispatch,
-  } = useStateContext();
+  const { themeBG, products, handleAddProductToCart, categories } =
+    useStateContext();
   const [querySearch, setQuerySearch] = useState("");
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      productsDispatch({ type: "FETCH_REQUEST" });
-      try {
-        const results = await axios.get(
-          `/api/products?page=6&productsQuery=${querySearch}`
-        );
-        productsDispatch({
-          type: "FETCH_SUCCESS",
-          payload: results.data.products,
-        });
-        setCats(results.data.categories[0].category.sort());
-      } catch (e) {
-        productsDispatch({ type: "FETCH_FAIL", payload: e.message });
-      }
-    };
-    fetchProducts();
-  }, [querySearch]);
-  console.log(querySearch);
   return (
     <div
       className={`${themeBG} relative px-8 md:px-24 py-32 flex flex-col space-y-8 justify-center items-center w-full `}
@@ -48,7 +20,7 @@ const Products = () => {
           {categories.map((cat) => {
             return (
               <ProductsMenuBtn
-                ket={cat}
+                key={cat}
                 click={(e) => setQuerySearch(e.target.value)}
                 text={cat}
               />

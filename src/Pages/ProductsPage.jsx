@@ -10,39 +10,31 @@ import "../App.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper";
+import { FetchSingleProduct } from "../services/FetchSingleProduct";
+import LoadingScreen from "../Screens/LoadingScreen";
 const ProductsPage = () => {
   const { themeBG, handleAddProductToCart, themeShape } = useStateContext();
-  const navigate = useNavigate();
   const { id } = useParams();
   const [singleProduct, setSingleProduct] = useState();
   const [currentImg, setCurrentImg] = useState();
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const results = await axios.get(`/api/products/${id}`);
-        setSingleProduct(results.data);
-        setCurrentImg(singleProduct.image);
-      } catch (e) {
-        alert(e.response.data.error);
-        setSingleProduct(false);
-      }
-    };
-    fetchProducts();
+    FetchSingleProduct(id, setSingleProduct, singleProduct, setCurrentImg);
   }, []);
-
   const handleGalleryClick = (imgLink) => {
     setCurrentImg(imgLink);
   };
   return (
     <>
-      {singleProduct && (
+      {!singleProduct ? (
+        <LoadingScreen />
+      ) : (
         <div
           className={`bg-pry-50 text-c-green px-8 md:px-24 py-24 flex flex-col justify-between  w-full space-y-4 bg-[#F1FFFD]`}
         >
-          <p className="text-c-green  font-body text-base font-medium ">
+          <p className="text-c-green text-xs font-body font-medium ">
             <NavLink to="/">{`Home > `}</NavLink>
             <NavLink
-              to={`/${singleProduct.category}`}
+              to={`/category/${singleProduct.category}`}
             >{`${singleProduct.category} > `}</NavLink>
             <NavLink
               to={`/products/${singleProduct._id}`}
@@ -117,7 +109,7 @@ const ProductsPage = () => {
                 </Swiper>
               </div>
               <LongButtons
-                to="products/all"
+                to="/shop"
                 text="Back to products"
                 css={`bg-[#F1FFFD] border border-c-green hover:${themeBG} hover:text-grey`}
               />
@@ -144,7 +136,6 @@ const ProductsPage = () => {
                 </p>
               </div>{" "}
               <NormalButton
-                to="products/all"
                 click={() => handleAddProductToCart(singleProduct)}
                 text="ADD TO CART"
                 css={`hover:bg-[#F1FFFD] text-c-gold border border-c-green ${themeBG} hover:text-black`}
