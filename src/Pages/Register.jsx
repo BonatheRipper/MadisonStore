@@ -1,16 +1,22 @@
 import React from "react";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { NormalButton } from "../Components/LongButtons";
 import { useStateContext } from "../context/Statecontext";
 import axios from "axios";
+import { useEffect } from "react";
 const Register = () => {
-  const { themeBG } = useStateContext();
+  const { themeBG, user } = useStateContext();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
   const handleRegisterFormSubmit = async (e) => {
     e.preventDefault();
 

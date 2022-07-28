@@ -92,6 +92,11 @@ export const ContextProvider = ({ children }) => {
     localStorage.getItem("themeShape") || ThemeShapes.Rounded
   );
   const [categories, setCats] = useState([]);
+  const [user, setUser] = useState(
+    localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user"))
+      : null
+  );
 
   const [themeBorder, setThemeBorder] = useState(ThemeBorders.Rounded);
 
@@ -149,13 +154,20 @@ export const ContextProvider = ({ children }) => {
       cartDispatch({ type: "MINUS_FROM_CART", payload: item });
     }
   };
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+  };
   return (
     <StateContext.Provider
       value={{
         themeBG,
+        handleLogout,
         handleAddProductToCart,
         updateCartHandler,
         ThemeBackground,
+        user,
+        setUser,
         cart,
         cartDispatch,
         categories,

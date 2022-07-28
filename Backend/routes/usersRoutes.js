@@ -10,35 +10,34 @@ usersRouter.post(
     const user = await Users.findOne({ email: req.body.email });
     if (user) {
       if (bcrypt.compareSync(req.body.password, user.password)) {
-        res.send({
+        return res.send({
           _id: user._id,
-          name: user.name,
+          username: user.username,
           email: user.email,
           isAdmin: user.isAdmin,
           token: generateToken(user),
         });
-        return;
       }
+      return res.status(401).send({ message: "incorrect password" });
     }
     return res.status(401).send({ message: "invalid  email or password" });
   })
 );
 usersRouter.put(
-  "/profile",
-  isAuth,
+  "/profile/:id",
   expressAsyncHanler(async (req, res, next) => {
-    const user = await Users.findById(req.user._id);
+    const { username, password, email } = req.body;
+    const user = await Users.findById(req.params.id);
     if (user) {
-      user.name = req.body.name;
-      user.email = req.body.email;
-      if (req.body.password) {
-        user.password = bcrypt.hashSync(req.body.password, 8);
+      user.email = email;
+      user.username = username;
+      if (password) {
+        user.password = bcrypt.hashSync(password, 8);
       }
       const updatedUser = await user.save();
-      console.log(updatedUser);
       return res.send({
         _id: updatedUser._id,
-        name: updatedUser.name,
+        username: updatedUser.username,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
         token: generateToken(updatedUser),

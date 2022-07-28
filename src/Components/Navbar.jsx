@@ -2,10 +2,12 @@ import React from "react";
 import "../App.css";
 import { NavLink } from "react-router-dom";
 import { useStateContext } from "../context/Statecontext";
+import { useState } from "react";
 
 const Navbar = (props) => {
-  const { themeBG, sidebar, setSidebar, themeShape, cart } = useStateContext();
-
+  const { themeBG, sidebar, setSidebar, themeShape, cart, user, handleLogout } =
+    useStateContext();
+  const [userDropdown, setUserDropdown] = useState(false);
   const navButtonsClass = () => {
     return `mx-2 hover:text-white transition duration-500`;
   };
@@ -51,9 +53,12 @@ const Navbar = (props) => {
         <NavLink to="/shop" className={navButtonsClass}>
           Shop
         </NavLink>
-        <NavLink to="/account" className={navButtonsClass}>
-          Account
-        </NavLink>
+
+        {user && (
+          <NavLink to="/account" className={navButtonsClass}>
+            Account
+          </NavLink>
+        )}
       </div>
       <div className="rightMenus flex flex-row justify-between  items-center">
         <NavLink to="cart" className=" relative hover:text-white mx-2">
@@ -76,18 +81,73 @@ const Navbar = (props) => {
         >
           <i className="fa fa-heart-o" aria-hidden="true"></i>
         </NavLink>
-        <NavLink
-          to="/register"
-          className={`${themeShape} hidden md:block hover:border-c-gold hover:border px-5 py-1 hover:bg-c-gold hover:text-black mx-2`}
-        >
-          Register
-        </NavLink>
-        <NavLink
-          to="/login"
-          className={`${themeShape} hidden md:block border-c-gold border px-5 py-1 hover:bg-c-gold hover:text-black mx-2`}
-        >
-          Login
-        </NavLink>
+
+        {!user && (
+          <>
+            {" "}
+            <NavLink
+              to="/register"
+              className={`${themeShape} hidden md:block hover:border-c-gold hover:border px-5 py-1 hover:bg-c-gold hover:text-black mx-2`}
+            >
+              Register
+            </NavLink>
+            <NavLink
+              to="/login"
+              className={`${themeShape} hidden md:block border-c-gold border px-5 py-1 hover:bg-c-gold hover:text-black mx-2`}
+            >
+              Login
+            </NavLink>
+          </>
+        )}
+
+        {user && (
+          <>
+            <div className="relative w-full mx-2 flex flex-col">
+              <i
+                onClick={() => setUserDropdown(!userDropdown)}
+                class="fa fa-user-circle-o"
+                aria-hidden="true"
+              ></i>
+              {userDropdown && (
+                <div
+                  className={`${themeBG} absolute w-52 border-2 border-c-gold md:w-64   right-0 top-4`}
+                >
+                  <div className="flex flex-col text-xs md:text-sm">
+                    <div className="flex justify-start items-center p-1">
+                      <span className="p-1 mr-1">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                      </span>
+                      <span>{user.username}</span>
+                    </div>
+                    <div className="flex justify-start items-center  p-1">
+                      <span className="p-1 mr-1">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                      </span>
+                      <span>{user.email}</span>
+                    </div>
+                    <div className="flex justify-start items-center  p-1 md:hidden">
+                      <span className="p-1 mr-1">
+                        <i class="fa fa-sign-out" aria-hidden="true"></i>
+                      </span>
+                      <span
+                        className="hover:text-white cursor cursor-pointer "
+                        onClick={() => handleLogout()}
+                      >
+                        Logout
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+            <button
+              onClick={() => handleLogout()}
+              className={`${themeShape} hidden md:block border-c-gold border px-5 py-1 hover:bg-c-gold hover:text-black mx-2`}
+            >
+              Logout
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );

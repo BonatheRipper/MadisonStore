@@ -16,6 +16,8 @@ import Register from "./Pages/Register";
 import Login from "./Pages/Login";
 import AllProducts from "./Pages/AllProducts";
 import ProductsByCategory from "./Pages/ProductsByCategory";
+import Account from "./Pages/Account";
+import UpdateAccount from "./Pages/UpdateAccount";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
@@ -31,8 +33,9 @@ const App = () => {
           <Route component={<Four0Four />} />
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/account/:id" element={<UpdateAccount />} />
           <Route path="/products/:id" element={<ProductsPage />} />
-
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/register" element={<Register />} />
