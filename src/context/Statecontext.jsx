@@ -23,8 +23,8 @@ const ThemeLoaders = [
 const cartReducer = (state, action) => {
   var newItem = action.payload;
   var cartItems;
-  var newItemExist = state.cart.cartItems.find(
-    (item) => item._id === action.payload._id
+  var newItemExist = state.cart.cartItems.find((item) =>
+    item ? item._id === action.payload._id : null
   );
   switch (action.type) {
     case "ADD_TO_CART":
@@ -55,12 +55,22 @@ const cartReducer = (state, action) => {
       const newCartItems = state.cart.cartItems.filter(
         (item) => item._id !== action.payload._id
       );
-      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
       return {
         ...state,
         cart: {
           ...state.cart,
           cartItems: newCartItems,
+        },
+      };
+    case "CART_LOGOUT":
+      const emptyCart = [];
+      newItemExist = false;
+      localStorage.setItem("cartItems", JSON.stringify([]));
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          cartItems: emptyCart,
         },
       };
     case "MINUS_FROM_CART":
@@ -133,12 +143,13 @@ export const ContextProvider = ({ children }) => {
   );
   const [themeBorder, setThemeBorder] = useState(ThemeBorders.Rounded);
   const Payments = [
-    { name: "Stripe", option: <Stripe /> },
+    { name: "Stripe", option: <Stripe />, isActive: false },
     {
       name: "PayPal",
       option: <PayPal />,
+      isActive: true,
     },
-    { name: "Paystack", option: <PayStack /> },
+    { name: "Paystack", option: <PayStack />, isActive: false },
   ];
   const [themeBG, setThemeBG] = useState(
     localStorage.getItem("themeBG") || ThemeBackground[1].color
@@ -154,7 +165,7 @@ export const ContextProvider = ({ children }) => {
   const [cart, cartDispatch] = useReducer(cartReducer, {
     cart: { cartItems: JSON.parse(localStorage.getItem("cartItems")) || [] },
     ShippingDetails: JSON.parse(localStorage.getItem("shippingAddress")) || {},
-    PaymentMethod: localStorage.getItem("PaymentOption") || "",
+    PaymentMethod: localStorage.getItem("PaymentOption") || false,
   });
   const handleAddProductToCart = async (productToAddToCart) => {
     try {

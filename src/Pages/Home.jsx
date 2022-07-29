@@ -25,7 +25,7 @@ const Home = () => {
       setCats,
       querySearch
     );
-  }, [querySearch]);
+  }, []);
   return (
     <div className="relative">
       {loadingScreen ? (

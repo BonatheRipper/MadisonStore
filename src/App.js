@@ -19,6 +19,7 @@ import ProductsByCategory from "./Pages/ProductsByCategory";
 import Account from "./Pages/Account";
 import UpdateAccount from "./Pages/UpdateAccount";
 import ShippingAddress from "./Payments/ShippingAddress";
+import PlaceOrder from "./Pages/placeOrder";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
@@ -42,6 +43,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/shipping" element={<ShippingAddress />} />
+          <Route path="/placeOrder" element={<PlaceOrder />} />
 
           <Route path="/shop" element={<AllProducts />} />
           <Route path="/categories" element={<Categories />} />

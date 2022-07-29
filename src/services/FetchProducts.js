@@ -15,7 +15,7 @@ export const FetchProducts = async (
       type: "FETCH_SUCCESS",
       payload: results.data.products,
     });
-    setLoadingScreen(!loadingScreen);
+    setLoadingScreen(false);
     setCats(results.data.categories[0].category.sort());
   } catch (e) {
     productsDispatch({ type: "FETCH_FAIL", payload: e.message });

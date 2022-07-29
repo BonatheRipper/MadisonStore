@@ -7,11 +7,10 @@ import { updatedUser } from "../services/UpdateAccount";
 import { useEffect } from "react";
 const UpdateAccount = () => {
   const { themeBG, user, setUser } = useStateContext();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState(user.username || "");
+  const [email, setEmail] = useState(user.email || "");
   const [password, setPassword] = useState("");
   const { id } = useParams();
-  console.log(id);
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) {
@@ -48,13 +47,14 @@ const UpdateAccount = () => {
               </label>
               <input
                 name="username"
+                value={username}
                 placeholder={user.username || "Enter a username"}
                 id="username"
                 onChange={(e) => setUsername(e.target.value)}
                 type="text"
-                className="px-4 border-c-green py-2  placeholder:text-pry-100 text-pry-100 bg-gold border border-pry-100 focus:outline-none focus:border-pry-100 focus:ring-pry-100 focus:ring-1 transition duration-300 w-full"
+                className="px-4 border-c-green py-2  placeholder:text-c-green  text-c-green  bg-gold border border-pry-100 focus:outline-none focus:border-pry-100 focus:ring-pry-100 focus:ring-1 transition duration-300 w-full"
               />
-              <p className="text-pry-100 font-normal text-sm font-body"></p>
+              <p className="text-c-green  font-normal text-sm font-body"></p>
             </div>
             <div className="flex flex-col w-full">
               <label htmlFor="email" className="text-md text-c-green">
@@ -63,12 +63,13 @@ const UpdateAccount = () => {
               <input
                 placeholder={user.email || "Enter your email address"}
                 name="email"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 id="email"
                 type="text"
-                className="px-4 border-c-green py-2  text-pry-100 bg-gold border focus:outline-none focus:border-bg-c-green focus:ring-pry-100 focus:ring-1 transition duration-300 w-full"
+                className="px-4 border-c-green py-2  text-c-green  bg-gold border focus:outline-none focus:border-bg-c-green focus:ring-pry-100 focus:ring-1 transition duration-300 w-full"
               />
-              <p className="text-pry-100 font-normal text-sm font-body"></p>
+              <p className="text-c-green  font-normal text-sm font-body"></p>
             </div>
             <div className="flex flex-col w-full mb-6">
               <label htmlFor="password" className="text-md text-c-green ">
@@ -80,9 +81,9 @@ const UpdateAccount = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 id="password"
                 type="password"
-                className="px-4  py-2  placeholder:text-pry-100 text-pry-100 border border-c-green  focus:outline-none focus:border  focus:ring-pry-100 focus:ring-1 transition duration-300 w-full"
+                className="px-4  py-2  placeholder:text-c-green  text-c-green  border border-c-green  focus:outline-none focus:border  focus:ring-pry-100 focus:ring-1 transition duration-300 w-full"
               />
-              <p className="text-pry-100 font-normal text-sm font-body"></p>
+              <p className="text-c-green  font-normal text-sm font-body"></p>
             </div>
 
             <div className="w-full flex items-center justify-center">

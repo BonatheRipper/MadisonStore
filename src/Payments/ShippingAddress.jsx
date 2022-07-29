@@ -1,9 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import { Navigate, NavLink, useNavigate } from "react-router-dom";
-import { NormalButton } from "../Components/LongButtons";
+import { NavLink, useNavigate } from "react-router-dom";
+import LongButtons, { NormalButton } from "../Components/LongButtons";
 import { useStateContext } from "../context/Statecontext";
-import axios from "axios";
 import { useEffect } from "react";
 const ShippingAddress = () => {
   const { themeBG, user, cartDispatch, cart } = useStateContext();
@@ -28,7 +27,7 @@ const ShippingAddress = () => {
       type: "SHIPPING_ADDRESS",
       payload: { Fname, address, city, Pcode, country },
     });
-    console.log(cart);
+    navigate("/placeOrder");
   };
   return (
     <div className="py-20 flex flex-col px-12">
@@ -53,7 +52,7 @@ const ShippingAddress = () => {
                 value={Fname}
                 onChange={(e) => setFname(e.target.value)}
                 type="text"
-                className="px-4 border-c-green py-2  placeholder:text-c-green text-c-green bg-gold border border-pry-100 focus:outline-none focus:border-pry-100 focus:ring-pry-100 focus:ring-1 transition duration-300 w-full"
+                className="px-4 border-c-green py-2  placeholder: text-c-green  border focus:outline-none focus:border-pry-100 focus:ring-pry-100 focus:ring-1 transition duration-300 w-full"
               />
               <p className="text-c-green font-normal text-sm font-body"></p>
             </div>
@@ -119,9 +118,10 @@ const ShippingAddress = () => {
             </div>
             <div className="w-full flex items-center justify-center">
               <NormalButton
+                to="/placeOrder"
                 text="Continue"
                 css={`
-                  ${themeBG} hover:text-c-green
+                  ${themeBG}w-full hover:text-c-green
                 `}
               />
             </div>
