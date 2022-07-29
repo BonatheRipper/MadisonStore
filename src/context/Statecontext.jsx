@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import { useReducer } from "react";
 import axios from "axios";
 import { CircleLoaderx, HashLoaderx, RingLoaderx } from "../Screens/Loaders";
+import { PayPal, PayStack, Stripe } from "../Payments/PaymentOptions";
 const productsReducer = (state, action) => {
   switch (action.type) {
     case "FETCH_REQUEST":
@@ -35,6 +36,12 @@ const cartReducer = (state, action) => {
       } else {
         newItem.quantity = 1;
       }
+      localStorage.setItem(
+        "cartItems",
+        newItemExist
+          ? JSON.stringify(cartItems)
+          : JSON.stringify([...state.cart.cartItems, newItem])
+      );
       return {
         ...state,
         cart: {
@@ -48,6 +55,7 @@ const cartReducer = (state, action) => {
       const newCartItems = state.cart.cartItems.filter(
         (item) => item._id !== action.payload._id
       );
+      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
       return {
         ...state,
         cart: {
@@ -65,6 +73,12 @@ const cartReducer = (state, action) => {
       } else {
         newItem.quantity = 1;
       }
+      localStorage.setItem(
+        "cartItems",
+        newItemExist
+          ? JSON.stringify(cartItems)
+          : JSON.stringify([...state.cart.cartItems, newItem])
+      );
       return {
         ...state,
         cart: {
@@ -73,6 +87,17 @@ const cartReducer = (state, action) => {
             ? cartItems
             : [...state.cart.cartItems, newItem],
         },
+      };
+    case "SHIPPING_ADDRESS":
+      return {
+        ...state,
+        ShippingDetails: action.payload,
+      };
+    case "PAYMENT_METHOD":
+      console.log(state);
+      return {
+        ...state,
+        PaymentMethod: action.payload,
       };
     default:
       return state;
@@ -107,7 +132,14 @@ export const ContextProvider = ({ children }) => {
     localStorage.getItem("currentThemeLoader") || ThemeLoaders[2].name
   );
   const [themeBorder, setThemeBorder] = useState(ThemeBorders.Rounded);
-
+  const Payments = [
+    { name: "Stripe", option: <Stripe /> },
+    {
+      name: "PayPal",
+      option: <PayPal />,
+    },
+    { name: "Paystack", option: <PayStack /> },
+  ];
   const [themeBG, setThemeBG] = useState(
     localStorage.getItem("themeBG") || ThemeBackground[1].color
   );
@@ -120,9 +152,9 @@ export const ContextProvider = ({ children }) => {
     items: false,
   });
   const [cart, cartDispatch] = useReducer(cartReducer, {
-    cart: { cartItems: [] },
-    shippingDetails: "",
-    PaymentMethod: "",
+    cart: { cartItems: JSON.parse(localStorage.getItem("cartItems")) || [] },
+    ShippingDetails: JSON.parse(localStorage.getItem("shippingAddress")) || {},
+    PaymentMethod: localStorage.getItem("PaymentOption") || "",
   });
   const handleAddProductToCart = async (productToAddToCart) => {
     try {
@@ -167,6 +199,10 @@ export const ContextProvider = ({ children }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("cartItems");
+    localStorage.removeItem("shippingAddress");
+    localStorage.removeItem("PaymentOption");
+
     setUser(null);
   };
   return (
@@ -175,6 +211,7 @@ export const ContextProvider = ({ children }) => {
         themeBG,
         handleLogout,
         loadingScreen,
+        Payments,
         setLoadingScreen,
         handleAddProductToCart,
         updateCartHandler,

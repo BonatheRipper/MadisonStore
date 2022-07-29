@@ -18,6 +18,7 @@ import AllProducts from "./Pages/AllProducts";
 import ProductsByCategory from "./Pages/ProductsByCategory";
 import Account from "./Pages/Account";
 import UpdateAccount from "./Pages/UpdateAccount";
+import ShippingAddress from "./Payments/ShippingAddress";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
@@ -40,6 +41,8 @@ const App = () => {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/shipping" element={<ShippingAddress />} />
+
           <Route path="/shop" element={<AllProducts />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/category/:catType" element={<ProductsByCategory />} />

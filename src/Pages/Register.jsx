@@ -6,7 +6,7 @@ import { useStateContext } from "../context/Statecontext";
 import axios from "axios";
 import { useEffect } from "react";
 const Register = () => {
-  const { themeBG, user } = useStateContext();
+  const { themeBG, user, setUser } = useStateContext();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,6 +33,8 @@ const Register = () => {
       });
       if (data) {
         console.log(data);
+        localStorage.setItem("user", JSON.stringify(data));
+        setUser(data);
       }
     } catch (e) {
       console.log(e);

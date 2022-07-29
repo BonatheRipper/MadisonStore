@@ -4,6 +4,7 @@ import { AiFillInfoCircle } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { useStateContext } from "../context/Statecontext";
 import LongButtons, { NormalButton } from "../Components/LongButtons";
+import CheckoutOptions from "../Payments/CheckoutOptions";
 const CartPage = () => {
   const { themeBG, cart, updateCartHandler, themeShape } = useStateContext();
   return (
@@ -130,19 +131,7 @@ const CartPage = () => {
                   $303.00
                 </p>
               </div>
-              <span>
-                <button class="  text-lg flex justify-center items-center space-x-3 w-full text-gold border border-c-gold font-heading py-4 px-8  hover:bg-c-gold hover:text-c-green font-medium transition duration-300">
-                  Checkout
-                </button>
-              </span>
-              <p class="text-gold font-body text-md text-center font-bold">
-                Please, use
-                <span class="font-bold hover:text-pry-50 cursor-pointer animate-pulse">
-                  4242 4242 4242 4242
-                </span>
-                as your card number with any three digits as CVC and a future
-                date as expiration date during checkout.
-              </p>
+              {<CheckoutOptions />}
             </div>
           </div>
         </div>
@@ -154,7 +143,7 @@ const CartPage = () => {
             You currently do not have any item in your cart yet
           </p>
           <LongButtons
-            to="/allProducts"
+            to="/shop"
             text="Explore"
             css={`
               ${themeBG} px-4 border border-c-gold hover:text-c-green
@@ -163,7 +152,7 @@ const CartPage = () => {
         </div>
       )}
       <LongButtons
-        to="/products"
+        to="/shop"
         text="Back to products"
         css={`
         bg-[#F1FFFD] border w-full hover:text-black hover:border border-c-gold py-6

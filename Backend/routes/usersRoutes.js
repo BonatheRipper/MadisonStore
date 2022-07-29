@@ -49,7 +49,7 @@ usersRouter.put(
 usersRouter.post(
   "/register",
   expressAsyncHanler(async (req, res, next) => {
-    // await Users.deleteMany({});
+    await Users.deleteMany({});
     const { email, password, username, confirmPassword } = req.body;
     if (email && password && username && confirmPassword) {
       if (password === confirmPassword) {
@@ -63,9 +63,10 @@ usersRouter.post(
           password: bcrypt.hashSync(password),
         });
         if (newUser) {
+          console.log(newUser);
           return res.send({
             _id: newUser._id,
-            name: newUser.name,
+            username: newUser.username,
             email: newUser.email,
             isAdmin: newUser.isAdmin,
             token: generateToken(newUser),
