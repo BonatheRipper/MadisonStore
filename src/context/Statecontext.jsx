@@ -23,11 +23,12 @@ const ThemeLoaders = [
 const cartReducer = (state, action) => {
   var newItem = action.payload;
   var cartItems;
-  var newItemExist = state.cart.cartItems.find((item) =>
-    item ? item._id === action.payload._id : null
-  );
+
   switch (action.type) {
     case "ADD_TO_CART":
+      var newItemExist = state.cart.cartItems.find((item) =>
+        item ? item._id === action.payload._id : null
+      );
       if (newItemExist) {
         newItemExist.quantity = newItemExist.quantity + 1;
         cartItems = state.cart.cartItems.map((item) =>
@@ -62,18 +63,18 @@ const cartReducer = (state, action) => {
           cartItems: newCartItems,
         },
       };
-    case "CART_LOGOUT":
-      const emptyCart = [];
-      newItemExist = false;
-      localStorage.setItem("cartItems", JSON.stringify([]));
+    case "CLEAR_CART":
       return {
         ...state,
         cart: {
           ...state.cart,
-          cartItems: emptyCart,
+          cartItems: [],
         },
       };
     case "MINUS_FROM_CART":
+      newItemExist = state.cart.cartItems.find((item) =>
+        item ? item._id === action.payload._id : null
+      );
       if (newItemExist) {
         newItemExist.quantity =
           newItemExist.quantity > 1 ? newItemExist.quantity - 1 : 1;
@@ -209,8 +210,9 @@ export const ContextProvider = ({ children }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
     localStorage.removeItem("cartItems");
+    cartDispatch({ type: "CLEAR_CART" });
+    localStorage.removeItem("user");
     localStorage.removeItem("shippingAddress");
     localStorage.removeItem("PaymentOption");
 

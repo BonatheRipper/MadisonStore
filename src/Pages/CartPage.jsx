@@ -98,7 +98,7 @@ const CartPage = () => {
             >
               <div class="border-b border-b-c-gold w-full flex justify-center">
                 <h3 class="font-heading text-3xl text-gold mb-4">
-                  Order summary
+                  Cart Summary
                 </h3>
               </div>
               <div class="flex justify-between">
@@ -115,22 +115,7 @@ const CartPage = () => {
                   .00
                 </p>
               </div>
-              <div class="flex justify-between">
-                <p class="text-gold font-body text-md text-center font-bold">
-                  Delivery Fee:
-                </p>
-                <p class="text-gold font-body text-md text-center font-bold">
-                  3
-                </p>
-              </div>
-              <div class="flex justify-between">
-                <p class="text-gold font-body text-md text-center font-bold">
-                  Total:
-                </p>
-                <p class="text-gold font-body text-md text-center font-bold">
-                  $303.00
-                </p>
-              </div>
+
               {<CheckoutOptions />}
             </div>
           </div>

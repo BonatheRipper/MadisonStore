@@ -13,6 +13,7 @@ const CheckoutOptions = () => {
   };
   return (
     <div>
+      <p className="text-sm p-2">Payment method</p>
       {Payments.map((gateway) => {
         if (gateway.isActive) {
           return <div key={gateway.name}>{gateway.option}</div>;
@@ -23,7 +24,7 @@ const CheckoutOptions = () => {
           onClick={() => handleCheckoutClick()}
           className="  text-lg flex my-4 justify-center items-center space-x-3 w-full text-gold border border-c-gold font-heading py-4 px-8  hover:bg-c-gold hover:text-c-green font-medium transition duration-300"
         >
-          Checkout
+          Continue
         </button>
       </span>
     </div>

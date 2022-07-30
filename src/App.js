@@ -19,15 +19,16 @@ import ProductsByCategory from "./Pages/ProductsByCategory";
 import Account from "./Pages/Account";
 import UpdateAccount from "./Pages/UpdateAccount";
 import ShippingAddress from "./Payments/ShippingAddress";
-import PlaceOrder from "./Pages/placeOrder";
+import PlaceOrder from "./Payments/placeOrder";
+import PayForOrder from "./Payments/PayForOrder";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
-    <div
-      className={`
+    <BrowserRouter>
+      <div
+        className={`
       ${themeBG ? `text-c-gold  ` : ""} relative`}
-    >
-      <BrowserRouter>
+      >
         <ThemeSettings />
         <Navbar />
         <Sidebar />
@@ -44,14 +45,15 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/shipping" element={<ShippingAddress />} />
           <Route path="/placeOrder" element={<PlaceOrder />} />
+          <Route path="/order/:orderId" element={<PayForOrder />} />
 
           <Route path="/shop" element={<AllProducts />} />
           <Route path="/categories" element={<Categories />} />
-          <Route path="/category/:catType" element={<ProductsByCategory />} />
+          <Route path="/shop/:catType" element={<ProductsByCategory />} />
         </Routes>
         <Footer />
-      </BrowserRouter>
-    </div>
+      </div>
+    </BrowserRouter>
   );
 };
 

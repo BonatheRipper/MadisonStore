@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import { useStateContext } from "../context/Statecontext";
-import ProductsMenuBtn from "../Components/ProductsMenuBtn";
 import axios from "axios";
 import ProductCard from "../Components/ProductCard";
 import { useState } from "react";
@@ -74,7 +73,6 @@ const ProductsByCategory = () => {
       try {
         const results = await axios.get(`/api/products/category/${catType}`);
         setTotalPages(results.data.totalPages);
-        console.log(results);
         productsDispatch({
           type: "FETCH_SUCCESS",
           payload: results.data,
@@ -84,8 +82,9 @@ const ProductsByCategory = () => {
       }
     };
     fetchProducts();
-    console.log(products);
-  }, [pageNumber]);
+  }, [catType]);
+  console.log(products);
+
   return (
     <div
       className={`bg-[#F1FFFD] relative px-8 md:px-24 py-32 flex flex-col space-y-8 justify-center items-center w-full `}

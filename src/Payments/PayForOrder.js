@@ -1,40 +1,54 @@
-import React from "react";
-import { useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React, { useEffect, useReducer } from "react";
+import axios from "axios";
 import { useStateContext } from "../context/Statecontext";
-const PlaceOrder = () => {
-  const { cart, user, themeBG, ThemeShapes, themeShape } = useStateContext();
+import { NavLink, useNavigate, useParams } from "react-router-dom";
+
+function paymentReducer(state, action) {
+  switch (action.type) {
+    case "FETCH_REQUEST":
+      return { ...state, loading: true, error: "" };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false, error: "", order: action.payload };
+    case "FETCH_FAIL":
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+}
+const PayForOrder = () => {
+  const { cart, user, cartDispatch, themeBG, ThemeShapes, themeShape } =
+    useStateContext();
+  const [{ loading, error, order }, paymentDispatch] = useReducer(
+    paymentReducer,
+    { loading: true, error: "", order: {} }
+  );
   const navigate = useNavigate();
-  const itemsTotal = () => {
-    return toFix(
-      cart.cart.cartItems.reduce((previousValue, currentValue) => {
-        return previousValue + currentValue.price * currentValue.quantity;
-      }, 0)
-    );
-  };
-  const toFix = (num) => {
-    return Math.round(Number(num)).toFixed(2);
-  };
-  const shippingFee = () => {
-    return toFix((0.5 * itemsTotal()) / 100);
-  };
-  const taxFee = () => {
-    return toFix((0.2 * itemsTotal()) / 100);
-  };
-  const orderTotal = () => {
-    const total =
-      Number(itemsTotal()) + Number(shippingFee()) + Number(taxFee());
-    return toFix(total);
-  };
+  const { orderId } = useParams();
   useEffect(() => {
+    const getOrder = async () => {
+      try {
+        paymentDispatch({ type: "FETCH_REQUEST" });
+        const { data } = await axios.get(`/api/orders/${orderId}`, {
+          headers: { authorization: `Bearer ${user.token}` },
+        });
+        paymentDispatch({ type: "FETCH_SUCCESS", payload: data });
+      } catch (e) {
+        paymentDispatch({ type: "FETC_FAIL", payload: e });
+      }
+    };
     if (!user) {
       navigate("/login");
     }
-  }, [user, navigate]);
+    if (!order._id || (order._id && order._id) !== orderId) {
+      getOrder();
+    }
+  }, [order, user, orderId, navigate]);
+  console.log(order);
+
   return (
     <div className="p-10  my-10 bg-[#F1FFFD] w-full">
       <h1 className="font-fair my-4 font-bold text-c-green text-xl">
-        Preview Order
+        Order: {order._id}
       </h1>
       <div className="flex md:flex-row flex-col justify-between ">
         <div
@@ -54,19 +68,15 @@ const PlaceOrder = () => {
             <div className=" border border-c-gold ">
               <div className="flex py-1 px-4">
                 <p className="font-bold mr-2">Name: </p>
-                <span>{cart.ShippingDetails.Fname}</span>
+                <span>{order.ShippingDetails.Fname}</span>
               </div>
               <div className="flex py-1 px-4">
                 <p className="font-bold mr-2">Address: </p>
-                <span>{cart.ShippingDetails.address}</span>
+                <span>{order.ShippingDetails.address}</span>
               </div>
               <div className="flex py-1 px-4">
-                <NavLink
-                  to="/shipping"
-                  className="text-zinc-400 hover:text-white"
-                >
-                  Edit
-                </NavLink>
+                <p className="font-bold mr-2">Delivered: </p>
+                <span>{order.isDelivered ? "Yes" : "Not delivered"}</span>
               </div>
             </div>
           </div>
@@ -83,13 +93,11 @@ const PlaceOrder = () => {
             <div className=" border border-c-gold ">
               <div className="flex py-1 px-4">
                 <p className="font-bold mr-2">Method: </p>
-                <span>{cart.PaymentMethod}</span>
+                <span>{order.PaymentMethod}</span>
               </div>
-
               <div className="flex py-1 px-4">
-                <NavLink to="/cart" className="text-zinc-400 hover:text-white">
-                  Edit
-                </NavLink>
+                <p className="font-bold mr-2">Paid: </p>
+                <span>{order.isPaid ? "Yes" : "Not paid"}</span>
               </div>
             </div>
           </div>
@@ -104,7 +112,7 @@ const PlaceOrder = () => {
               Items To Pay
             </h4>
             <div className=" border border-c-gold flex  flex-col  w-full ">
-              {cart.cart.cartItems.map((item) => {
+              {order.orderItems.map((item) => {
                 return (
                   <div
                     className="flex py-2 px-4 justify-between space-x-6 items-center"
@@ -124,21 +132,15 @@ const PlaceOrder = () => {
                       {item.name}
                     </NavLink>
                     <span className="text-xs">{item.quantity}</span>
-                    <span className="text-xs ">{item.price}</span>
+                    <span className="text-xs ">${item.price}</span>
                   </div>
                 );
               })}
-
-              <div className="flex px-4 my-4">
-                <NavLink to="/cart" className="text-zinc-400 hover:text-white">
-                  Edit
-                </NavLink>
-              </div>
             </div>
           </div>
         </div>
         <div
-          className={` ${themeBG}  md:mx-6 h-64 my-2 flex flex-col w-full rounded-md justify-start md:w-6/12 p-6`}
+          className={` ${themeBG}  md:mx-6 h-64 my-4 flex flex-col w-full rounded-md justify-start md:w-6/12 p-6`}
         >
           <div className="flex my-4 flex-col ">
             <h4
@@ -153,21 +155,24 @@ const PlaceOrder = () => {
             <div className=" border border-c-gold ">
               <div className="flex py-1 px-4 justify-between">
                 <p className="font-bold mr-2">Items Total: </p>
-                <span>${itemsTotal()}</span>
+                <span>${order.itemsTotal}</span>
               </div>
 
               <div className="flex py-1 px-4 justify-between">
                 <p className="font-bold mr-2">Shipping: </p>
-                <span>${shippingFee()}</span>
+                <span>${order.shippingFee}</span>
               </div>
               <div className="flex py-1 px-4 justify-between">
                 <p className="font-bold mr-2">Tax: </p>
-                <span>${taxFee()}</span>
+                <span>${order.taxFee}</span>
               </div>
               <div className="flex py-1 px-4 justify-between">
                 <p className="font-bold mr-2">Order Total: </p>
-                <span>${orderTotal()}</span>
+                <span>${order.totalPrice}</span>
               </div>
+            </div>
+            <div className="flex py-2 px-4 justify-center border-4 border-c-gold hover:bg-c-gold hover:text-c-green">
+              <button className="px-4">Place Order</button>
             </div>
           </div>
         </div>
@@ -176,4 +181,4 @@ const PlaceOrder = () => {
   );
 };
 
-export default PlaceOrder;
+export default PayForOrder;
