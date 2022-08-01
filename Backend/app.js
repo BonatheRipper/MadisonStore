@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", usersRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/products", productRouter);
-app.get("/api/keys", gatewayRouter);
+app.use("/api/keys", gatewayRouter);
 // const __dirname = path.resolve();
 // app.use(express.static(path.join(__dirname, "../build")));
 // app.get("*", (req, res) =>
