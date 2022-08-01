@@ -5,11 +5,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { HelmetProvider } from "react-helmet-async";
 import { ContextProvider } from "./context/Statecontext";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 function Index() {
   return (
-    <ContextProvider>
-      <App />
-    </ContextProvider>
+    <PayPalScriptProvider deferLoading={true}>
+      <ContextProvider>
+        <App />
+      </ContextProvider>
+    </PayPalScriptProvider>
   );
 }
 ReactDOM.render(<Index />, document.getElementById("root"));

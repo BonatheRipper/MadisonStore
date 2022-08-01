@@ -15,6 +15,26 @@ const productsReducer = (state, action) => {
       return state;
   }
 };
+function paymentReducer(state, action) {
+  switch (action.type) {
+    case "FETCH_REQUEST":
+      return { ...state, loading: true, error: "" };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false, error: "", orderPay: action.payload };
+    case "FETCH_FAIL":
+      return { ...state, loading: false, error: action.payload };
+    case "PAY_REQUEST":
+      return { ...state, loadingPay: true };
+    case "PAY_SUCCESS":
+      return { ...state, loadingPay: false, successPay: true };
+    case "PAY_FAIL":
+      return { ...state, loadingPay: false, erroPay: action.payload };
+    case "PAY_RESET":
+      return { ...state, loadingPay: false, successPay: false };
+    default:
+      return state;
+  }
+}
 const ThemeLoaders = [
   { name: "CircleLoader", image: <CircleLoaderx size={15} /> },
   { name: "HashLoader", image: <HashLoaderx size={15} /> },
@@ -150,7 +170,7 @@ export const ContextProvider = ({ children }) => {
       option: <PayPal />,
       isActive: true,
     },
-    { name: "Paystack", option: <PayStack />, isActive: false },
+    { name: "Paystack", option: <PayStack />, isActive: true },
   ];
   const [themeBG, setThemeBG] = useState(
     localStorage.getItem("themeBG") || ThemeBackground[1].color
@@ -162,6 +182,16 @@ export const ContextProvider = ({ children }) => {
     loading: true,
     error: "",
     items: false,
+  });
+  const [
+    { loading, error, orderPay, successPay, loadingPay },
+    paymentDispatch,
+  ] = useReducer(paymentReducer, {
+    loading: true,
+    error: "",
+    orderPay: {},
+    loadingPay: false,
+    successPay: false,
   });
   const [cart, cartDispatch] = useReducer(cartReducer, {
     cart: { cartItems: JSON.parse(localStorage.getItem("cartItems")) || [] },
@@ -245,7 +275,9 @@ export const ContextProvider = ({ children }) => {
         setThemeShape,
         themeBorder,
         themeShape,
-
+        orderPay,
+        successPay,
+        paymentDispatch,
         sidebar,
         setSidebar,
       }}

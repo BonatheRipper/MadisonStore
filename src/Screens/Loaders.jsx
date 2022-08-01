@@ -1,7 +1,7 @@
 import RingLoader from "react-spinners/RingLoader";
 import HashLoader from "react-spinners/HashLoader";
 import CircleLoader from "react-spinners/CircleLoader";
-import { useState } from "react";
+import React from "react";
 const color = "#D2B6A2";
 export const CircleLoaderx = ({ size }) => {
   return <CircleLoader color={color} loading={true} size={size} />;

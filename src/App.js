@@ -21,14 +21,17 @@ import UpdateAccount from "./Pages/UpdateAccount";
 import ShippingAddress from "./Payments/ShippingAddress";
 import PlaceOrder from "./Payments/placeOrder";
 import PayForOrder from "./Payments/PayForOrder";
+import "./index.css";
+import "./App.css";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
-    <BrowserRouter>
-      <div
-        className={`
+    <div
+      className={`
       ${themeBG ? `text-c-gold  ` : ""} relative`}
-      >
+    >
+      {" "}
+      <BrowserRouter>
         <ThemeSettings />
         <Navbar />
         <Sidebar />
@@ -52,9 +55,9 @@ const App = () => {
           <Route path="/shop/:catType" element={<ProductsByCategory />} />
         </Routes>
         <Footer />
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </div>
   );
 };
-
+// npm link ../node_modules/react
 export default App;

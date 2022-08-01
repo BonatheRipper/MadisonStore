@@ -1,3 +1,5 @@
+import React from "react";
+
 import "../App.css";
 import { useStateContext } from "../context/Statecontext";
 const handlePaymentOption = (value, cartDispatch) => {

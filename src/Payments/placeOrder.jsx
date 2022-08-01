@@ -71,7 +71,7 @@ const PlaceOrder = () => {
     }
   };
   useEffect(() => {
-    // if (!cart.cart.cartItems.length) {
+    // if (cart.cart.cartItems.length == 0) {
     //   return navigate("/shop");
     // }
     if (!user) {
@@ -223,9 +223,13 @@ const PlaceOrder = () => {
               </div>
             </div>
             <div className="flex py-2 px-4 justify-center border-4 border-c-gold hover:bg-c-gold hover:text-c-green">
-              <button onClick={placeOrdersHandler} className="px-4">
-                Place Order
-              </button>
+              {cart.cart.cartItems.length == 0 ? (
+                <NavLink to="/shop">Shop Items</NavLink>
+              ) : (
+                <button onClick={placeOrdersHandler} className="px-4">
+                  Place Order
+                </button>
+              )}
             </div>
           </div>
         </div>
