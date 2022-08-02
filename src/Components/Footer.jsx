@@ -8,7 +8,9 @@ const Footer = () => {
 
   return (
     <footer
-      className={`${themeBG} py-6  flex flex-col space-y-8 justify-between w-full `}
+      className={`${themeBG}  ${
+        themeBG ? `text-c-gold  ` : ""
+      }  py-6  mt-20 flex flex-col space-y-8 justify-between w-full `}
     >
       <div className="flex px-4 mx-0 w-full justify-between drop-shadow-lg py-4 md:px-12">
         <p className="font-medium text-xl md:text-2xl tracking-widest uppercase">

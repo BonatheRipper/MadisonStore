@@ -13,13 +13,13 @@ const PayForOrder = () => {
         const { data } = await axios.get(`/api/orders/${orderId}`, {
           headers: { authorization: `Bearer ${user.token}` },
         });
-        setPaymentType(data.PaymentMethod.toUpperCase());
+        setPaymentType(data.PaymentMethod);
       } catch (e) {
         alert(e);
       }
     };
     GetpaymentType();
-  }, [setPaymentType]);
+  }, [setPaymentType, orderId, user]);
 
   return <>{paymentType && <PaymentToDisplay paymentType={paymentType} />}</>;
 };

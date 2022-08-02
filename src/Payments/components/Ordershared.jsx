@@ -73,7 +73,7 @@ const Ordershared = ({ order, button }) => {
                       : "rounded-l-sm"
                   } font-bold py-1  px-2  border-l-4 border-c-gold`}
                 >
-                  Items To Pay
+                  {order.isPaid ? "Paid Items" : "Items To Pay"}
                 </h4>
                 <div className=" border border-c-gold flex  flex-col  w-full ">
                   {order.orderItems.map((item) => {
@@ -104,7 +104,7 @@ const Ordershared = ({ order, button }) => {
               </div>
             </div>
             <div
-              className={` ${themeBG}  md:mx-6 h-auto my-4 flex flex-col w-full rounded-md justify-start md:w-6/12 p-6`}
+              className={` ${themeBG}  md:mx-6 h-80 my-4 flex flex-col w-full rounded-md justify-start md:w-6/12 p-6`}
             >
               <div className="flex my-4 flex-col ">
                 <h4
@@ -133,6 +133,10 @@ const Ordershared = ({ order, button }) => {
                   <div className="flex py-1 px-4 justify-between">
                     <p className="font-bold mr-2">Order Total: </p>
                     <span>${order.totalPrice}</span>
+                  </div>
+                  <div className="flex py-1 px-4 justify-between">
+                    <p className="font-bold mr-2">Status: </p>
+                    <span>{order.isPaid ? "Paid" : "Not Paid"}</span>
                   </div>
                 </div>
                 <div className="w-full py-4">

@@ -3,12 +3,12 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Ordershared from "../components/Ordershared";
 import { useStateContext } from "../../context/Statecontext";
-import { PaystackButton } from "react-paystack";
+import { FlutterWaveButton, closePaymentModal } from "flutterwave-react-v3";
 import { useState } from "react";
-const Paystack = () => {
+const Flutterwave = () => {
   const { user, orderPay, successPay, paymentDispatch } = useStateContext();
   const navigate = useNavigate();
-  const [paystackey, setPaystackey] = useState();
+  const [FlutterwaveKey, setFlutterwaveKey] = useState();
   const { orderId } = useParams();
   useEffect(() => {
     const getOrder = async () => {
@@ -42,26 +42,13 @@ const Paystack = () => {
             headers: { authorization: `Bearer ${user.token}` },
           }
         );
-        setPaystackey(gatewayKey);
+        setFlutterwaveKey(gatewayKey);
       };
       loadGateWayKey();
     }
   }, [orderPay, user, successPay, orderId, navigate, paymentDispatch]);
-  console.log(orderPay, user);
-  const componentProps = {
-    email: user.email,
-    amount: orderPay.totalPrice * 100,
-    metadata: {
-      name: orderPay.ShippingDetails ? orderPay.ShippingDetails.Fname : "",
-      username: user.username,
-    },
-    publicKey: paystackey || "pk_test_3f37de2c084b51042eef9bb9aec6394c111abe20",
-    text: "Pay Now (paystack)",
-    onSuccess: () => onPayStackApprove(),
-    onClose: () => alert("Wait! You need this oil, don't go!!!!"),
-  };
-  console.log(componentProps);
-  function onPayStackApprove() {
+
+  function onFlutterWaveApprove(details) {
     const updateOrder = async () => {
       try {
         paymentDispatch({ type: "PAY_REQUEST" });
@@ -71,7 +58,7 @@ const Paystack = () => {
           {
             email_address: user.email,
             update_time: `${Date.now()}`,
-            status: "Paid",
+            status: details.status,
             id: orderPay._id,
           },
           {
@@ -87,16 +74,43 @@ const Paystack = () => {
     };
     updateOrder();
   }
+  const config = {
+    public_key:
+      FlutterwaveKey || "FLWPUBK_TEST-f1354d054c3540ec3063e0a6970babaf-X",
+    tx_ref: Date.now(),
+    amount: orderPay.totalPrice,
+    currency: "NGN",
+    payment_options: "card,mobilemoney,ussd",
+    customer: {
+      name: orderPay.ShippingDetails ? orderPay.ShippingDetails.Fname : "",
+      email: user.email,
+    },
+    customizations: {
+      title: "MarpleStore",
+      description: "Payment for items in cart",
+      logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+    },
+  };
 
+  const fwConfig = {
+    ...config,
+    text: "Pay with Flutterwave!",
+    callback: (response) => {
+      onFlutterWaveApprove(response);
+      console.log(response);
+      closePaymentModal(); // this will close the modal programmatically
+    },
+    onClose: () => {},
+  };
   function btn() {
     return (
-      <PaystackButton
+      <FlutterWaveButton
         className="w-full cursor-pointer hover:bg-c-gold p-4 hover:text-c-green bg-transparent border text-c-gold border-c-gold"
-        {...componentProps}
+        {...fwConfig}
       />
     );
   }
   return <Ordershared order={orderPay} button={btn()} />;
 };
 
-export default Paystack;
+export default Flutterwave;

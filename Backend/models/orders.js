@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import cryptoRandomString from "crypto-random-string";
 
 const ordersSchema = new mongoose.Schema(
   {
@@ -43,6 +44,10 @@ const ordersSchema = new mongoose.Schema(
     paidAt: { type: Date },
     isDelivered: { type: Boolean, default: false },
     deliveredAt: { type: Date },
+    orderNo: {
+      type: String,
+      default: "#" + cryptoRandomString({ length: 10 }),
+    },
   },
   {
     timestamps: true,

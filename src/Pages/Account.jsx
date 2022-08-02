@@ -11,7 +11,7 @@ const Account = () => {
     }
   }, [user, navigate]);
   return (
-    <div className="p-8 my-8 bg-[#F1FFFD] w-full items-center justify-center  flex h-full pt-32 pb-20 px-4 lg:px-0">
+    <div className="p-10 my-20 bg-[#F1FFFD] w-full items-center justify-center  flex h-full pt-32 pb-20 px-4 lg:px-0">
       <div
         className={` ${themeBG} w-full lg:w-2/5 flex flex-col justify-center items-center lg:space-x-4 p-4 lg:p-4 `}
       >
@@ -45,7 +45,7 @@ const Account = () => {
                 Edit Account
               </NavLink>
               <NavLink
-                to={`/products/orderhistory`}
+                to={`/order/orderhistory`}
                 className={` hover:text-c-green hover:bg-c-gold px-4 py-2 border border-c-gold mx-2`}
               >
                 Order History

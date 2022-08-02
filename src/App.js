@@ -23,15 +23,17 @@ import PlaceOrder from "./Payments/placeOrder";
 import PayForOrder from "./Payments/PayForOrder";
 import "./index.css";
 import "./App.css";
+import OrderHistory from "./Pages/OrderHistory";
+import SingleOrderHistory from "./Pages/SingleOrderHistory";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
-    <div
-      className={`
+    <BrowserRouter className="relative">
+      <div
+        className={`
       ${themeBG ? `text-c-gold  ` : ""} relative`}
-    >
-      {" "}
-      <BrowserRouter>
+      >
+        {" "}
         <ThemeSettings />
         <Navbar />
         <Sidebar />
@@ -48,15 +50,20 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/shipping" element={<ShippingAddress />} />
           <Route path="/placeOrder" element={<PlaceOrder />} />
-          <Route path="/order/:orderId" element={<PayForOrder />} />
+          <Route path="/order/orderhistory" element={<OrderHistory />} />
+          <Route
+            path="/order/orderhistory/:orderId"
+            element={<SingleOrderHistory />}
+          />
 
+          <Route path="/order/:orderId" element={<PayForOrder />} />
           <Route path="/shop" element={<AllProducts />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/shop/:catType" element={<ProductsByCategory />} />
         </Routes>
         <Footer />
-      </BrowserRouter>
-    </div>
+      </div>
+    </BrowserRouter>
   );
 };
 // npm link ../node_modules/react

@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useStateContext } from "../context/Statecontext";
 const CheckoutOptions = () => {
   const { Payments, cart } = useStateContext();

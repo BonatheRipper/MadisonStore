@@ -2,7 +2,12 @@ import React, { createContext, useContext, useState } from "react";
 import { useReducer } from "react";
 import axios from "axios";
 import { CircleLoaderx, HashLoaderx, RingLoaderx } from "../Screens/Loaders";
-import { PayPal, PayStack, Stripe } from "../Payments/PaymentOptions";
+import {
+  PayPal,
+  PayStack,
+  Stripe,
+  Flutterwave,
+} from "../Payments/PaymentOptions";
 const productsReducer = (state, action) => {
   switch (action.type) {
     case "FETCH_REQUEST":
@@ -165,6 +170,8 @@ export const ContextProvider = ({ children }) => {
   const [themeBorder, setThemeBorder] = useState(ThemeBorders.Rounded);
   const Payments = [
     { name: "Stripe", option: <Stripe />, isActive: false },
+    { name: "Flutterwave", option: <Flutterwave />, isActive: true },
+
     {
       name: "PayPal",
       option: <PayPal />,
