@@ -5,6 +5,7 @@ import Ordershared from "../components/Ordershared";
 import { useStateContext } from "../../context/Statecontext";
 import { PaystackButton } from "react-paystack";
 import { useState } from "react";
+import { toast } from "react-toastify";
 const Paystack = () => {
   const { user, orderPay, successPay, paymentDispatch } = useStateContext();
   const navigate = useNavigate();
@@ -47,7 +48,6 @@ const Paystack = () => {
       loadGateWayKey();
     }
   }, [orderPay, user, successPay, orderId, navigate, paymentDispatch]);
-  console.log(orderPay, user);
   const componentProps = {
     email: user.email,
     amount: orderPay.totalPrice * 100,
@@ -78,11 +78,13 @@ const Paystack = () => {
             headers: { authorization: `Bearer ${user.token}` },
           }
         );
+
         paymentDispatch({ type: "PAY_SUCCESS", payload: data });
-        alert("order is paid");
+        toast("Payment success");
         navigate(`/order/${orderId}`);
       } catch (e) {
         paymentDispatch({ type: "PAY_FAIL", payload: e });
+        toast.error("Payment failed");
       }
     };
     updateOrder();

@@ -13,7 +13,7 @@ const Ordershared = ({ order, button }) => {
       ) : (
         <>
           <h1 className="font-fair my-4 font-bold text-c-green text-xl">
-            Order: {order._id}
+            Order: {order.orderNo}
           </h1>
           <div className="flex md:flex-row flex-col justify-between ">
             <div
@@ -59,10 +59,6 @@ const Ordershared = ({ order, button }) => {
                     <p className="font-bold mr-2">Method: </p>
                     <span>{order.PaymentMethod}</span>
                   </div>
-                  <div className="flex py-1 px-4">
-                    <p className="font-bold mr-2">Paid: </p>
-                    <span>{order.isPaid ? "Yes" : "Not paid"}</span>
-                  </div>
                 </div>
               </div>
               <div className="flex my-4 flex-col ">
@@ -104,7 +100,7 @@ const Ordershared = ({ order, button }) => {
               </div>
             </div>
             <div
-              className={` ${themeBG}  md:mx-6 h-80 my-4 flex flex-col w-full rounded-md justify-start md:w-6/12 p-6`}
+              className={` ${themeBG}  md:mx-6 h-full  my-4 flex flex-col w-full rounded-md justify-start md:w-6/12 p-6`}
             >
               <div className="flex my-4 flex-col ">
                 <h4
@@ -139,7 +135,7 @@ const Ordershared = ({ order, button }) => {
                     <span>{order.isPaid ? "Paid" : "Not Paid"}</span>
                   </div>
                 </div>
-                <div className="w-full py-4">
+                <div className="w-full z-10">
                   {!order.isPaid && <div>{button}</div>}
                 </div>
               </div>

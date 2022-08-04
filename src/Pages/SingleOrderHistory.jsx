@@ -85,7 +85,20 @@ const SingleOrderHistory = () => {
                         Price: ${item.price}
                       </p>
                       <p className="text-c-green  font-body text-base font-normal ">
-                        Status: {order.isPaid ? "Paid" : "Unpaid"}
+                        Status:{" "}
+                        {order.isPaid ? (
+                          <span className="font-bold">Paid</span>
+                        ) : (
+                          <>
+                            <span>Unpaid</span>{" "}
+                            <NavLink
+                              to={`/order/${order._id}`}
+                              className="hover:text-blue-300 underline font-bold"
+                            >
+                              Pay now
+                            </NavLink>
+                          </>
+                        )}
                       </p>
                     </div>
                   </div>

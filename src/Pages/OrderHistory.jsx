@@ -4,10 +4,44 @@ import { useEffect } from "react";
 import { useStateContext } from "../context/Statecontext";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import {
+  ColumnDirective,
+  ColumnsDirective,
+  Filter,
+  GridComponent,
+  ContextMenu,
+  ExcelExport,
+  Edit,
+  PdfExport,
+  Group,
+  Inject,
+  Page,
+  Sort,
+} from "@syncfusion/ej2-react-grids";
+
 const OrderHistory = () => {
   const { user } = useStateContext();
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
+
+  function OrderStatusTemplate(props) {
+    return (
+      <div className="OrderStatus">
+        <span
+          className={`${
+            props.Status === "Completed" ? "bg-[#def2d0] text-[#245900]" : ""
+          }
+${props.Status === "Canceled" ? "bg-[#ffdcdc] text-[#900] " : ""}
+${props.isPaid === "Hold" ? "bg-[#f9f1c8] text-[#5e4f00]" : ""}
+${props.isPaid ? "bg-[#def2d0] text-[#245900]" : "bg-[#ffdcdc] text-[#900] "}
+ rounded p-1`}
+        >
+          {" "}
+          {props.Status}
+        </span>
+      </div>
+    );
+  }
   useEffect(() => {
     const fetchOrders = async () => {
       try {

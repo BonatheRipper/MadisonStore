@@ -5,6 +5,8 @@ import Four0Four from "./Pages/Four0Four";
 import Navbar from "./Components/Navbar";
 import Home from "./Pages/Home";
 import { useStateContext } from "./context/Statecontext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AboutPage from "./Pages/About";
 import ContactUs from "./Pages/ContactUs";
 import Categories from "./Components/Categories";
@@ -28,15 +30,26 @@ import SingleOrderHistory from "./Pages/SingleOrderHistory";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
-    <BrowserRouter className="relative">
+    <BrowserRouter>
       <div
         className={`
       ${themeBG ? `text-c-gold  ` : ""} relative`}
       >
-        {" "}
+        <ToastContainer />
         <ThemeSettings />
         <Navbar />
         <Sidebar />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <Routes>
           <Route component={<Four0Four />} />
           <Route path="/" element={<Home />} />

@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { NormalButton } from "../Components/LongButtons";
 import { useStateContext } from "../context/Statecontext";
 import { getUser } from "../services/LoginUser";
@@ -12,13 +13,13 @@ const Login = () => {
   const navigate = useNavigate();
   const handleLoginFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(usernameEmail, password);
     try {
       const userData = await getUser(usernameEmail, password);
       setUser(userData);
+      toast("Login success");
       localStorage.setItem("user", JSON.stringify(userData));
     } catch (e) {
-      console.log(e.response.data.message);
+      toast.error(e.response.data.message);
     }
   };
   useEffect(() => {

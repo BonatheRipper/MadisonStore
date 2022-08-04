@@ -110,6 +110,7 @@ const Navbar = (props) => {
               ></i>
               {userDropdown && (
                 <div
+                  onMouseLeave={() => setUserDropdown(!userDropdown)}
                   className={`${themeBG} absolute w-52 border-2 border-c-gold md:w-64   right-0 top-4`}
                 >
                   <div className="flex flex-col text-xs md:text-sm">
@@ -117,7 +118,9 @@ const Navbar = (props) => {
                       <span className="p-1 mr-1">
                         <i class="fa fa-user" aria-hidden="true"></i>
                       </span>
-                      <span>{user.username}</span>
+                      <span className="hover:text-white">
+                        <NavLink to="/account">{user.username} </NavLink>
+                      </span>
                     </div>
                     <div className="flex justify-start items-center  p-1">
                       <span className="p-1 mr-1">

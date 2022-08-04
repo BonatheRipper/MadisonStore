@@ -49,13 +49,21 @@ usersRouter.put(
 usersRouter.post(
   "/register",
   expressAsyncHanler(async (req, res, next) => {
-    await Users.deleteMany({});
     const { email, password, username, confirmPassword } = req.body;
     if (email && password && username && confirmPassword) {
       if (password === confirmPassword) {
-        const user = await Users.findOne({ email: email });
-        if (user) {
-          return console.log(user, "found");
+        const thisEmailExist = await Users.findOne({ email: email });
+        const thisUsernameExist = await Users.findOne({ username: username });
+
+        if (thisEmailExist) {
+          return res
+            .status(401)
+            .send({ message: "user with that email already exist" });
+        }
+        if (thisUsernameExist) {
+          return res
+            .status(401)
+            .send({ message: "user with that username already exist" });
         }
         const newUser = await Users.create({
           email: email,
@@ -72,11 +80,11 @@ usersRouter.post(
             token: generateToken(newUser),
           });
         }
-        return res.status(401).send({ message: "There was an error" });
+        return res.status(401).send({ message: "There was an error " });
       }
       return res.status(401).send({ message: "Password needs to match" });
     } else {
-      console.log("one missing");
+      return res.status(401).send({ message: "One or more fields  empty" });
     }
   })
 );

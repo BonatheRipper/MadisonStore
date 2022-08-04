@@ -5,6 +5,7 @@ import Ordershared from "../components/Ordershared";
 import { useStateContext } from "../../context/Statecontext";
 import { FlutterWaveButton, closePaymentModal } from "flutterwave-react-v3";
 import { useState } from "react";
+import { toast } from "react-toastify";
 const Flutterwave = () => {
   const { user, orderPay, successPay, paymentDispatch } = useStateContext();
   const navigate = useNavigate();
@@ -66,10 +67,11 @@ const Flutterwave = () => {
           }
         );
         paymentDispatch({ type: "PAY_SUCCESS", payload: data });
-        alert("order is paid");
+        toast("Payment success");
         navigate(`/order/${orderId}`);
       } catch (e) {
         paymentDispatch({ type: "PAY_FAIL", payload: e });
+        toast.error("Payment failed");
       }
     };
     updateOrder();

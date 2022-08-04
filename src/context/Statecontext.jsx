@@ -8,6 +8,8 @@ import {
   Stripe,
   Flutterwave,
 } from "../Payments/PaymentOptions";
+import { toast } from "react-toastify";
+
 const productsReducer = (state, action) => {
   switch (action.type) {
     case "FETCH_REQUEST":
@@ -214,12 +216,13 @@ export const ContextProvider = ({ children }) => {
       const results = await axios.get(`/api/products/${id}`);
       const quantity = existItem ? existItem.quantity : 1;
       if (results.data.countInStock <= quantity) {
-        return alert("Out of fucking stock");
+        return toast.error("Item out of stock");
       }
     } catch (e) {
-      alert(e);
+      toast.error(e.message);
     }
     cartDispatch({ type: "ADD_TO_CART", payload: productToAddToCart });
+    toast("Item added to cart");
   };
   const updateCartHandler = async (item, action) => {
     try {
@@ -229,16 +232,18 @@ export const ContextProvider = ({ children }) => {
       const quantity = existItem ? existItem.quantity : 1;
       if (action === "DELETE") {
         cartDispatch({ type: "REMOVE_FROM_CART", payload: item });
+        toast("Item removed from cart");
         return;
       }
       if (action === "ADD") {
         if (results.data.countInStock <= quantity) {
-          return console.log("Out of fucking stock");
+          return toast.error("Item out of stock");
         }
+
         cartDispatch({ type: "ADD_TO_CART", payload: item });
       }
     } catch (e) {
-      alert(e);
+      toast.error(e.message);
     }
 
     if (action === "MINUS") {

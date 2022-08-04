@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import Ordershared from "../components/Ordershared";
 import { useStateContext } from "../../context/Statecontext";
+import { toast } from "react-toastify";
 
 const Paypal = () => {
   const { user, orderPay, successPay, paymentDispatch } = useStateContext();
@@ -79,10 +80,11 @@ const Paypal = () => {
         );
 
         paymentDispatch({ type: "PAY_SUCCESS", payload: data });
-        alert("order is paid");
+        toast("Payment success");
         navigate(`/order/${orderId}`);
       } catch (e) {
         paymentDispatch({ type: "PAY_FAIL", payload: e });
+        toast.error("Payment failed");
       }
     });
   }

@@ -5,6 +5,7 @@ import { NormalButton } from "../Components/LongButtons";
 import { useStateContext } from "../context/Statecontext";
 import axios from "axios";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 const Register = () => {
   const { themeBG, user, setUser } = useStateContext();
   const [username, setUsername] = useState("");
@@ -21,8 +22,7 @@ const Register = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("password does not match");
-      return;
+      return toast.error("password does not match");
     }
     try {
       const { data } = await axios.post("/api/users/register", {
@@ -35,9 +35,10 @@ const Register = () => {
         console.log(data);
         localStorage.setItem("user", JSON.stringify(data));
         setUser(data);
+        toast("Account created successfully");
       }
     } catch (e) {
-      console.log(e);
+      toast.error(e.response.data.message);
     }
   };
   return (
