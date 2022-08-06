@@ -1,10 +1,8 @@
 import React from "react";
-import "../App.css";
-import { NavLink } from "react-router-dom";
-import { useStateContext } from "../context/Statecontext";
+import { useStateContext } from "../../../context/Statecontext";
 import { useState } from "react";
-
-const Navbar = (props) => {
+import { NavLink } from "react-router-dom";
+const AdminNavBar = (props) => {
   const { themeBG, sidebar, setSidebar, themeShape, cart, user, handleLogout } =
     useStateContext();
   const [userDropdown, setUserDropdown] = useState(false);
@@ -73,13 +71,13 @@ const Navbar = (props) => {
               }, 0)}
             </span>
           )}
-          <i className="fa fa-shopping-basket" aria-hidden="true"></i>
+          <i class="fa fa-bell" aria-hidden="true"></i>
         </NavLink>
         <NavLink
           to="/wishlist"
           className="hidden md:block hover:text-white  mx-2"
         >
-          <i className="fa fa-heart-o" aria-hidden="true"></i>
+          <i class="fa fa-comments" aria-hidden="true"></i>
         </NavLink>
 
         {!user && (
@@ -156,4 +154,4 @@ const Navbar = (props) => {
   );
 };
 
-export default Navbar;
+export default AdminNavBar;

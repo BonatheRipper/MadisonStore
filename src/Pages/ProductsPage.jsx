@@ -13,12 +13,17 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import { FetchSingleProduct } from "../services/FetchSingleProduct";
 import LoadingScreen from "../Screens/LoadingScreen";
+import ShareHeader from "../Components/ShareHeader";
+import Footer from "../Components/Footer";
 const ProductsPage = () => {
-  const { themeBG, handleAddProductToCart, themeShape } = useStateContext();
+  const { themeBG, handleAddProductToCart, scrollToTop, themeShape } =
+    useStateContext();
+
   const { id } = useParams();
   const [singleProduct, setSingleProduct] = useState();
   const [currentImg, setCurrentImg] = useState();
   useEffect(() => {
+    scrollToTop();
     FetchSingleProduct(id, setSingleProduct, singleProduct, setCurrentImg);
   }, []);
   const handleGalleryClick = (imgLink) => {
@@ -26,6 +31,7 @@ const ProductsPage = () => {
   };
   return (
     <>
+      <ShareHeader />
       {!singleProduct ? (
         <LoadingScreen />
       ) : (
@@ -145,6 +151,7 @@ const ProductsPage = () => {
           </div>
         </div>
       )}
+      <Footer />
     </>
   );
 };

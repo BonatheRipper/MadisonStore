@@ -27,7 +27,7 @@ const Categories = () => {
                 return (
                   <CategoriesCard
                     catName={cat}
-                    to={`/category/${cat}`}
+                    to={`/shop/${cat}`}
                     catDesc=" The collection of bespoke rings fabricated with the rarest metals to
             exude elegance on the bearer."
                   />

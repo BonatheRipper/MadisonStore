@@ -3,11 +3,14 @@ import { useStateContext } from "../context/Statecontext";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import PaymentToDisplay from "./services/PaymentToDisplay";
+import ShareHeader from "../Components/ShareHeader";
+import Footer from "../Components/Footer";
 const PayForOrder = () => {
-  const { user } = useStateContext();
+  const { user, scrollToTop } = useStateContext();
   const [paymentType, setPaymentType] = useState(false);
   const { orderId } = useParams();
   useEffect(() => {
+    scrollToTop();
     const GetpaymentType = async () => {
       try {
         const { data } = await axios.get(`/api/orders/${orderId}`, {
@@ -21,7 +24,13 @@ const PayForOrder = () => {
     GetpaymentType();
   }, [setPaymentType, orderId, user]);
 
-  return <>{paymentType && <PaymentToDisplay paymentType={paymentType} />}</>;
+  return (
+    <>
+      <ShareHeader />
+      {paymentType && <PaymentToDisplay paymentType={paymentType} />}
+      <Footer />
+    </>
+  );
 };
 
 export default PayForOrder;

@@ -1,8 +1,6 @@
 import React from "react";
 import "./LoadinScreen.css";
 import { useStateContext } from "../context/Statecontext";
-
-import { useState } from "react";
 import { CircleLoaderx, HashLoaderx, RingLoaderx } from "./Loaders";
 
 const LoadingScreen = () => {

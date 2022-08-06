@@ -8,6 +8,8 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FetchAllProducts } from "../services/FetchAllProducts";
 import LoadingScreen from "../Screens/LoadingScreen";
+import ShareHeader from "../Components/ShareHeader";
+import Footer from "../Components/Footer";
 const catOrders = {
   arr: [
     "Newest",
@@ -20,8 +22,13 @@ const catOrders = {
   value: "Newest",
 };
 const AllProducts = () => {
-  const { themeBG, products, handleAddProductToCart, productsDispatch } =
-    useStateContext();
+  const {
+    themeBG,
+    products,
+    handleAddProductToCart,
+    scrollToTop,
+    productsDispatch,
+  } = useStateContext();
   const [pageNumber, setPageNumber] = useState(0);
   const [cats, setCats] = useState([]);
   const [selects, setSelects] = useState("");
@@ -65,7 +72,7 @@ const AllProducts = () => {
       payload: allPost,
     });
   };
-
+  scrollToTop();
   useEffect(() => {
     Aos.init({ duration: 500 });
   }, []);
@@ -82,7 +89,7 @@ const AllProducts = () => {
   }, [pageNumber, selects]);
   return (
     <>
-      {" "}
+      <ShareHeader />
       {!products.items ? (
         <LoadingScreen />
       ) : (
@@ -237,7 +244,8 @@ const AllProducts = () => {
             </nav>
           </div>
         </div>
-      )}{" "}
+      )}
+      <Footer />
     </>
   );
 };

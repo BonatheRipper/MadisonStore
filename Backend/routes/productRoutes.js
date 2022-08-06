@@ -10,6 +10,7 @@ productRouter.get("/", async (req, res, next) => {
   const products = await Products.find(
     productsQuery ? { category: productsQuery } : {}
   ).limit(PAGE_SIZE);
+
   res.send({ products, categories });
 });
 productRouter.get("/allproducts", async (req, res, next) => {

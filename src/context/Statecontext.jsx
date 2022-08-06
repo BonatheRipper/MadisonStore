@@ -166,6 +166,9 @@ export const ContextProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("user"))
       : null
   );
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   const [currentThemeLoader, setCurrentThemeLoader] = useState(
     localStorage.getItem("currentThemeLoader") || ThemeLoaders[2].name
   );
@@ -202,6 +205,7 @@ export const ContextProvider = ({ children }) => {
     loadingPay: false,
     successPay: false,
   });
+  const [smallLoadingBtn, setSmallLoadingBtn] = useState(false);
   const [cart, cartDispatch] = useReducer(cartReducer, {
     cart: { cartItems: JSON.parse(localStorage.getItem("cartItems")) || [] },
     ShippingDetails: JSON.parse(localStorage.getItem("shippingAddress")) || {},
@@ -278,6 +282,8 @@ export const ContextProvider = ({ children }) => {
         ThemeLoaders,
         cart,
         cartDispatch,
+        smallLoadingBtn,
+        setSmallLoadingBtn,
         categories,
         setCats,
         setThemeBG,
@@ -286,6 +292,7 @@ export const ContextProvider = ({ children }) => {
         ThemeShapes,
         setThemeShape,
         themeBorder,
+        scrollToTop,
         themeShape,
         orderPay,
         successPay,

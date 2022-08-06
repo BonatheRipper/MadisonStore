@@ -44,6 +44,12 @@
   transform-origin: 100% 0%;
   color: black;
 }
+.e-grid {
+  background-color: black;
+}
+div#js-licensing {
+  display: none !important;
+}
 .uppercase {
   text-transform: uppercase;
 }

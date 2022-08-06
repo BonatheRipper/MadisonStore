@@ -6,8 +6,17 @@ import { useStateContext } from "../../context/Statecontext";
 import { PaystackButton } from "react-paystack";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import ClipLoader from "react-spinners/ClipLoader";
+
 const Paystack = () => {
-  const { user, orderPay, successPay, paymentDispatch } = useStateContext();
+  const {
+    user,
+    orderPay,
+    successPay,
+    paymentDispatch,
+    smallLoadingBtn,
+    setSmallLoadingBtn,
+  } = useStateContext();
   const navigate = useNavigate();
   const [paystackey, setPaystackey] = useState();
   const { orderId } = useParams();
@@ -92,10 +101,9 @@ const Paystack = () => {
 
   function btn() {
     return (
-      <PaystackButton
-        className="w-full cursor-pointer hover:bg-c-gold p-4 hover:text-c-green bg-transparent border text-c-gold border-c-gold"
-        {...componentProps}
-      />
+      <div className="flex  justify-center   items-center  w-full cursor-pointer hover:bg-c-gold py-2 hover:text-c-green bg-transparent border text-c-gold border-c-gold">
+        <PaystackButton className="pb-2" {...componentProps} />
+      </div>
     );
   }
   return <Ordershared order={orderPay} button={btn()} />;

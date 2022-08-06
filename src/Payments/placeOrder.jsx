@@ -4,7 +4,12 @@ import { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useStateContext } from "../context/Statecontext";
 import axios from "axios";
+import ClipLoader from "react-spinners/ClipLoader";
+
 import LongButtons from "../Components/LongButtons";
+import { toast } from "react-toastify";
+import ShareHeader from "../Components/ShareHeader";
+import Footer from "../Components/Footer";
 const orderReducer = (state, action) => {
   switch (action.type) {
     case "CREATE_REQUEST":
@@ -19,8 +24,17 @@ const orderReducer = (state, action) => {
 };
 
 const PlaceOrder = () => {
-  const { cart, user, cartDispatch, themeBG, ThemeShapes, themeShape } =
-    useStateContext();
+  const {
+    cart,
+    user,
+    cartDispatch,
+    themeBG,
+    ThemeShapes,
+    themeShape,
+    scrollToTop,
+    smallLoadingBtn,
+    setSmallLoadingBtn,
+  } = useStateContext();
   const navigate = useNavigate();
   const [{ loading, error }, orderDispatch] = useReducer(orderReducer, {
     loading: false,
@@ -48,6 +62,7 @@ const PlaceOrder = () => {
     return toFix(total);
   };
   const placeOrdersHandler = async () => {
+    setSmallLoadingBtn(true);
     try {
       orderDispatch({ type: "CREATE_REQUEST" });
       const { data } = await axios.post(
@@ -63,18 +78,23 @@ const PlaceOrder = () => {
         },
         { headers: { authorization: `Bearer ${user.token}` } }
       );
+      setSmallLoadingBtn(false);
+
       orderDispatch({ type: "CREATE_SUCCESS" });
       cartDispatch({ type: "CLEAR_CART" });
       localStorage.removeItem("cartItems");
+      toast("Order placed successfully");
       navigate(`/order/${data.order._id}`);
     } catch (e) {
       orderDispatch({ type: "CREATE_FAIL" });
+      toast.error("Something went wrong");
     }
   };
   useEffect(() => {
     // if (cart.cart.cartItems.length == 0) {
     //   return navigate("/shop");
     // }
+    scrollToTop();
     if (!user) {
       return navigate("/login");
     }
@@ -87,6 +107,7 @@ const PlaceOrder = () => {
   }, [user, navigate, cart]);
   return (
     <>
+      <ShareHeader />
       {cart.cart.cartItems.length ? (
         <div className="p-10  my-10 bg-[#F1FFFD] w-full">
           <h1 className="font-fair my-4 font-bold text-c-green text-xl">
@@ -200,7 +221,7 @@ const PlaceOrder = () => {
               </div>
             </div>
             <div
-              className={` ${themeBG}  md:mx-6 h-64 my-4 flex flex-col w-full rounded-md justify-start md:w-6/12 p-6`}
+              className={` ${themeBG}  md:mx-6 h-full my-4 flex flex-col w-full rounded-md justify-start md:w-6/12 p-6`}
             >
               <div className="flex my-4 flex-col ">
                 <h4
@@ -235,9 +256,15 @@ const PlaceOrder = () => {
                   {cart.cart.cartItems.length == 0 ? (
                     <NavLink to="/shop">Shop Items</NavLink>
                   ) : (
-                    <button onClick={placeOrdersHandler} className="px-4">
-                      Place Order
-                    </button>
+                    <div className="flex items-center">
+                      {smallLoadingBtn && (
+                        <ClipLoader color={"#D2B6A2"} size={20} />
+                      )}
+
+                      <button onClick={placeOrdersHandler} className="px-4">
+                        Place Order
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
@@ -260,6 +287,7 @@ const PlaceOrder = () => {
           />
         </div>
       )}
+      <Footer />
     </>
   );
 };

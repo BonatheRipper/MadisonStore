@@ -20,6 +20,13 @@ orderRouter.post("/", isAuth, async (req, res, next) => {
   console.log(order);
   res.status(201).send({ message: "New Order Created", order });
 });
+orderRouter.get("/", isAuth, async (req, res, next) => {
+  const items = await Orders.find({});
+  if (items) {
+    return res.status(201).send({ message: "New Order Created", items });
+  }
+  return res.status(404).send({ message: "Orders Not Found" });
+});
 orderRouter.get("/history", isAuth, async (req, res) => {
   const useId = req.user._id;
   const orders = await Orders.find({ user: useId });

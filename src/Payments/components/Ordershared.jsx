@@ -1,17 +1,19 @@
 import React from "react";
 import LoadingScreen from "../../Screens/LoadingScreen";
 import { useStateContext } from "../../context/Statecontext";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { BsPatchCheckFill } from "react-icons/bs";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Ordershared = ({ order, button }) => {
-  const { user, themeBG, ThemeShapes, themeShape } = useStateContext();
+  const { themeBG, ThemeShapes, themeShape } = useStateContext();
 
   return (
-    <div className="p-10  my-10 bg-[#F1FFFD] w-full">
+    <>
       {Object.keys(order).length === 0 ? (
         <LoadingScreen />
       ) : (
-        <>
+        <div className="p-10  my-10 bg-[#F1FFFD] w-full relative">
           <h1 className="font-fair my-4 font-bold text-c-green text-xl">
             Order: {order.orderNo}
           </h1>
@@ -55,9 +57,11 @@ const Ordershared = ({ order, button }) => {
                   Payment Method
                 </h4>
                 <div className=" border border-c-gold ">
-                  <div className="flex py-1 px-4">
-                    <p className="font-bold mr-2">Method: </p>
+                  <div className="flex py-1 px-4 items-center">
                     <span>{order.PaymentMethod}</span>
+                    <p className="font-bold mr-2 text-c-gold px-2 w-2">
+                      <BsPatchCheckFill />
+                    </p>
                   </div>
                 </div>
               </div>
@@ -136,14 +140,23 @@ const Ordershared = ({ order, button }) => {
                   </div>
                 </div>
                 <div className="w-full z-10">
-                  {!order.isPaid && <div>{button}</div>}
+                  {!order.isPaid && (
+                    <div className="relative flex items-center flex-col ">
+                      {button === undefined && (
+                        <div className=" text-c-gold py-6 fixed">
+                          <ClipLoader />
+                        </div>
+                      )}
+                      <div className="w-full">{button}</div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

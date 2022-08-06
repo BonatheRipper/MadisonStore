@@ -11,13 +11,22 @@ import { useStateContext } from "../context/Statecontext";
 import { useState } from "react";
 import { useEffect } from "react";
 import { FetchProducts } from "../services/FetchProducts";
+import ShareHeader from "../Components/ShareHeader";
+import Footer from "../Components/Footer";
 
 const Home = () => {
-  const { setLoadingScreen, loadingScreen, setCats, productsDispatch } =
-    useStateContext();
+  const {
+    setLoadingScreen,
+    loadingScreen,
+    setCats,
+    scrollToTop,
+    productsDispatch,
+  } = useStateContext();
+
   const [querySearch, setQuerySearch] = useState("");
 
   useEffect(() => {
+    scrollToTop();
     FetchProducts(
       productsDispatch,
       setLoadingScreen,
@@ -27,7 +36,8 @@ const Home = () => {
     );
   }, []);
   return (
-    <div className="relative">
+    <>
+      <ShareHeader />
       {loadingScreen ? (
         <LoadingScreen />
       ) : (
@@ -44,7 +54,8 @@ const Home = () => {
           </div>
         </>
       )}
-    </div>
+      <Footer />
+    </>
   );
 };
 
