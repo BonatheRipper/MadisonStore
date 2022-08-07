@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import productRouter from "./routes/productRoutes.js";
+import reviewRouter from "./routes/reviewRoute.js";
 import orderRouter from "./routes/orderRouter.js";
 import usersRouter from "./routes/usersRoutes.js";
 import gatewayRouter from "./routes/gateway/gatewayKeys.js";
@@ -24,6 +25,8 @@ app.use("/api/users", usersRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/products", productRouter);
 app.use("/api/keys", gatewayRouter);
+app.use("/api/review", reviewRouter);
+
 // const __dirname = path.resolve();
 // app.use(express.static(path.join(__dirname, "../build")));
 // app.get("*", (req, res) =>

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
 const productsSchema = new mongoose.Schema(
   {
@@ -40,6 +41,12 @@ const productsSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Reviews",
+      },
+    ],
     numReviews: {
       type: Number,
       required: true,

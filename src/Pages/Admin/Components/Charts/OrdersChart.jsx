@@ -8,7 +8,7 @@ const formatToCurrency = (amount) => {
 };
 const OrdersChart = ({ chart, Orders }) => {
   const { themeBG } = useStateContext();
-  useEffect(() => {}, [Orders]);
+  useEffect(() => {}, []);
   function getAmount(Array) {
     var price = 0;
     for (let item of Array) {

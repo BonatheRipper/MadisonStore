@@ -50,7 +50,9 @@ const RecentOrdersCharts = ({ Orders }) => {
   }
   return (
     <div
-      className={`${themeBG} overflow-auto relative self-stretch w-screen h-auto  md:w-9/12 md:mr-4 m-0 rounded-md shadow-lg  border  p-1 `}
+      className={`${themeBG} overflow-auto relative self-stretch w-screen  ${
+        !Orders.length ? "h-64 " : "h-auto "
+      }  md:w-9/12 md:mr-4 m-0 rounded-md shadow-lg  border  p-1 `}
     >
       {
         <>

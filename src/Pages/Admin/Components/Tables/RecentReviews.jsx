@@ -328,7 +328,7 @@ const productData = [
     BasePrice: 21,
   },
 ];
-const RecentReviews = () => {
+const RecentReviews = ({ recentReviews }) => {
   const [toggleTopProduct, SettoggleTopProduct] = useState(false);
   const [topProducts, SettopProducts] = useState(productData.slice(0, 10));
 
@@ -339,11 +339,12 @@ const RecentReviews = () => {
   const toggleBestProduct = (num) => {
     SettoggleTopProduct(!toggleTopProduct);
   };
+  console.log(recentReviews, "this is recent reviews in it");
   const { themeBG } = useStateContext();
 
   return (
     <div
-      className={`${themeBG} relative w-full md:w-7/12 md:ml-2 rounded-md shadow-lg border-c-gold border orders h-auto p-1 text-c-gold `}
+      className={`${themeBG} my-2  relative w-full md:w-7/12 md:ml-2 rounded-md shadow-lg border-c-gold border orders h-auto p-1 text-c-gold `}
     >
       {
         <>

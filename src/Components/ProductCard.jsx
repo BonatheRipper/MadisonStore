@@ -1,9 +1,10 @@
 import React from "react";
-import LongButtons, { NormalButton } from "./LongButtons";
+import { NormalButton } from "./LongButtons";
 import { useStateContext } from "../context/Statecontext";
 import { NavLink } from "react-router-dom";
-import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
+import { RatingsHome } from "./Ratings";
 const ProductCard = ({
   image,
   css,
@@ -62,11 +63,14 @@ const ProductCard = ({
           <i className="fa fa-heart-o" aria-hidden="true"></i>
         </span>
       </div>
-      <div className="flex justify-between">
-        <p className=" text-lg hover:cursor-pointer hover:font-extrabold transition duration-5000">
-          <NavLink to={`/products/${pID}`}>{pName}</NavLink>
-        </p>
-        <p className="tracking-widest font-bold">${price}</p>
+      <div className="flex flex-col justify-between items-start">
+        <div className="flex justify-between w-full items-center">
+          <p className=" text-lg hover:cursor-pointer hover:font-extrabold transition duration-5000">
+            <NavLink to={`/products/${pID}`}>{pName}</NavLink>
+          </p>
+          <p className="tracking-widest font-bold">${price}</p>
+        </div>
+        <RatingsHome />
       </div>
       <div className="flex items-center justify-center">
         <NormalButton

@@ -15,8 +15,9 @@ import { FetchSingleProduct } from "../services/FetchSingleProduct";
 import LoadingScreen from "../Screens/LoadingScreen";
 import ShareHeader from "../Components/ShareHeader";
 import Footer from "../Components/Footer";
+import { RatingsHome, RatingsProductPage } from "../Components/Ratings";
 const ProductsPage = () => {
-  const { themeBG, handleAddProductToCart, scrollToTop, themeShape } =
+  const { themeBG, handleAddProductToCart, scrollToTop, user, themeShape } =
     useStateContext();
 
   const { id } = useParams();
@@ -132,14 +133,17 @@ const ProductsPage = () => {
                 {singleProduct.description}
               </p>
               <div className="flex flex-col">
-                <p className="tracking-widest font-body my-2 text-pry-100 text-base">
+                <p className="tracking-widest font-body my-2    text-base">
                   Material: {singleProduct.material}
                 </p>
-                <p className="tracking-widest font-body my-2 text-pry-100 text-base">
+                <p className="tracking-widest font-body my-2    text-base">
                   Price: ${singleProduct.price}
                 </p>
-                <p className="tracking-widest font-body my-2 text-pry-100 text-base">
-                  Color:Red
+                <p className="tracking-widest font-body my-2    text-base">
+                  Color: Red
+                </p>
+                <p className=" font-body my-2    text-base">
+                  {user && <RatingsProductPage productId={singleProduct._id} />}
                 </p>
               </div>{" "}
               <NormalButton

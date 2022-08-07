@@ -18,7 +18,9 @@ const AverageOrder = ({ chart, Orders }) => {
   }
   return (
     <div
-      className={`${themeBG} text-c-gold h-full relative  rounded mb-4 flex flex-col justify-betwee border-2 border-c-gold shadow-xl w-full `}
+      className={`${themeBG} text-c-gold ${
+        !Orders.length ? "h-64 " : "h-full "
+      } relative  rounded mb-4 flex flex-col justify-betwee border-2 border-c-gold shadow-xl w-full `}
     >
       {
         <>

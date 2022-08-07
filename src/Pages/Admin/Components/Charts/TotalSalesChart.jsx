@@ -51,15 +51,12 @@ const TotalSalesChart = ({ chart, Orders }) => {
       return daysBetweenDates <= time;
     });
   }
-  function AverageOrder() {
-    const price = Orders.reduce((previousValue, currentValue) => {
-      return previousValue + currentValue.totalPrice;
-    }, 0);
-    return formatToCurrency(price / Orders.length);
-  }
+
   return (
     <div
-      className={`${themeBG} relative shadow-lg  h-full w-full mb-3 mx-1 text-c-gold rounded p-0  border border-c-gold`}
+      className={`${themeBG} relative shadow-lg ${
+        !Orders.length ? "h-64 " : "h-full "
+      } w-full mb-3 mx-1 text-c-gold rounded p-0 py-4 border border-c-gold`}
     >
       {
         <>

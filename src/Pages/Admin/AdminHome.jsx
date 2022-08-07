@@ -16,8 +16,6 @@ import {
   AreaChart,
   Area,
   XAxis,
-  YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
@@ -36,6 +34,7 @@ import {
   FetchAllProducts,
   FetchAllProductsAdmin,
 } from "./Services/FetchAllProducts";
+import { FetchReviewsAdmin } from "./Services/FetchReviews";
 const data = [
   {
     Date: 1,
@@ -290,35 +289,30 @@ const TrafficSource = () => {
   );
 };
 
-const Stars = () => {
-  return (
-    <small className="App flex flex-row p-2">
-      <Rating initialValue={2} ratingValue={0} className="flex" />
-    </small>
-  );
-};
-
 const AdminHome = () => {
   const { user } = useStateContext();
   const [OrdersAdmin, setOrdersAdmin] = useState([]);
   const [ProductsAdmin, setProductsAdmin] = useState([]);
+  const [ReviewsAdmin, setReviewsAdmin] = useState([]);
 
   useEffect(() => {
-    const getOrders = async () => {
+    const getaServices = async () => {
       const Orders = await FetchOrdersAdmin(user);
-      if (Orders) {
-        setOrdersAdmin(Orders.items);
-      }
-    };
-    getOrders();
-    const getProducts = async () => {
       const Products = await FetchAllProductsAdmin(user);
+      const Reviews = await FetchReviewsAdmin(user);
       if (Products) {
         setProductsAdmin(Products.products);
       }
+      if (Orders) {
+        setOrdersAdmin(Orders.items);
+      }
+      if (Reviews) {
+        setReviewsAdmin(Reviews);
+      }
     };
-    getProducts();
+    getaServices();
   }, [setOrdersAdmin, user]);
+
   return (
     <>
       <AdminNavBar />
@@ -354,7 +348,7 @@ const AdminHome = () => {
             TopProducts={ProductsAdmin.sort((a, b) => b.sold - a.sold)}
           />
 
-          <RecentReviews />
+          <RecentReviews recentReviews={ReviewsAdmin} />
           <div className="my-2"></div>
         </div>
       </div>

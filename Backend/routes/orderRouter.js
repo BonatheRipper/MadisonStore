@@ -2,6 +2,7 @@ import express from "express";
 import Orders from "../models/orders.js";
 import asycHandler from "../middleware/asycHandler.js";
 import { isAuth } from "../middleware/isAuth.js";
+import Products from "../models/products.js";
 
 const orderRouter = express.Router();
 
@@ -65,9 +66,16 @@ orderRouter.put("/:orderId/pay", isAuth, async (req, res) => {
       update_time: req.body.update_time,
       email_address: req.body.email_address,
     };
+    for (let item of order.orderItems) {
+      let product = await Products.findById(item.product);
+      console.log(product, "this is old product");
+      let productQuantity = Number(item.quantity);
+      product.sold = product.sold + productQuantity;
+      await product.save();
+      console.log(product, "this is new product");
+    }
     const updatedOrder = await order.save();
 
-    console.log(updatedOrder);
     res.send(updatedOrder);
   } else {
     res.status(404).send({ message: "Order Not Found" });
