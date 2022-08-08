@@ -26,7 +26,9 @@ reviewRouter.post("/", async (req, res) => {
   }
 });
 reviewRouter.get("/", async (req, res) => {
-  const reviews = await Reviews.find({}).populate("product").exec();
+  const reviews = await Reviews.find({})
+    .populate([{ path: "product" }, { path: "author" }])
+    .exec();
 
   if (reviews) {
     return res.send(reviews);

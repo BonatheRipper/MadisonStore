@@ -4,6 +4,12 @@ import { useState } from "react";
 import { TbGridDots } from "react-icons/tb";
 import { useStateContext } from "../../../../context/Statecontext";
 import LoadinElementAdmin from "../LoadinElementAdmin";
+import {
+  paginateNumbersLength,
+  PaginateOrder,
+  paginatePager,
+  paginatePageToDisplay,
+} from "../Utils/Paginate";
 
 const TopProducts = ({ TopProducts }) => {
   const { themeBG } = useStateContext();
@@ -11,28 +17,8 @@ const TopProducts = ({ TopProducts }) => {
   const [toggleTopProduct, SettoggleTopProduct] = useState(false);
   const [currentTable, setCurrentTable] = useState(1);
   const [ordersPerTable, setOrdersPerTable] = useState(10);
-
   const indexOfLastTable = currentTable * ordersPerTable;
   const indexOfFirstTable = indexOfLastTable - ordersPerTable;
-  const currentTopProducts = () => {
-    return TopProducts.slice(indexOfFirstTable, indexOfLastTable);
-  };
-  function TopProductNumber() {
-    let arr = [];
-    for (let i = 1; i <= Math.ceil(TopProducts.length / ordersPerTable); i++) {
-      arr.push(i);
-    }
-    return arr;
-  }
-  function paginateTable(pageNumber) {
-    setCurrentTable(pageNumber);
-  }
-  const SortBestProduct = (num) => {
-    SettoggleTopProduct(!toggleTopProduct);
-  };
-  const toggleBestProduct = (num) => {
-    SettoggleTopProduct(!toggleTopProduct);
-  };
   return (
     <div
       className={`${themeBG}  my-2 self-stretch relative text-c-gold py-16 w-full md:w-5/12 ${
@@ -47,46 +33,23 @@ const TopProducts = ({ TopProducts }) => {
             <>
               <div className="btns flex justify-between p-1 my-4 text-wite">
                 <p>Top Products</p>
-                <div className="flex flex-col items-end justify-end ">
-                  <button
-                    onClick={() => toggleBestProduct()}
-                    type="button"
-                    className="hover:text-white hover:bg-black hover:p-1"
-                  >
-                    <TbGridDots />
-                  </button>
-                  <div
-                    className={`p-2 mr-3 shadow-xl  rounded-md text-gray-600 justify-between bg-white flex flex-col items-start ${
-                      toggleTopProduct ? "relative" : "scale-y-0 static"
-                    }   `}
-                  >
-                    <button
-                      onClick={() => SortBestProduct(10)}
-                      className="p-1 hover:text-red-500"
-                    >
-                      Daily
-                    </button>
-                    <button
-                      onClick={() => SortBestProduct(7)}
-                      className="p-1 hover:text-red-500"
-                    >
-                      weekly
-                    </button>
-                    <button
-                      onClick={() => SortBestProduct(30)}
-                      className="p-1  hover:text-red-500"
-                    >
-                      Monthly
-                    </button>
-                  </div>
-                </div>
+
+                <PaginateOrder
+                  SetToggleSort={SettoggleTopProduct}
+                  toggleSort={toggleTopProduct}
+                  setItemsPerPage={setOrdersPerTable}
+                />
               </div>
               <div className="BestProducts -mt-28">
                 <div className="flex flex-row justify-between items-center px-4">
                   <p className="px-4">Product</p>
                   <p className="px-4">Total</p>
                 </div>
-                {currentTopProducts().map((item) => {
+                {paginatePageToDisplay(
+                  TopProducts,
+                  indexOfFirstTable,
+                  indexOfLastTable
+                ).map((item) => {
                   return (
                     <div
                       key={item._id}
@@ -117,21 +80,23 @@ const TopProducts = ({ TopProducts }) => {
               </div>
               <div className="mt-14 absolute w-full bottom-1 left-0">
                 <div className="Paginate  flex flex-row px-4 py-4 bg-c-gold mt-10 md:mt-0 text-c-green absolute bottom-0  w-full left-0">
-                  {TopProductNumber().map((number) => {
-                    return (
-                      <span
-                        key={number}
-                        onClick={() => paginateTable(number)}
-                        className={` ${
-                          number === currentTable
-                            ? `${themeBG}`
-                            : " border border-c-green text-c-green"
-                        } flex mx-2 items-center justify-center   text-c-gold  rounded-full w-6 h-6`}
-                      >
-                        <span>{number}</span>
-                      </span>
-                    );
-                  })}
+                  {paginateNumbersLength(TopProducts, ordersPerTable).map(
+                    (number) => {
+                      return (
+                        <span
+                          key={number}
+                          onClick={() => paginatePager(setCurrentTable, number)}
+                          className={` ${
+                            number === currentTable
+                              ? `${themeBG}`
+                              : " border border-c-green text-c-green"
+                          } flex mx-2 items-center justify-center   text-c-gold  rounded-full w-6 h-6`}
+                        >
+                          <span>{number}</span>
+                        </span>
+                      );
+                    }
+                  )}
                 </div>
               </div>
             </>
