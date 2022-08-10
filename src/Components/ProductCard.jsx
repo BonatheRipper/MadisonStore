@@ -15,6 +15,7 @@ const ProductCard = ({
   pName,
   pDesc,
   price,
+  stars,
 }) => {
   const { themeBG, themeShape } = useStateContext();
   const [desc, setDesc] = useState(false);
@@ -70,7 +71,7 @@ const ProductCard = ({
           </p>
           <p className="tracking-widest font-bold">${price}</p>
         </div>
-        <RatingsHome />
+        {stars}
       </div>
       <div className="flex items-center justify-center">
         <NormalButton

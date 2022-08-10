@@ -9,7 +9,7 @@ import {
   PaginateOrder,
   paginatePager,
   paginatePageToDisplay,
-} from "../Utils/Paginate";
+} from "../../../../Utils/Paginate";
 
 // Seed product const productData = [
 //   {

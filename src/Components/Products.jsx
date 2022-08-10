@@ -2,10 +2,13 @@ import React from "react";
 import { useStateContext } from "../context/Statecontext";
 import ProductCard from "./ProductCard";
 import ProductsMenuBtn from "./ProductsMenuBtn";
+import Starratings from "../Utils/Starratings";
+
 import { useState } from "react";
 const Products = () => {
   const { themeBG, products, handleAddProductToCart, categories } =
     useStateContext();
+
   const [querySearch, setQuerySearch] = useState("");
   return (
     <div
@@ -41,6 +44,7 @@ const Products = () => {
                 price={item.price}
                 pDesc={item.description}
                 click={() => handleAddProductToCart(item)}
+                stars={<Starratings productReviews={item.reviews} />}
               />
             );
           })}

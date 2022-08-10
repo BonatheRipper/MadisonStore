@@ -10,6 +10,12 @@ import { FetchAllProducts } from "../services/FetchAllProducts";
 import LoadingScreen from "../Screens/LoadingScreen";
 import ShareHeader from "../Components/ShareHeader";
 import Footer from "../Components/Footer";
+import {
+  paginateNumbersLength,
+  PaginateOrder,
+  paginatePager,
+  paginatePageToDisplay,
+} from "../Utils/Paginate";
 const catOrders = {
   arr: [
     "Newest",
@@ -33,7 +39,10 @@ const AllProducts = () => {
   const [cats, setCats] = useState([]);
   const [selects, setSelects] = useState("");
   const [sortCat, setSortCat] = useState(catOrders);
-
+  const [currentTable, setCurrentTable] = useState(1);
+  const [ordersPerTable, setOrdersPerTable] = useState(8);
+  const indexOfLastTable = currentTable * ordersPerTable;
+  const indexOfFirstTable = indexOfLastTable - ordersPerTable;
   const [totalPages, setTotalPages] = useState(1);
   const pages = new Array(totalPages).fill(totalPages);
   let num = -1;
@@ -162,7 +171,11 @@ const AllProducts = () => {
 
           {products.items && (
             <div className="flex  justify-between flex-col md:flex-row w-full md:flex-wrap">
-              {products.items.map((item) => {
+              {paginatePageToDisplay(
+                products.items,
+                indexOfFirstTable,
+                indexOfLastTable
+              ).map((item) => {
                 return (
                   <div data-aos="fade-up">
                     <ProductCard
@@ -188,58 +201,29 @@ const AllProducts = () => {
           <div className="justify-self-end self-end">
             <nav aria-label="pagination navigation">
               <ul className="flex flex-row">
-                <li>
-                  <button
-                    className={` ${
-                      pageNumber > 0 ? "text-c-green border-c-green " : ""
-                    }  border  text-sm  px-2  rounded-full h-6 mx-1 w-6 flex items-center justify-center`}
-                    tabIndex="-1"
-                    type="button"
-                    disabled={pageNumber === 0}
-                    value={-1}
-                    onClick={(e) => setPageNumber(pageNumber - 1)}
-                    aria-label="Go to previous page"
-                  >
-                    {`<`}
-                  </button>
-                </li>
-
-                {pages.map((index) => {
-                  num++;
-                  return (
-                    <li>
-                      <button
-                        className={` ${
-                          num === pageNumber ? themeBG : "text-c-green"
-                        } border text-sm  px-2 border-c-green rounded-full h-6 mx-1 w-6 flex items-center justify-center`}
-                        type="button"
-                        value={num}
-                        key={num}
-                        onClick={(e) => handleClick(Number(e.target.value))}
-                        id={num}
-                      >
-                        {num}
-                        <span className="MuiTouchRipple-root css-w0pj6f"></span>
-                      </button>
-                    </li>
-                  );
-                })}
-
-                <li>
-                  <button
-                    className={`border text-sm  px-2 ${
-                      pageNumber !== num ? "text-c-green border-c-green " : ""
-                    } rounded-full h-6 mx-1 w-6 flex items-center justify-center`}
-                    tabIndex="+1"
-                    type="button"
-                    value={num}
-                    disabled={pageNumber === num}
-                    aria-label="Go to next page"
-                    onClick={(e) => setPageNumber(pageNumber + 1)}
-                  >
-                    {`>`}
-                  </button>
-                </li>
+                {paginateNumbersLength(products.items, ordersPerTable).map(
+                  (num) => {
+                    return (
+                      <li>
+                        <button
+                          className={` flex mx-2 items-center justify-center ${
+                            num === currentTable
+                              ? `${themeBG} bg-c-gold  text-c-gold`
+                              : " border border-c-green "
+                          } rounded-full w-6 h-6`}
+                          type="button"
+                          value={num}
+                          key={num}
+                          onClick={(e) => paginatePager(setCurrentTable, num)}
+                          id={num}
+                        >
+                          {num}
+                          <span className="MuiTouchRipple-root css-w0pj6f"></span>
+                        </button>
+                      </li>
+                    );
+                  }
+                )}
               </ul>
             </nav>
           </div>

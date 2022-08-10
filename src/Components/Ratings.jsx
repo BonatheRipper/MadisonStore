@@ -3,32 +3,15 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useStateContext } from "../context/Statecontext";
-export const RatingsHome = () => {
-  return (
-    <div className="flex flex-row mt-1 ">
-      <span className="mx-1">
-        <i class="fa fa-star" aria-hidden="true"></i>
-      </span>
-      <span className="mx-1">
-        <i class="fa fa-star" aria-hidden="true"></i>
-      </span>
-      <span className="mx-1">
-        <i class="fa fa-star" aria-hidden="true"></i>
-      </span>
-      <span className="mx-1">
-        <i class="fa fa-star-o" aria-hidden="true"></i>
-      </span>
-      <span className="mx-1">
-        <i class="fa fa-star-o" aria-hidden="true"></i>
-      </span>
-    </div>
-  );
-};
-export const RatingsProductPage = ({ productId }) => {
+import Starratings from "../Utils/Starratings";
+
+export const RatingsProductPage = ({ productId, productReviews }) => {
   const [showRatingInput, setShowRatingInput] = useState(true);
   const [ratingVal, setRatingVal] = useState();
   const { user } = useStateContext();
-
+  function isInt(val) {
+    return Math.ceil(parseFloat(Number(val))) === Number(val);
+  }
   const handleReviewRequest = async (productId) => {
     try {
       const { data } = await axios.post("/api/review", {
@@ -45,6 +28,9 @@ export const RatingsProductPage = ({ productId }) => {
     if (!user) {
       return toast.error("Login required");
     }
+    if (val && !isInt(val)) {
+      return toast.error("Invalid number");
+    }
     if (val > 5) {
       toast.error("Ratings cant be greater than 5");
       return setRatingVal(5);
@@ -57,23 +43,7 @@ export const RatingsProductPage = ({ productId }) => {
   }
   return (
     <div className="flex flex-row  justify-start items-center">
-      <div className="Ratings">
-        <span className="mx-1">
-          <i class="fa fa-star" aria-hidden="true"></i>
-        </span>
-        <span className="mx-1">
-          <i class="fa fa-star" aria-hidden="true"></i>
-        </span>
-        <span className="mx-1">
-          <i class="fa fa-star" aria-hidden="true"></i>
-        </span>
-        <span className="mx-1">
-          <i class="fa fa-star-o" aria-hidden="true"></i>
-        </span>
-        <span className="mx-1">
-          <i class="fa fa-star-o" aria-hidden="true"></i>
-        </span>
-      </div>
+      <Starratings productReviews={productReviews} />
       <div
         onClick={() => setShowRatingInput(!showRatingInput)}
         className="Rate mx-2 "

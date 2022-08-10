@@ -35,6 +35,8 @@ import {
   FetchAllProductsAdmin,
 } from "./Services/FetchAllProducts";
 import { FetchReviewsAdmin } from "./Services/FetchReviews";
+import AdminSidebarLeft from "./Components/AdminSidebarLeft";
+import AdminSharedHeader from "./Components/AdminSharedHeader";
 const data = [
   {
     Date: 1,
@@ -290,11 +292,10 @@ const TrafficSource = () => {
 };
 
 const AdminHome = () => {
-  const { user } = useStateContext();
+  const { user, Adminsidebar, setAdminSidebar } = useStateContext();
   const [OrdersAdmin, setOrdersAdmin] = useState([]);
   const [ProductsAdmin, setProductsAdmin] = useState([]);
   const [ReviewsAdmin, setReviewsAdmin] = useState([]);
-
   useEffect(() => {
     const getaServices = async () => {
       const Orders = await FetchOrdersAdmin(user);
@@ -314,8 +315,8 @@ const AdminHome = () => {
   }, [setOrdersAdmin, user]);
 
   return (
-    <>
-      <AdminNavBar />
+    <div className="relative">
+      <AdminSharedHeader />
       <div className=" mt-14 bg-[#F1FFFD] text-c-green">
         <h1 className="text-3xl p-4">Dashboard</h1>
         <div
@@ -353,7 +354,7 @@ const AdminHome = () => {
         </div>
       </div>
       <AdminFooter />
-    </>
+    </div>
   );
 };
 

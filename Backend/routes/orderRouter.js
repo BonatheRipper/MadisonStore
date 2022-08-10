@@ -17,6 +17,7 @@ orderRouter.post("/", isAuth, async (req, res, next) => {
     shippingFee: Number(req.body.shippingFee),
     user: req.user._id,
   });
+
   const order = await newOrder.save();
   console.log(order);
   res.status(201).send({ message: "New Order Created", order });
@@ -52,7 +53,22 @@ orderRouter.get("/:orderId", isAuth, async (req, res) => {
     res.status(404).send({ message: "Order Not Found" });
   }
 });
-
+orderRouter.delete("/:orderId", isAuth, async (req, res, next) => {
+  const OrderToDelete = await Orders.findById(req.params.orderId);
+  if (OrderToDelete) {
+    Orders.findByIdAndRemove(req.params.orderId, function (err) {
+      if (err) {
+        return res.status(404).send({ error: "There was an error" });
+      }
+    });
+    const updatedOrders = await Orders.find({});
+    return res.send({
+      message: "Orders removed successfully",
+      updatedOrders,
+    });
+  }
+  return res.status(404).send({ error: "There was an error" });
+});
 orderRouter.put("/:orderId/pay", isAuth, async (req, res) => {
   console.log(req.body);
   const orderId = req.params.orderId;

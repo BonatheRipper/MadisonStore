@@ -1,6 +1,8 @@
 import express from "express";
 import Products from "../models/products.js";
 import asycHandler from "../middleware/asycHandler.js";
+import Reviews from "../models/productReview.js";
+
 const productRouter = express.Router();
 
 productRouter.get("/", async (req, res, next) => {
@@ -9,29 +11,25 @@ productRouter.get("/", async (req, res, next) => {
   const categories = await getCategories();
   const products = await Products.find(
     productsQuery ? { category: productsQuery } : {}
-  ).limit(PAGE_SIZE);
+  )
+    .limit(PAGE_SIZE)
+    .populate("reviews")
+    .exec();
 
   res.send({ products, categories });
 });
 productRouter.get("/allproducts", async (req, res, next) => {
-  const PAGE_SIZE = 6;
-  const page = Number(req.query.page || 0);
+  // const PAGE_SIZE = 6;
+  // const page = Number(req.query.page || 0);
   const searchbyCategoryName = req.query.searchbyCategoryName;
   const categories = await getCategories();
   const products = await Products.find(
     searchbyCategoryName ? { category: searchbyCategoryName } : {}
-  )
-    .limit(PAGE_SIZE)
-    .skip(PAGE_SIZE * page);
+  );
 
-  let total = await Products.countDocuments({});
-  if (searchbyCategoryName) {
-    total = products.length;
-  }
   return res.send({
     products,
     categories,
-    totalPages: Math.ceil(Number(total) / Number(PAGE_SIZE)),
   });
 });
 productRouter.get("/category/:catType", async (req, res, next) => {
@@ -40,11 +38,36 @@ productRouter.get("/category/:catType", async (req, res, next) => {
   return res.status(404).json({ error: "Product not found" });
 });
 productRouter.get("/:id", async (req, res, next) => {
-  const product = await Products.findById(req.params.id);
+  const product = await Products.findById(req.params.id)
+    .populate("reviews")
+    .exec();
   if (product) return res.send(product);
   return res.status(404).json({ error: "Product not found" });
 });
+productRouter.delete("/:id", async (req, res, next) => {
+  const productToDelete = await Products.findById(req.params.id);
+  if (productToDelete) {
+    if (productToDelete.reviews.length) {
+      for (let reviews of productToDelete.reviews) {
+        await Reviews.findByIdAndRemove(reviews);
+      }
+    }
+    Products.findByIdAndRemove(req.params.id, function (err) {
+      if (err) {
+        return res.status(404).send({ error: "There was an error" });
+      }
+    });
 
+    const updatedProductsList = await Products.find({})
+      .populate("reviews")
+      .exec();
+    return res.send({
+      message: "Product removed successfully",
+      updatedProductsList,
+    });
+  }
+  return res.status(404).send({ error: "There was an error" });
+});
 const getCategories = () => {
   return Products.aggregate([
     {

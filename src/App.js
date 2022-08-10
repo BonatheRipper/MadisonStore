@@ -24,6 +24,7 @@ import SingleOrderHistory from "./Pages/User/SingleOrderHistory";
 import CategoriesPage from "./Pages/CategoriesPage";
 import OrderHistory from "./Pages/User/OrderHistory";
 import AdminHome from "./Pages/Admin/AdminHome";
+import AdminProducts from "./Pages/Admin/AdminProducts";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
@@ -54,6 +55,7 @@ const App = () => {
           <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/shop/:catType" element={<ProductsByCategory />} />
           <Route path="/admin" element={<AdminHome />} />
+          <Route path="/admin/products" element={<AdminProducts />} />
           <Route path="*" element={<Four0Four />} />
         </Routes>
       </div>

@@ -2,9 +2,10 @@ import React from "react";
 import { useStateContext } from "../../../context/Statecontext";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-const AdminNavBar = (props) => {
-  const { themeBG, sidebar, setSidebar, themeShape, cart, user, handleLogout } =
-    useStateContext();
+import { FiBell } from "react-icons/fi";
+
+const AdminNavBar = ({ sidebar, setSidebar }) => {
+  const { themeBG, themeShape, cart, user, handleLogout } = useStateContext();
   const [userDropdown, setUserDropdown] = useState(false);
   const navButtonsClass = () => {
     return `mx-2 hover:text-white transition duration-500`;
@@ -16,10 +17,7 @@ const AdminNavBar = (props) => {
         themeBG ? `${themeBG} text-c-gold  ` : ""
       } drop-shadow-xl top-0 right-0 left-0 z-50 w-full my-0 fixed  p-3 mx-0 flex flex-row items-center justify-between`}
     >
-      <div
-        className="menu-icon  md:hidden"
-        onClick={() => setSidebar(!sidebar)}
-      >
+      <div className="menu-icon  " onClick={() => setSidebar(!sidebar)}>
         <span className="mx-2 text-2xl">
           {sidebar ? (
             <i className="fa fa-times" aria-hidden="true"></i>
@@ -38,7 +36,7 @@ const AdminNavBar = (props) => {
           <h2 className="">MarpleStore</h2>
         </NavLink>
       </div>
-      <div className="menus md:flex flex-row justify-between  items-center hidden">
+      <div className="menus hidden  flex-row justify-between  items-center ">
         <NavLink to="/about" className={navButtonsClass}>
           About
         </NavLink>
@@ -71,13 +69,15 @@ const AdminNavBar = (props) => {
               }, 0)}
             </span>
           )}
-          <i class="fa fa-bell" aria-hidden="true"></i>
+          <FiBell />
+          <span className="absolute bottom-1 right-2 text-base">1</span>
         </NavLink>
         <NavLink
           to="/wishlist"
-          className="hidden md:block hover:text-white  mx-2"
+          className="hidden md:block hover:text-white relative  mx-2"
         >
           <i class="fa fa-comments" aria-hidden="true"></i>
+          <span className="absolute bottom-2 right-2 text-base ">1</span>
         </NavLink>
 
         {!user && (

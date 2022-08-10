@@ -1,31 +1,30 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { TbGridDots } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 import { useStateContext } from "../../../../context/Statecontext";
 import LoadinElementAdmin from "../LoadinElementAdmin";
+import axios from "axios";
 import {
   paginateNumbersLength,
   PaginateOrder,
   paginatePager,
   paginatePageToDisplay,
-} from "../Utils/Paginate";
+} from "../../../../Utils/Paginate";
+import { AiFillEye } from "react-icons/ai";
+import { RiDeleteBin4Line } from "react-icons/ri";
+import { toast } from "react-toastify";
 const RecentOrdersCharts = ({ Orders }) => {
-  const { themeBG } = useStateContext();
+  const { themeBG, user } = useStateContext();
   const [currentTable, setCurrentTable] = useState(1);
   const [ordersPerTable, setOrdersPerTable] = useState(8);
   const indexOfLastTable = currentTable * ordersPerTable;
+  const [adminOrders, setAdminOrders] = useState(Orders);
   const indexOfFirstTable = indexOfLastTable - ordersPerTable;
-  useEffect(() => {}, [Orders]);
+  useEffect(() => {
+    setAdminOrders(Orders);
+  }, [Orders]);
   const [toggleTopProduct, SettoggleTopProduct] = useState(false);
-
-  const SortRecentOrders = (num) => {
-    if (!num > Orders.length || !num < Orders.length) {
-      setOrdersPerTable(Number(num));
-    }
-    return SettoggleTopProduct(!toggleTopProduct);
-  };
 
   const formatToCurrency = (amount) => {
     return "$" + amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
@@ -40,15 +39,26 @@ const RecentOrdersCharts = ({ Orders }) => {
       date.getFullYear(),
     ].join("/");
   }
+  const handleProductDelete = async (OrderId) => {
+    try {
+      const results = await axios.delete(`/api/orders/${OrderId}`, {
+        headers: { authorization: `Bearer ${user.token}` },
+      });
+      setAdminOrders(results.data.updatedOrders);
+      return toast(results.data.message);
+    } catch (e) {
+      return toast.error(e.response.data.error);
+    }
+  };
   return (
     <div
       className={`${themeBG}  relative self-stretch   ${
-        !Orders.length ? "h-64 " : "h-auto "
-      }  md:w-9/12 md:mr-4 m-0 rounded-md shadow-lg  border  p-1  w-screen overflow-auto `}
+        !adminOrders.length ? "h-64 " : "h-auto "
+      }  md:w-9/12 md:mr-4 m-0 rounded-md shadow-lg  border  p-1  w-screen overflow overflow-hidden `}
     >
       {
         <>
-          {!Orders.length ? (
+          {!adminOrders.length ? (
             <LoadinElementAdmin />
           ) : (
             <>
@@ -61,9 +71,7 @@ const RecentOrdersCharts = ({ Orders }) => {
                   setItemsPerPage={setOrdersPerTable}
                 />
               </div>
-              <div
-                className={` md:w-full  mt-20 w-screen overflow-auto md:w-full`}
-              >
+              <div className={`  mt-20 w-screen overflow-auto md:w-full`}>
                 <table className="w-full flex flex-col flex-1 ">
                   <>
                     <tr className="flex w-stretch overflow-clip md:w-full px-2 justify-between mb-4 items-center text-gray-300 hover:text-white text-sm font-bold">
@@ -76,7 +84,7 @@ const RecentOrdersCharts = ({ Orders }) => {
                   </>
                   <>
                     {paginatePageToDisplay(
-                      Orders,
+                      adminOrders,
                       indexOfFirstTable,
                       indexOfLastTable
                     ).map((item) => {
@@ -84,15 +92,28 @@ const RecentOrdersCharts = ({ Orders }) => {
                         <>
                           {" "}
                           <tr
-                            key={item.orderNo}
-                            className="flex  w-stretch overflow-auto overflow-x-auto border px-2 border-c-gold justify-between  md:w-full items-center   text-c-gold "
+                            key={item._id}
+                            className="flex relative w-stretch overflow-auto overflow-x-auto border px-2 border-c-gold justify-between  md:w-full items-center   text-c-gold "
                           >
-                            <td className="text-xs md:text-base hover:underline hover:text-gray-400 border-c-gold md:border-none w-24  px-2  md:px-0">
-                              {
-                                <NavLink to={`/order/orderhistory/${item._id}`}>
-                                  {item.orderNo}
+                            <div className="h-8 font-bold w-full transition duration-1000 left-0 absolute bg-c-gold hover:opacity-100 opacity-0 hover:visible z-50 text-c-green px-4 border border-c-green flex justify-between items-center text-xl ">
+                              <button className="underline hover:animate-pulse  ">
+                                <NavLink
+                                  to={`/order/orderhistory/${item._id}`}
+                                  className="flex flex-row w-full justify-between"
+                                >
+                                  <AiFillEye />
                                 </NavLink>
-                              }
+                              </button>
+
+                              <button
+                                onClick={() => handleProductDelete(item._id)}
+                                className="underline hover:animate-pulse hover:text-red-600 transition duration-500 "
+                              >
+                                <RiDeleteBin4Line />
+                              </button>
+                            </div>
+                            <td className="text-xs md:text-base hover:underline hover:text-gray-400 border-c-gold md:border-none w-24  px-2  md:px-0">
+                              {item.orderNo}
                             </td>
                             <td className="border-r border-c-gold md:border-none w-24 flex items-center justify-center py-1 md:py-2 text-c-green text-xs md:text-base md:px-0 ">
                               {!item.isPaid ? (
@@ -138,7 +159,7 @@ const RecentOrdersCharts = ({ Orders }) => {
                   </>
                 </table>
                 <div className="Paginate  flex flex-row px-4 py-4 bg-c-gold mt-10 md:mt-0 text-c-green md:absolute bottom-0  w-full ">
-                  {paginateNumbersLength(Orders, ordersPerTable).map(
+                  {paginateNumbersLength(adminOrders, ordersPerTable).map(
                     (number) => {
                       return (
                         <span

@@ -143,7 +143,12 @@ const ProductsPage = () => {
                   Color: Red
                 </p>
                 <p className=" font-body my-2    text-base">
-                  {user && <RatingsProductPage productId={singleProduct._id} />}
+                  {user && (
+                    <RatingsProductPage
+                      productId={singleProduct._id}
+                      productReviews={singleProduct.reviews}
+                    />
+                  )}
                 </p>
               </div>{" "}
               <NormalButton

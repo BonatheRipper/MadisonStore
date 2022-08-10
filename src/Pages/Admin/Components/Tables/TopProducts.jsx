@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { TbGridDots } from "react-icons/tb";
 import { useStateContext } from "../../../../context/Statecontext";
 import LoadinElementAdmin from "../LoadinElementAdmin";
 import {
@@ -9,7 +8,7 @@ import {
   PaginateOrder,
   paginatePager,
   paginatePageToDisplay,
-} from "../Utils/Paginate";
+} from "../../../../Utils/Paginate";
 
 const TopProducts = ({ TopProducts }) => {
   const { themeBG } = useStateContext();

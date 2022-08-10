@@ -187,7 +187,8 @@ export const ContextProvider = ({ children }) => {
   const [themeBG, setThemeBG] = useState(
     localStorage.getItem("themeBG") || ThemeBackground[1].color
   );
-  let [loadingScreen, setLoadingScreen] = useState(true);
+  const [loadingScreen, setLoadingScreen] = useState(true);
+  const [Adminsidebar, setAdminSidebar] = useState(false);
 
   const [sidebar, setSidebar] = useState(false);
   const [products, productsDispatch] = useReducer(productsReducer, {
@@ -270,6 +271,8 @@ export const ContextProvider = ({ children }) => {
         themeBG,
         handleLogout,
         loadingScreen,
+        Adminsidebar,
+        setAdminSidebar,
         Payments,
         setLoadingScreen,
         handleAddProductToCart,
