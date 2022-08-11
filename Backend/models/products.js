@@ -35,11 +35,9 @@ const productsSchema = new mongoose.Schema(
     },
     sold: {
       type: Number,
-      required: true,
     },
     rating: {
       type: Number,
-      required: true,
     },
     reviews: [
       {

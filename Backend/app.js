@@ -5,6 +5,8 @@ import productRouter from "./routes/productRoutes.js";
 import reviewRouter from "./routes/reviewRoute.js";
 import orderRouter from "./routes/orderRouter.js";
 import usersRouter from "./routes/usersRoutes.js";
+import subscribersRouter from "./routes/subscribersList.js";
+
 import gatewayRouter from "./routes/gateway/gatewayKeys.js";
 const port = 500;
 const app = express();
@@ -26,6 +28,7 @@ app.use("/api/orders", orderRouter);
 app.use("/api/products", productRouter);
 app.use("/api/keys", gatewayRouter);
 app.use("/api/review", reviewRouter);
+app.use("/api/subscription", subscribersRouter);
 
 // const __dirname = path.resolve();
 // app.use(express.static(path.join(__dirname, "../build")));

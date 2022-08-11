@@ -5,17 +5,19 @@ import { GrProductHunt } from "react-icons/gr";
 import { MdNotes } from "react-icons/md";
 import { BiSupport } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
+import { IoIosPeople } from "react-icons/io";
+
 import { useStateContext } from "../../../context/Statecontext";
 
 const AdminSidebarLeft = ({}) => {
-  const { Adminsidebar, setAdminSidebar } = useStateContext();
+  const { Adminsidebar, setAdminSidebar, themeBG } = useStateContext();
 
   return (
     <>
       <div
         className={`${
           Adminsidebar ? "left-0" : "-left-80"
-        } md:block fixed h-screen top-0  p-4 pt-16 w-80 bg-black z-40 `}
+        } md:block fixed h-screen top-0  p-4 pt-16 w-80 z-40 ${themeBG}`}
       >
         <ul
           onClick={() => setAdminSidebar(!Adminsidebar)}
@@ -32,6 +34,12 @@ const AdminSidebarLeft = ({}) => {
             link="/admin/products"
           />
           <LeftSideBarBtn text="Pages" icon={<MdNotes />} link="/admin/pages" />
+          <LeftSideBarBtn
+            text="Subscribers"
+            icon={<IoIosPeople />}
+            link="/admin/subscribers"
+          />
+
           <LeftSideBarBtn
             text="Support"
             icon={<BiSupport />}

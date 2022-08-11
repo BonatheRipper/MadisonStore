@@ -27,7 +27,6 @@ import RecentOrdersCharts from "./Components/Tables/RecentOrdersCharts";
 import TrafficSources from "./Components/Tables/TrafficSources";
 import TopProducts from "./Components/Tables/TopProducts";
 import RecentReviews from "./Components/Tables/RecentReviews";
-import AdminNavBar from "./Components/AdminNavBar";
 import AdminFooter from "./Components/AdminFooter";
 import { useStateContext } from "../../context/Statecontext";
 import {

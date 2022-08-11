@@ -15,13 +15,16 @@ const LongButtons = ({ to, css, text }) => {
   );
 };
 
-export const NormalButton = ({ to, css, text, click }) => {
+export const NormalButton = ({ to, css, text, click, change, val }) => {
   const { themeShape } = useStateContext();
 
   return (
     <button
       onClick={click}
-      className={`${themeShape}  bg-c-gold w-full   px-3 py-3 text-center hover:bg-white  transition duration-1000 ${css}`}
+      value={val}
+      type="submit"
+      onChange={change}
+      className={`${themeShape}  bg-c-gold w-full   px-3 py-3 text-center hover:bg-white  transition duration-1000 ${css} `}
     >
       {text}
     </button>

@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useStateContext } from "../context/Statecontext";
 import LongButtons from "./LongButtons";
+import SubscriptionForm from "./SubscriptionForm";
 
 const Footer = () => {
   const { themeBG, categories } = useStateContext();
@@ -67,34 +68,7 @@ const Footer = () => {
             <NavLink to="/login">Login</NavLink>
             <NavLink to="/register">Register</NavLink>
           </div>
-          <form className="flex flex-col justify-between w-full md:w-3/5 mt-6 md:mt-0 space-y-8 md:space-y-0 ">
-            <h6 className="tracking-widest   text-xl">
-              Subscribe to our newsletter
-            </h6>
-            <p className="text-base text-center md:text-left">
-              Signup to get the latest discount and information on our products
-              & services
-            </p>
-            <div className="flex flex-col py">
-              <label className="relative focus-within:text-c-gold block">
-                <span className="pointer-events-none w-8 h-8 absolute top-1/2 transform -translate-y-1/2 left-3">
-                  <i className="fa fa-envelope" aria-hidden="true"></i>
-                </span>
-                <input
-                  type="text"
-                  placeholder="Your email"
-                  className={` ${themeBG} py-3 px-4 w-full bg-c-green tracking-widest left-12 block pl-14  placeholder-pry-50 bg-pry-100 border-b border-b-c-gold text-gold placeholder:text-c-gold  appearance-none transition duration-300 focus:outline-none focus:border-c-gold focus:ring-c-gold focus:ring-1 `}
-                />
-              </label>
-            </div>
-            <div className="flex flex-col py-6 items-center">
-              <LongButtons
-                to="/"
-                text="Subscribe"
-                css={`text-c-green border border-c-gold hover:text-black`}
-              />
-            </div>
-          </form>
+          <SubscriptionForm />
         </div>
       </div>
       <p className="md:px-24 text-center md:text-justify pt-8">
