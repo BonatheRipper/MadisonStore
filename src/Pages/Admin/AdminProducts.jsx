@@ -1,9 +1,5 @@
 import React from "react";
 import { useStateContext } from "../../context/Statecontext";
-import AdminNavBar from "./Components/AdminNavBar";
-import AdminSidebarLeft from "./Components/AdminSidebarLeft";
-import ProductsPageBtn from "./Components/ProductsPageBtn";
-
 import { AiFillEye } from "react-icons/ai";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin4Line } from "react-icons/ri";
@@ -13,7 +9,6 @@ import LoadinElementAdmin from "./Components/LoadinElementAdmin";
 import { useEffect } from "react";
 import { FetchAllProductsAdmin } from "./Services/FetchAllProducts";
 import AdminFooter from "./Components/AdminFooter";
-
 import {
   paginateNumbersLength,
   paginatePager,

@@ -32,6 +32,10 @@ productRouter.get("/allproducts", async (req, res, next) => {
     categories,
   });
 });
+productRouter.post("/addNew", async (req, res, next) => {
+  console.log(req.body);
+  console.log("Yes");
+});
 productRouter.get("/category/:catType", async (req, res, next) => {
   const products = await Products.find({ category: req.params.catType });
   if (products) return res.send(products);
