@@ -6,7 +6,7 @@ import reviewRouter from "./routes/reviewRoute.js";
 import orderRouter from "./routes/orderRouter.js";
 import usersRouter from "./routes/usersRoutes.js";
 import subscribersRouter from "./routes/subscribersList.js";
-
+import bodyParser from "body-parser";
 import gatewayRouter from "./routes/gateway/gatewayKeys.js";
 const port = 500;
 const app = express();
@@ -20,9 +20,19 @@ mongoose.connect(
     console.log("connected to Mongoose(MongoDb)");
   }
 );
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+  next();
+});
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", usersRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/products", productRouter);

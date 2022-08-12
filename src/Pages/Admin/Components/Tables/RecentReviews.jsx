@@ -396,7 +396,10 @@ const RecentReviews = ({ recentReviews }) => {
                           {Array.from(Array(item.rating).keys()).map((item) => {
                             return (
                               <small>
-                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i
+                                  className="fa fa-star"
+                                  aria-hidden="true"
+                                ></i>
                               </small>
                             );
                           })}
@@ -405,7 +408,7 @@ const RecentReviews = ({ recentReviews }) => {
                               return (
                                 <small>
                                   <i
-                                    class="fa fa-star-o"
+                                    className="fa fa-star-o"
                                     aria-hidden="true"
                                   ></i>
                                 </small>

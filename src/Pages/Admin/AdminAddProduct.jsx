@@ -5,17 +5,22 @@ import AdminAddProductInput from "./Components/AdminAddProductInput";
 import AdminAddProductImgUpload from "./Components/AdminAddProductImgUpload";
 import { useState } from "react";
 import axios from "axios";
+import { useStateContext } from "../../context/Statecontext";
 import { toast } from "react-toastify";
-
 const AdminAddProduct = () => {
-  const [slug, setSlug] = useState();
-  const [description, setDesciption] = useState();
-  const [price, setPrice] = useState();
-  const [category, setCategory] = useState();
-  const [material, setMaterial] = useState();
-  const [title, setTitle] = useState();
-  const [itemInStock, setItemInStock] = useState();
+  const { user } = useStateContext();
+
+  const [slug, setSlug] = useState("");
+  const [description, setDesciption] = useState("");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [material, setMaterial] = useState("");
+  const [title, setTitle] = useState("");
+  const [itemInStock, setItemInStock] = useState("");
   const [imageGallery, setImageGallery] = useState([]);
+  const [imageGalleryBack, setImageGalleryBack] = useState([]);
+  const [productImageBack, setProductImageBack] = useState([]);
+
   const [productImage, setProductImage] = useState([]);
   const handleUploadImageChange = (e) => {
     let imageArr = [];
@@ -23,8 +28,10 @@ const AdminAddProduct = () => {
       imageArr.push(URL.createObjectURL(image));
     }
     if (e.target.id === "imageGallery") {
+      setImageGalleryBack(e.target.files);
       return setImageGallery(imageArr);
     }
+    setProductImageBack(e.target.files[0]);
     return setProductImage(imageArr.slice(0, 1));
   };
   const handleProductAdd = async (e) => {
@@ -40,31 +47,34 @@ const AdminAddProduct = () => {
       itemInStock &&
       productImage.length !== 0
     ) {
-      myFormData.append("content", {
-        slug,
-        description,
-        price,
-        category,
-        material,
-        title,
-        itemInStock,
-      });
-      //   if (imageGallery.length !== 0) {
-      //     for (let image of imageGallery) {
-      //       myFormData.append("imageGallery", image);
-      //     }
-      //   }
-      //   if (productImage.length !== 0) {
-      //     for (let image of productImage) {
-      //       myFormData.append("productImage", image);
-      //     }
-      //   }
-      try {
-        console.log(myFormData.get("content"));
+      myFormData.append("slug", slug);
+      myFormData.append("description", description);
+      myFormData.append("price", price);
+      myFormData.append("title", title);
+      myFormData.append("itemInStock", itemInStock);
+      myFormData.append("category", category);
+      myFormData.append("material", material);
 
-        const { data } = await axios.post("/api/products/addNew", {
+      if (imageGalleryBack) {
+        for (const images of imageGalleryBack) {
+          myFormData.append("imageGallery", images);
+        }
+      }
+      if (productImageBack) {
+        myFormData.append("productImage", productImageBack);
+      }
+      try {
+        const config = {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        };
+        const { data } = await axios.post(
+          "/api/products/addNew",
           myFormData,
-        });
+          config
+        );
+        toast(data.message);
       } catch (e) {
         console.log(e.response);
       }
@@ -75,16 +85,13 @@ const AdminAddProduct = () => {
 
   return (
     <>
-      <div className="relative bg-[#F1FFFD] m-0 text-c-green flex flex-col   h-full">
+      <div className="relative bg-[#F1FFFD] m-0  flex flex-col   h-full">
         <AdminSharedHeader />
 
-        <div className="flex p-2 md:p-6 flex-col my-20">
-          <h1 className="text-c-green font-fair text-xl font-bold">
-            Add a Product
-          </h1>
+        <div className="flex p-2 md:p-6 flex-col my-20 text-c-green">
+          <h1 className=" font-fair text-xl font-bold">Add a Product</h1>
           <div className=" ">
             <form
-              encType="multipart/form-data"
               onSubmit={(e) => handleProductAdd(e)}
               className="p-2 md:p-4 border  shadow-lg"
             >
@@ -115,10 +122,9 @@ const AdminAddProduct = () => {
                   <textarea
                     id="description"
                     onChange={(e) => setDesciption(e.target.value)}
+                    value={description}
                     className=" h-64 border"
-                  >
-                    {description}
-                  </textarea>
+                  ></textarea>
                 </div>
                 <div className="flex w-full  justify-between items-center">
                   <AdminAddProductInput

@@ -105,7 +105,7 @@ const Navbar = (props) => {
             <div className="relative w-full mx-2 flex flex-col">
               <i
                 onClick={() => setUserDropdown(!userDropdown)}
-                class="fa fa-user-circle-o"
+                className="fa fa-user-circle-o"
                 aria-hidden="true"
               ></i>
               {userDropdown && (
@@ -116,7 +116,7 @@ const Navbar = (props) => {
                   <div className="flex flex-col text-xs md:text-sm">
                     <div className="flex justify-start items-center p-1">
                       <span className="p-1 mr-1">
-                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <i className="fa fa-user" aria-hidden="true"></i>
                       </span>
                       <span className="hover:text-white">
                         <NavLink to="/account">{user.username} </NavLink>
@@ -124,13 +124,13 @@ const Navbar = (props) => {
                     </div>
                     <div className="flex justify-start items-center  p-1">
                       <span className="p-1 mr-1">
-                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <i className="fa fa-envelope" aria-hidden="true"></i>
                       </span>
                       <span>{user.email}</span>
                     </div>
                     <div className="flex justify-start items-center  p-1 md:hidden">
                       <span className="p-1 mr-1">
-                        <i class="fa fa-sign-out" aria-hidden="true"></i>
+                        <i className="fa fa-sign-out" aria-hidden="true"></i>
                       </span>
                       <span
                         className="hover:text-white cursor cursor-pointer "

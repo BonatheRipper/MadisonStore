@@ -1,4 +1,6 @@
 import express from "express";
+import CloudinaryUploader from "../cloudinary/cloudinary.js";
+import upload from "../cloudinary/multerUploader.js";
 import Products from "../models/products.js";
 import asycHandler from "../middleware/asycHandler.js";
 import Reviews from "../models/productReview.js";
@@ -32,10 +34,58 @@ productRouter.get("/allproducts", async (req, res, next) => {
     categories,
   });
 });
-productRouter.post("/addNew", async (req, res, next) => {
-  console.log(req.body);
-  console.log("Yes");
-});
+productRouter.post(
+  "/addNew",
+  upload.fields([
+    { name: "imageGallery", maxCount: 20 },
+    { name: "productImage", maxCount: 1 },
+  ]),
+  async (req, res, next) => {
+    const { slug, description, price, category, material, title, itemInStock } =
+      req.body;
+    const { imageGallery, productImage } = req.files;
+
+    if (
+      !slug ||
+      !description ||
+      !price ||
+      !category ||
+      !material ||
+      !title ||
+      !itemInStock ||
+      !productImage
+    ) {
+      return res.status(404).json({ error: "One or more fiels missing" });
+    } else {
+      let images = imageGallery.length
+        ? await CloudinaryUploader(imageGallery)
+        : [];
+      let image;
+      if (images) {
+        image = await CloudinaryUploader(productImage);
+      }
+      const newProduct = await Products.create({
+        name: title.toLowerCase(),
+        price: Number(price),
+        material: material.toLowerCase(),
+        slug: slug.toLowerCase(),
+        category: category.toLowerCase(),
+        description: description,
+        sold: 0,
+        rating: 0,
+        reviews: [],
+        numReviews: 0,
+        countInStock: Number(itemInStock),
+        image: image[0],
+        gallery: images,
+      });
+      if (newProduct) {
+        console.log(newProduct);
+        return res.send({ message: "Product created successfully" });
+      }
+    }
+  }
+);
 productRouter.get("/category/:catType", async (req, res, next) => {
   const products = await Products.find({ category: req.params.catType });
   if (products) return res.send(products);

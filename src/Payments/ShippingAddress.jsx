@@ -133,17 +133,19 @@ const ShippingAddress = () => {
             </form>
           </div>
 
-          <div class={`${themeBG} flex-1 p-12 hidden  md:flex flex-col h-full`}>
-            <p class="text-c-gold font-sans text-md text-center font-bold">
+          <div
+            className={`${themeBG} flex-1 p-12 hidden  md:flex flex-col h-full`}
+          >
+            <p className="text-c-gold font-sans text-md text-center font-bold">
               At maple store, we are commited to ensure you have a blissful
               shopping experience.
             </p>
             <img
               src="https://img.freepik.com/free-vector/delivery-service-with-masks-concept_23-2148535315.jpg?w=2000"
               alt="register"
-              class="h-96"
+              className="h-96"
             />
-            <p class="text-gold font-body text-md text-center font-bold">
+            <p className="text-gold font-body text-md text-center font-bold">
               We look forward to providing you a great &amp; funfilled shopping.
             </p>
           </div>

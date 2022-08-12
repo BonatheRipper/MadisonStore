@@ -11,16 +11,8 @@ const productsSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    image: {
-      type: String,
-      required: true,
-    },
-    gallery: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+    image: { url: String, public_id: String },
+    gallery: [{ url: String, public_id: String }],
     material: {
       type: String,
       required: true,
@@ -35,9 +27,11 @@ const productsSchema = new mongoose.Schema(
     },
     sold: {
       type: Number,
+      required: true,
     },
     rating: {
       type: Number,
+      required: true,
     },
     reviews: [
       {

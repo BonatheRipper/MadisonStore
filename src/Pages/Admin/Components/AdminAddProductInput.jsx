@@ -11,6 +11,7 @@ const AdminAddProductInput = ({ text, id, type, width, value, change }) => {
         id={id}
         className={` h-8 ${width} border `}
         onChange={change}
+        name={id}
         value={value}
       />
     </div>

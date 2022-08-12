@@ -59,30 +59,30 @@ const CartPage = () => {
                             <ImBin />
                           </button>
                         </div>
-                        <p class="text-c-green  font-body text-base font-normal ">
+                        <p className="text-c-green  font-body text-base font-normal ">
                           Material: {item.material}
                         </p>
-                        <p class="text-c-green   font-body text-base font-normal ">
+                        <p className="text-c-green   font-body text-base font-normal ">
                           Category: {item.category}
                         </p>
-                        <p class="text-c-green   font-body text-base font-normal ">
+                        <p className="text-c-green   font-body text-base font-normal ">
                           Price: ${item.price}
                         </p>
-                        <div class="flex space-x-2">
+                        <div className="flex space-x-2">
                           <button
                             onClick={() => updateCartHandler(item, "MINUS")}
-                            class={`${themeShape} border  hover:${themeBG}  text-3xl  border-c-green w-8 h-8 py-2 px-4 flex justify-center items-center hover:bg-pry-100  text-c-green transition duration-900 hover:text-c-gold`}
+                            className={`${themeShape} border  hover:${themeBG}  text-3xl  border-c-green w-8 h-8 py-2 px-4 flex justify-center items-center hover:bg-pry-100  text-c-green transition duration-900 hover:text-c-gold`}
                           >
                             -
                           </button>
                           <span
-                            class={` ${themeShape} border  border-c-green w-12 flex justify-center transition duration-900 items-center  text-c-green`}
+                            className={` ${themeShape} border  border-c-green w-12 flex justify-center transition duration-900 items-center  text-c-green`}
                           >
                             {item.quantity > 0 ? item.quantity : 0}
                           </span>
                           <button
                             onClick={() => updateCartHandler(item, "ADD")}
-                            class={`${themeShape} border  text-3xl  border-c-green w-8 h-8  p-2 flex justify-center items-center hover:${themeBG}  text-c-green transition duration-900 hover:text-c-gold`}
+                            className={`${themeShape} border  text-3xl  border-c-green w-8 h-8  p-2 flex justify-center items-center hover:${themeBG}  text-c-green transition duration-900 hover:text-c-gold`}
                           >
                             +
                           </button>
@@ -101,20 +101,20 @@ const CartPage = () => {
               </div>
 
               <div
-                class={`${themeBG} ${
+                className={`${themeBG} ${
                   themeShape ? "rounded-xl " : ""
                 } border border-gold w-full md:w-2/5 py-12 px-6 md:px-12 space-y-12 flex flex-col h-4/5 justify-start `}
               >
-                <div class="border-b border-b-c-gold w-full flex justify-center">
-                  <h3 class="font-heading text-3xl text-gold mb-4">
+                <div className="border-b border-b-c-gold w-full flex justify-center">
+                  <h3 className="font-heading text-3xl text-gold mb-4">
                     Cart Summary
                   </h3>
                 </div>
-                <div class="flex justify-between">
-                  <p class="text-gold font-body text-md text-center font-bold">
+                <div className="flex justify-between">
+                  <p className="text-gold font-body text-md text-center font-bold">
                     Subtotal
                   </p>
-                  <p class="text-gold font-body text-md text-center font-bold">
+                  <p className="text-gold font-body text-md text-center font-bold">
                     $
                     {cart.cart.cartItems.reduce(
                       (previousValue, currentValue) => {

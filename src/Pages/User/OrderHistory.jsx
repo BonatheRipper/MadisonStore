@@ -53,18 +53,18 @@ const OrderHistory = () => {
         </h2>
         <div
           onClick
-          class="flex w-full lg:w-4/5 justify-center bg-c-gold items-center border px-4 lg:px-2 py-2 border-c-green"
+          className="flex w-full lg:w-4/5 justify-center bg-c-gold items-center border px-4 lg:px-2 py-2 border-c-green"
         >
-          <h3 class="flex items-center justify-center    text-c-green  font-bold text-lg flex-1">
+          <h3 className="flex items-center justify-center    text-c-green  font-bold text-lg flex-1">
             Order No.
           </h3>
-          <h3 class="flex items-center justify-center    text-c-green  font-bold text-lg flex-1">
+          <h3 className="flex items-center justify-center    text-c-green  font-bold text-lg flex-1">
             Date
           </h3>
-          <h3 class="flex items-center justify-center    text-c-green  font-bold text-lg flex-1">
+          <h3 className="flex items-center justify-center    text-c-green  font-bold text-lg flex-1">
             Amount
           </h3>
-          <h3 class="flex items-center justify-center    text-c-green  font-bold text-lg flex-1">
+          <h3 className="flex items-center justify-center    text-c-green  font-bold text-lg flex-1">
             Status
           </h3>
         </div>
@@ -74,18 +74,18 @@ const OrderHistory = () => {
             <div
               key={order.orderNo}
               onClick={() => handleOrderClick(order._id)}
-              class="flex w-full lg:w-4/5 py-2 justify-center  even:bg-c-gold items-center text-c-green text-base hover:cursor-pointer border-b border-x border-x-c-gold border-b-c-gold hover:bg-c-green hover:text-c-gold transition duration-300"
+              className="flex w-full lg:w-4/5 py-2 justify-center  even:bg-c-gold items-center text-c-green text-base hover:cursor-pointer border-b border-x border-x-c-gold border-b-c-gold hover:bg-c-green hover:text-c-gold transition duration-300"
             >
-              <h3 class="flex items-center justify-center  flex-1">
+              <h3 className="flex items-center justify-center  flex-1">
                 {order.orderNo}
               </h3>
-              <h3 class="flex items-center justify-center  flex-1">
+              <h3 className="flex items-center justify-center  flex-1">
                 {formatDate(new Date(order.createdAt))}
               </h3>
-              <h3 class="flex items-center justify-center  flex-1">
+              <h3 className="flex items-center justify-center  flex-1">
                 ${order.totalPrice}
               </h3>
-              <h3 class="flex items-center justify-center  flex-1">
+              <h3 className="flex items-center justify-center  flex-1">
                 {order.isPaid ? "Paid" : "Unpaid"}
               </h3>
             </div>

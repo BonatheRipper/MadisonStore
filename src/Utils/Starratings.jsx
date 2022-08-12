@@ -50,14 +50,14 @@ const Starratings = ({ productReviews }) => {
       {Array.from(Array(StarRating()).keys()).map((item) => {
         return (
           <small>
-            <i class="fa fa-star" aria-hidden="true"></i>
+            <i className="fa fa-star" aria-hidden="true"></i>
           </small>
         );
       })}
       {Array.from(Array(5 - StarRating()).keys()).map((item) => {
         return (
           <small>
-            <i class="fa fa-star-o" aria-hidden="true"></i>
+            <i className="fa fa-star-o" aria-hidden="true"></i>
           </small>
         );
       })}

@@ -28,13 +28,13 @@ const Account = () => {
               </div>
               <div className="flex  justify-start items-center ">
                 <span className="mx-2">
-                  <i class="fa fa-user" aria-hidden="true"></i>
+                  <i className="fa fa-user" aria-hidden="true"></i>
                 </span>
                 <span>{user.username}</span>
               </div>
               <div className="flex  justify-start items-center ">
                 <span className="mx-2">
-                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                  <i className="fa fa-envelope" aria-hidden="true"></i>
                 </span>
                 <span>{user.email}</span>
               </div>

@@ -1,6 +1,4 @@
-import { change } from "@syncfusion/ej2-react-grids";
 import React, { forwardRef } from "react";
-import { useState } from "react";
 import { FaImages } from "react-icons/fa";
 const AdminAddProductImgUpload = ({ css, text, id, change, images }) => {
   return (
@@ -27,7 +25,14 @@ const AdminAddProductImgUpload = ({ css, text, id, change, images }) => {
         {images.length !== 0 && (
           <>
             {images.map((image) => {
-              return <img src={image} alt={text} className={`${css} mx-2`} />;
+              return (
+                <img
+                  key={image}
+                  src={image}
+                  alt={text}
+                  className={`${css} mx-2`}
+                />
+              );
             })}
           </>
         )}

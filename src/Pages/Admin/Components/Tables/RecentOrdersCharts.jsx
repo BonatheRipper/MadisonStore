@@ -121,7 +121,7 @@ const RecentOrdersCharts = ({ Orders }) => {
                                   <small className=""> Unpaid</small>
                                   <span className="mx-1">
                                     <i
-                                      class="fa fa-times"
+                                      className="fa fa-times"
                                       aria-hidden="true"
                                     ></i>
                                   </span>
@@ -131,7 +131,7 @@ const RecentOrdersCharts = ({ Orders }) => {
                                   <small> paid</small>
                                   <span className="mx-1">
                                     <i
-                                      class="fa fa-check"
+                                      className="fa fa-check"
                                       aria-hidden="true"
                                     ></i>
                                   </span>
