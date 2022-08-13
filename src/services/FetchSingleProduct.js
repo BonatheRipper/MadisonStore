@@ -11,7 +11,7 @@ export const FetchSingleProduct = async (
     setSingleProduct(results.data);
     setCurrentImg(singleProduct.image);
   } catch (e) {
-    alert(e.response.data.error);
+    console.log(e.response.data.error);
     setSingleProduct(false);
   }
 };

@@ -58,24 +58,10 @@ const AdminNavBar = ({ sidebar, setSidebar }) => {
       </div>
       <div className="rightMenus flex flex-row justify-between  items-center">
         <NavLink to="/cart" className=" relative hover:text-white mx-2">
-          {cart.cart.cartItems.length !== 0 && (
-            <span
-              className={`${
-                themeShape ? themeShape : "rounded-sm"
-              } bg-c-gold cart-badge`}
-            >
-              {cart.cart.cartItems.reduce((previousValue, currentValue) => {
-                return previousValue + currentValue.quantity;
-              }, 0)}
-            </span>
-          )}
           <FiBell />
           <span className="absolute bottom-1 right-2 text-base">1</span>
         </NavLink>
-        <NavLink
-          to="/wishlist"
-          className="hidden md:block hover:text-white relative  mx-2"
-        >
+        <NavLink to="/wishlist" className=" hover:text-white relative  mx-2">
           <i className="fa fa-comments" aria-hidden="true"></i>
           <span className="absolute bottom-2 right-2 text-base ">1</span>
         </NavLink>

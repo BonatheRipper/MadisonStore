@@ -1,5 +1,6 @@
 import express from "express";
-import CloudinaryUploader from "../cloudinary/cloudinary.js";
+import { CloudinaryUploader } from "../cloudinary/cloudinary.js";
+import { CloudinaryDeleter } from "../cloudinary/cloudinary.js";
 import upload from "../cloudinary/multerUploader.js";
 import Products from "../models/products.js";
 import asycHandler from "../middleware/asycHandler.js";
@@ -57,9 +58,10 @@ productRouter.post(
     ) {
       return res.status(404).json({ error: "One or more fiels missing" });
     } else {
-      let images = imageGallery.length
-        ? await CloudinaryUploader(imageGallery)
-        : [];
+      let images =
+        imageGallery && imageGallery.length
+          ? await CloudinaryUploader(imageGallery)
+          : [];
       let image;
       if (images) {
         image = await CloudinaryUploader(productImage);
@@ -98,6 +100,114 @@ productRouter.get("/:id", async (req, res, next) => {
   if (product) return res.send(product);
   return res.status(404).json({ error: "Product not found" });
 });
+productRouter.patch("/imagedestroy/:id", async (req, res, next) => {
+  console.log(req.params.id, req.body);
+  const product = await Products.findById(req.params.id)
+    .populate("reviews")
+    .exec();
+  if (product) {
+    if (req.body.imageType === "productImage") {
+      const ImageToDeleteId = product.image.public_id;
+      if (ImageToDeleteId !== "NONE") {
+        product.image.url = "NONE";
+        product.image.public_id = "NONE";
+        await product.save();
+        return res.send({ message: "Image deleted", product });
+      } else {
+        return res.status(404).json({ error: "Image not found" });
+      }
+    } else if (req.body.imageType === "imageGallery") {
+      const imageExist = product.gallery.find(
+        (image) => image.public_id === req.body.public_id
+      );
+      if (imageExist !== undefined) {
+        await CloudinaryDeleter(req.body.public_id);
+        const newGallery = product.gallery.filter(function (obj) {
+          return obj.public_id !== req.body.public_id;
+        });
+        product.gallery = newGallery;
+        await product.save();
+        return res.send({ message: "Image deleted", product });
+      } else {
+        return res.status(404).json({ error: "Image not found" });
+      }
+    }
+  }
+  return res.status(404).json({ error: "Product not found" });
+});
+productRouter.patch(
+  "/:id",
+  upload.fields([
+    { name: "imageGallery", maxCount: 20 },
+    { name: "productImage", maxCount: 1 },
+  ]),
+  async (req, res, next) => {
+    const {
+      slug,
+      description,
+      price,
+      category,
+      material,
+      title,
+      itemInStock,
+      serverImage,
+    } = req.body;
+    const { imageGallery, productImage } = req.files;
+
+    if (
+      !slug ||
+      !description ||
+      !price ||
+      !category ||
+      !material ||
+      !title ||
+      !itemInStock ||
+      (!productImage && serverImage === "NONE")
+    ) {
+      return res
+        .status(404)
+        .json({ error: "One or more fiels missing server" });
+    } else {
+      const product = await Products.findById(req.params.id)
+        .populate("reviews")
+        .exec();
+      if (product) {
+        product.slug = slug;
+        product.description = description;
+        product.price = price;
+        product.category = category;
+        product.material = material;
+        product.name = title;
+        product.countInStock = itemInStock;
+        if (productImage) {
+          try {
+            let image = await CloudinaryUploader(productImage);
+            console.log(image);
+            product.image = image[0];
+          } catch (e) {
+            console.log(e);
+          }
+        }
+        if (imageGallery && imageGallery.length) {
+          try {
+            let gallery = await CloudinaryUploader(imageGallery);
+            if (gallery) {
+              for (let images of gallery) {
+                product.gallery.push(images);
+              }
+            }
+          } catch (e) {
+            console.log(e);
+          }
+        }
+        await product.save();
+        return res.send({ message: "Product updated", product });
+      } else {
+        return res.status(404).json({ error: "Product not found" });
+      }
+    }
+  }
+);
 productRouter.delete("/:id", async (req, res, next) => {
   const productToDelete = await Products.findById(req.params.id);
   if (productToDelete) {

@@ -26,6 +26,7 @@ import OrderHistory from "./Pages/User/OrderHistory";
 import AdminHome from "./Pages/Admin/AdminHome";
 import AdminProducts from "./Pages/Admin/AdminProducts";
 import AdminAddProduct from "./Pages/Admin/AdminAddProduct";
+import AdminEditProduct from "./Pages/Admin/AdminEditProduct";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
@@ -60,6 +61,10 @@ const App = () => {
           <Route
             path="/admin/products/addproduct"
             element={<AdminAddProduct />}
+          />
+          <Route
+            path="/admin/products/update/:productId"
+            element={<AdminEditProduct />}
           />
           <Route path="*" element={<Four0Four />} />
         </Routes>

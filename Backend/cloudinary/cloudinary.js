@@ -22,16 +22,28 @@ const CloudinaryUploader = async (imageArr) => {
   try {
     fs.readdir("public/images", (err, files) => {
       if (err) throw err;
-      for (const file of files) {
-        fs.unlink(path.join("public/images", file), (err) => {
-          if (err) throw err;
-        });
+      try {
+        for (const file of files) {
+          fs.unlink(path.join("public/images", file), (err) => {
+            if (err) throw err;
+          });
+        }
+        console.log("All local images deleted");
+      } catch (e) {
+        console.log(e);
       }
-      console.log("All local images deleted");
     });
   } catch (e) {
     console.log("There was and error removing directory", e);
   }
   return newImagesarr;
 };
-export default CloudinaryUploader;
+const CloudinaryDeleter = async (id) => {
+  cloudinary.uploader.destroy(id, function (error, result) {
+    if (result) {
+      return console.log(result);
+    }
+    return console.log(error);
+  });
+};
+export { CloudinaryUploader, CloudinaryDeleter };

@@ -1,6 +1,16 @@
 import React, { forwardRef } from "react";
 import { FaImages } from "react-icons/fa";
-const AdminAddProductImgUpload = ({ css, text, id, change, images }) => {
+const AdminAddProductImgUpload = ({
+  css,
+  text,
+  id,
+  change,
+  images,
+  serverImage,
+  serverGallery,
+  click,
+}) => {
+  console.log(serverImage);
   return (
     <div className="relative">
       <label
@@ -21,21 +31,73 @@ const AdminAddProductImgUpload = ({ css, text, id, change, images }) => {
         name={id === "imageGallery" ? "imageGallery" : "productImage"}
         className="hidden"
       />
-      <div className="flex flex-row">
-        {images.length !== 0 && (
+      <div className="flex md:flex-row flex-col justify-center items-center">
+        <div className="flex flex-col md:flex-row ">
+          {images.length !== 0 && (
+            <>
+              {images.map((image) => {
+                return (
+                  <img
+                    key={image}
+                    src={image}
+                    alt={text}
+                    className={`${css} mx-2`}
+                  />
+                );
+              })}
+            </>
+          )}
           <>
-            {images.map((image) => {
-              return (
-                <img
-                  key={image}
-                  src={image}
-                  alt={text}
-                  className={`${css} mx-2`}
-                />
-              );
-            })}
+            {" "}
+            {serverGallery && (
+              <>
+                {serverGallery.map((image) => {
+                  return (
+                    <div
+                      key={image.public_id}
+                      className="relative flex justify-center items-center border "
+                    >
+                      <img
+                        src={image.url}
+                        alt="serverGallery"
+                        className={`${css} mx-2`}
+                      />
+                      <button
+                        type="button"
+                        onClick={click}
+                        data-key="imageGallery"
+                        data-public_id={image.public_id}
+                        className=" px-4 py-1 w-full border hover:border-c-green hover:bg-c-gold  border-red-500 hover:text-c-green text-red-500"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  );
+                })}
+              </>
+            )}
           </>
-        )}
+        </div>
+        <>
+          {serverImage && serverImage.public_id !== "NONE" && (
+            <div className="relative flex flex-col justify-center items-center border ">
+              <img
+                src={serverImage.url}
+                alt="ServerImage"
+                className={`${css} mx-2`}
+              />
+              <button
+                type="button"
+                data-key="productImage"
+                onClick={click}
+                data-public_id={serverImage.public_id}
+                className=" px-4 py-1 w-full border hover:border-c-green hover:bg-c-gold  border-red-500 hover:text-c-green text-red-500"
+              >
+                Delete
+              </button>
+            </div>
+          )}
+        </>
       </div>
     </div>
   );

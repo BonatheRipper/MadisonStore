@@ -102,12 +102,12 @@ const AdminProducts = () => {
                           indexOfLastTable
                         ).map((item) => {
                           return (
-                            <div className="relative">
+                            <>
                               <tr
                                 key={item.orderNo}
                                 className="flex relative  w-full border px-2 border-c-gold justify-between z-10 md:w-full items-center   text-c-gold "
                               >
-                                <div className="h-8 font-bold w-full transition duration-1000 left-0 absolute bg-c-gold hover:opacity-100 opacity-0 hover:visible z-20 text-c-green px-4 border border-c-green flex justify-between items-center text-xl ">
+                                <td className="h-8 font-bold w-full transition duration-1000 left-0 absolute bg-c-gold hover:opacity-100 opacity-0 hover:visible z-20 text-c-green px-4 border border-c-green flex justify-between items-center text-xl ">
                                   <button className="underline hover:animate-pulse  ">
                                     <NavLink
                                       to={`/products/${item._id} `}
@@ -116,9 +116,12 @@ const AdminProducts = () => {
                                       <AiFillEye />
                                     </NavLink>
                                   </button>
-                                  <button className="underline hover:animate-pulse ">
+                                  <NavLink
+                                    to={`/admin/products/update/${item._id}`}
+                                    className="underline hover:animate-pulse "
+                                  >
                                     <FaRegEdit />
-                                  </button>
+                                  </NavLink>
                                   <button
                                     onClick={() =>
                                       handleProductDelete(item._id)
@@ -127,7 +130,7 @@ const AdminProducts = () => {
                                   >
                                     <RiDeleteBin4Line />
                                   </button>
-                                </div>
+                                </td>
                                 <td className="text-xs md:text-base hover:underline hover:text-gray-400 border-c-gold md:border-none w-24  px-2  md:px-0">
                                   {item._id.substring(0, 10) + "..."}
                                 </td>
@@ -146,7 +149,7 @@ const AdminProducts = () => {
                                   {formatToCurrency(item.price)}
                                 </td>
                               </tr>
-                            </div>
+                            </>
                           );
                         })}
                       </>
