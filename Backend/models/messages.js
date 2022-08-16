@@ -11,7 +11,7 @@ const messageSchema = new mongoose.Schema(
       {
         message: String,
         time: Date,
-        sender: String,
+        isAdmin: Boolean,
       },
     ],
   },

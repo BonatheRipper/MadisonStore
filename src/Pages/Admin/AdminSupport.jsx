@@ -1,23 +1,118 @@
 import React, { useState, useEffect } from "react";
-
 import { BsSearch, BsThreeDotsVertical } from "react-icons/bs";
 import { RiCheckboxBlankCircleFill } from "react-icons/ri";
 import { CgArrowLongLeft } from "react-icons/cg";
 import AdminSharedHeader from "./Components/AdminSharedHeader";
+import axios from "axios";
+import { toast } from "react-toastify";
 
+function timeDifference(current, previous) {
+  var msPerMinute = 60 * 1000;
+  var msPerHour = msPerMinute * 60;
+  var msPerDay = msPerHour * 24;
+  var msPerMonth = msPerDay * 30;
+  var msPerYear = msPerDay * 365;
+
+  var elapsed = current - previous;
+
+  if (elapsed < msPerMinute) {
+    if (elapsed / 1000 < 30) return " now";
+
+    return Math.round(elapsed / 1000) + " seconds ago";
+  } else if (elapsed < msPerHour) {
+    return Math.round(elapsed / msPerMinute) + " minutes ago";
+  } else if (elapsed < msPerDay) {
+    return Math.round(elapsed / msPerHour) + " hours ago";
+  } else if (elapsed < msPerMonth) {
+    return Math.round(elapsed / msPerDay) + " days ago";
+  } else if (elapsed < msPerYear) {
+    return Math.round(elapsed / msPerMonth) + " months ago";
+  } else {
+    return Math.round(elapsed / msPerYear) + " years ago";
+  }
+}
+function getDateByMonths(date) {
+  var months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  var d = new Date(date);
+  return months[d.getMonth()] + " " + String(d.getDate()).padStart(2, "0");
+}
+function sortDateChatsByDate(array) {
+  return array.sort(function (a, b) {
+    var dateA = new Date(a.time),
+      dateB = new Date(b.time);
+    return dateA - dateB;
+  });
+}
 const AdminSupport = () => {
   const screenSize = 1000;
   const navheight = 220;
-  const [chatBox, SetchatBox] = useState(false);
   const [chatMenu, SetchatMenu] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [chats, setChats] = useState(false);
+  const [text, setText] = useState("");
+  let textInput = React.createRef();
 
-  const HandleChatState = () => {
-    console.log(chatMenu);
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const messages = await axios.get("/api/support/message");
+        console.log(messages);
+        setMessages(messages.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchMessages();
+  }, []);
+  const HandleChatState = async (messageId) => {
+    try {
+      const messages = await axios.get(`/api/support/message/${messageId}`);
+      setChats(messages.data);
+      SetchatMenu(!chatMenu);
+    } catch (e) {
+      console.log(e);
+      toast.error("There was an error");
+    }
+  };
+  const lastMessageFromUser = (chats) => {
+    for (let chat of chats.reverse()) {
+      if (!chat.isAdmin) {
+        return chat;
+      }
+    }
+  };
+  const toggleChatPane = () => {
     SetchatMenu(!chatMenu);
   };
 
-  const toggleChatPane = () => {
-    SetchatMenu(!chatMenu);
+  const handAdminReply = async (messageId) => {
+    let text = textInput.current.value;
+
+    try {
+      const messages = await axios.post(
+        `/api/support/message/admin/${messageId}`,
+        { text }
+      );
+      toast(messages.data.success);
+      setChats(messages.data.chat);
+      setText("");
+    } catch (e) {
+      console.log(e);
+      toast.error("There was an error");
+    }
   };
 
   return (
@@ -52,35 +147,55 @@ const AdminSupport = () => {
           {/* //THIS IS WHERE I SHOULD MAP USERS */}
           {/* //THIS IS WHERE I SHOULD MAP USERS */}
           {/* //THIS IS WHERE I SHOULD MAP USERS */}
-          <div
-            id="RecentChats"
-            onClick={() => HandleChatState()}
-            className={` flex flex-row items-center py-1 border-b border-c-gold`}
-          >
-            <div className="userImg p-1 items-center flex flex-row w-full relative">
-              <div className="flex relative  px-1">
-                <img
-                  src="https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png"
-                  alt="Profilepic"
-                  className="w-11 h-11 rounded-full "
-                />
-                <RiCheckboxBlankCircleFill className="w-2 h-2 absolute mt-1 text-green-500 " />
-              </div>
-              <div className=" flex flex-row px-2 items-center justify-between  w-full">
-                <div className="flex flex-col w-full text-left  ">
-                  <small className="bold text-gray-500">Bona Andrews</small>
-                  <small className="">
-                    Hello Please i need my files to be set up
-                  </small>
-                </div>
-                <div className="lastSeeen text-right w-8/12">
-                  <small style={{ fontSize: "10px" }} className="px-5 w-full">
-                    2 minutes ago
-                  </small>
-                </div>
-              </div>
-            </div>
-          </div>
+          {messages.length !== 0 && (
+            <>
+              {messages.map((message) => {
+                return (
+                  <div
+                    id="RecentChats"
+                    key={message._id}
+                    onClick={() => HandleChatState(message._id)}
+                    className={` flex flex-row my-2 items-center py-1 border-b border-c-gold`}
+                  >
+                    <div className="userImg p-1 items-center flex flex-row w-full relative">
+                      <div className="flex relative  px-1">
+                        <img
+                          src="https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png"
+                          alt="Profilepic"
+                          className="w-11 h-11 rounded-full "
+                        />
+                        <RiCheckboxBlankCircleFill className="w-2 h-2 absolute mt-1 text-green-500 " />
+                      </div>
+                      <div className=" flex flex-row px-2 items-center justify-between  w-full">
+                        <div className="flex flex-col w-full text-left  ">
+                          <small className="bold text-gray-500">
+                            {message.name}
+                          </small>
+                          <small className="">
+                            {lastMessageFromUser(message.messages).message}
+                          </small>
+                        </div>
+                        <div className="lastSeeen text-right w-8/12">
+                          <small
+                            style={{ fontSize: "10px" }}
+                            className="px-5 w-full"
+                          >
+                            {timeDifference(
+                              new Date(),
+                              new Date(
+                                lastMessageFromUser(message.messages).time
+                              )
+                            )}
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          )}
+
           {/* //THIS IS WHERE I SHOULD MAP USERS ENDS*/}
           {/* //THIS IS WHERE I SHOULD MAP USERS ENDS*/}
           {/* //THIS IS WHERE I SHOULD MAP USERS ENDS*/}
@@ -91,172 +206,128 @@ const AdminSupport = () => {
             chatMenu ? "inline" : " md:w-9/12 "
           } right-0    w-full h-full text-c-green absolute pt-12`}
         >
-          {/* TOP USER DETAILS NEEDS CHANGING TOO */}
-          {/* TOP USER DETAILS NEEDS CHANGING TOO */}
-          {/* TOP USER DETAILS NEEDS CHANGING TOO */}
+          {chats && (
+            <>
+              <div className=" border-b shadow-lg flex flex-row items-center justify-between py-3  sticky top-0 w-full   text-c-green z-10">
+                <div className="userImg p-1 items-center flex flex-row w-full relative ">
+                  <div
+                    className={`toggleChatPane px-2  mt-4 ${
+                      chatMenu ? "inline" : "false"
+                    }`}
+                  >
+                    <button
+                      onClick={() => toggleChatPane()}
+                      type="button"
+                      className="h-5 w-18"
+                    >
+                      <CgArrowLongLeft className="h-5 w-18" />
+                    </button>
+                  </div>
+                  <div className="flex relative  p-1">
+                    <img
+                      src="https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png"
+                      alt="Profilepic"
+                      className="w-11 h-11 p-1 rounded-full "
+                    />
+                    <RiCheckboxBlankCircleFill className="w-2 h-2 absolute mt-1 " />
+                  </div>
 
-          <div className=" border-b shadow-lg flex flex-row items-center justify-between py-3  sticky top-0 w-full   text-c-green z-10">
-            <div className="userImg p-1 items-center flex flex-row w-full relative ">
-              <div
-                className={`toggleChatPane px-2  mt-4 ${
-                  chatMenu ? "inline" : "false"
-                }`}
-              >
-                <button
-                  onClick={() => toggleChatPane()}
-                  type="button"
-                  className="h-5 w-18"
-                >
-                  <CgArrowLongLeft className="h-5 w-18" />
-                </button>
+                  <div className="px-1 flex flex-col mx-1 items-start ">
+                    <small className="bold">{chats.name}</small>
+                    <small>
+                      Last message{" "}
+                      <span>
+                        {timeDifference(
+                          new Date(),
+                          new Date(lastMessageFromUser(chats.messages).time)
+                        )}
+                      </span>
+                    </small>
+                  </div>
+                </div>
+                <div className="userImg p-1 relative ">
+                  <BsThreeDotsVertical className="p-1 w-7 h-7" />
+                </div>
               </div>
-              <div className="flex relative  p-1">
-                <img
-                  src="https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png"
-                  alt="Profilepic"
-                  className="w-11 h-11 p-1 rounded-full "
-                />
-                <RiCheckboxBlankCircleFill className="w-2 h-2 absolute mt-1 " />
+              <div className="py-6  h-full flex flex-col items-center  w-full  grow top-24 z-0 text-center">
+                {sortDateChatsByDate(chats.messages).map((chat) => {
+                  return (
+                    <div
+                      id={!chat.isAdmin ? "UserChats" : "AdminChats"}
+                      className="  w-full h-auto pb-10"
+                    >
+                      {" "}
+                      <div className="  w-full h-5  text-center flex ">
+                        <small className="text-xs items-center w-full bold ">
+                          {getDateByMonths(chat.time)}
+                        </small>
+                      </div>
+                      {!chat.isAdmin ? (
+                        <div
+                          className={`${
+                            !chat.isAdmin
+                              ? "justify-start items-left "
+                              : " justify-end items-right "
+                          } chatDdate  p-3 flex  relative bg-green h-auto`}
+                        >
+                          <div
+                            className={`${
+                              !chat.isAdmin
+                                ? "messages justify-start text-left w-11/12 items-left flex-col mr-4  text-xs md:text-sm flex  h-auto break-all "
+                                : " messages text-xs md:text-sm  flex h-auto break-all flex-col p-2 items-left justify-start text-right w-11/12"
+                            } chatDdate  p-3 flex  relative bg-green h-auto`}
+                          >
+                            <div className="p-2 ">
+                              <span className="bg-[#e0eeff] p-1 px-3 rounded-lg">
+                                {chat.message}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          className={` chatDdate  p-3 flex  relative bg-green h-auto`}
+                        >
+                          <div
+                            className={`${
+                              !chat.isAdmin
+                                ? ""
+                                : "  break-all flex-col p-2 items-left justify-start text-right w-11/12"
+                            } chatDdate  p-3 flex  relative bg-green h-auto messages text-xs md:text-sm `}
+                          >
+                            <div className="p-2 ">
+                              <span className="bg-[#def7fd] p-1 px-3 rounded-lg">
+                                {chat.message}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
 
-              <div className="px-1 flex flex-col mx-1 items-start ">
-                <small className="bold">Bona Andrews</small>
-                <small>
-                  Last seen <span>2 days ago</span>
-                </small>
-              </div>
-            </div>
-            <div className="userImg p-1 relative ">
-              <BsThreeDotsVertical className="p-1 w-7 h-7" />
-            </div>
-          </div>
-
-          {/* TOP USER DETAILS NEEDS CHANGING TOO */}
-          {/* TOP USER DETAILS NEEDS CHANGING TOO */}
-          {/* TOP USER DETAILS NEEDS CHANGING TOO */}
-
-          {/*  CHATS MESSAGES BOX STTARTS */}
-
-          <div className=" py-6 h-full flex flex-col items-center  w-full  grow top-24 z-0 text-center">
-            <div className="  w-full h-5  text-center flex ">
-              <small className=" items-center w-full bold ">OCTOBER 9</small>
-            </div>
-
-            <div className="  w-full h-auto">
-              <div className="chatDdate  p-3 flex  relative bg-green h-auto justify-start items-left">
-                <div className="img p-1 flex justify-end items-end ">
-                  <img
-                    src="https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png"
-                    alt="Profilepic"
-                    className="w-11 h-11 p-1 rounded-full "
+              <div className=" flex flex-row items-center     h-20 fixed w-full  z-10 -bottom-4">
+                <div className="messag   w-full relative flex items-center ">
+                  <input
+                    type="text"
+                    // value={text}
+                    // onChange={(e) => setText(e.target.value)}
+                    ref={textInput}
+                    placeholder="  Hello my name is Max"
+                    className="rounded-lg  border border-c-gold w-full  py-2 m-0"
                   />
-                </div>
-                <div
-                  style={{ fontSize: ".875rem" }}
-                  className="messages  flex h-auto break-all flex-col p-2 items-left justify-start text-left w-11/12"
-                >
-                  <div className="p-2">
-                    <span className="bg-[#e0eeff] p-1 px-3 rounded-lg">
-                      Hello Admin
-                    </span>
-                  </div>
-                  <div className="p-2">
-                    <span className="bg-[#e0eeff] p-1 px-3  rounded-lg">
-                      What do you see in me
-                    </span>
-                  </div>
-                  <div className="h-full p-2">
-                    <span className="bg-[#e0eeff] p-1 px-3  rounded-lg">
-                      I Believe i am
-                      wDo2yr9GrbXtY1ridrWAifogAef5vKo5Y8OSX0p6nksvu8njs78YlR4ZD1T
-                    </span>
-                  </div>
+                  <button
+                    onClick={() => handAdminReply(chats._id)}
+                    className="rounded-lg text-c-gold  border border-c-gold fixed px-4  py-2 bg-black right-0"
+                  >
+                    Send
+                  </button>
                 </div>
               </div>
-            </div>
-
-            <div className="  w-full h-auto">
-              <div className="chatDdate  p-3 flex  relative bg-green h-auto justify-end items-right">
-                <div
-                  style={{ fontSize: ".875rem" }}
-                  className="messages  flex h-auto break-all flex-col p-2 items-left justify-start text-right w-11/12"
-                >
-                  <div className="p-2">
-                    <span className="bg-[#def7fd] p-1 px-3 rounded-lg">
-                      Hello Admin
-                    </span>
-                  </div>
-                  <div className="p-2">
-                    <span className="bg-[#def7fd] p-1 px-3  rounded-lg">
-                      What do you see in me
-                    </span>
-                  </div>
-                  <div className="h-full p-2">
-                    <span className="bg-[#def7fd] p-1 px-3  rounded-lg">
-                      I Believe i am
-                      wDo2yr9GrbXtY1ridrWAifogAef5vKo5Y8OSX0p6nksvu8njs78YlR4ZD1T
-                    </span>
-                  </div>
-                </div>
-                <div className="img p-1  flex justify-end items-end">
-                  <img
-                    src="https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png"
-                    alt="Profilepic"
-                    className="w-11 h-11 p-1 rounded-full "
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* <div className='chatsInside  flex flex-col w-full items-center'>
-             <div className='chatDdate   p-3 '>
-                7 October
-             </div>
-             <div className='chatDdate  p-3 flex flex-row bg-green'>
-                 <div className='img p-1'>
-                 <img src={userProfile1} alt="Profilepic" className='w-11 h-11 p-1 rounded-full '/>
-
-                 </div>
-                 <div className='messages flex flex-col p-1'>
-                    <div>Hello</div>
-                    <div>What do you see in me</div>
-                    <div>I  Believe i am wDo2yr9GrbXtY1ridrWAifogAef5vKo5Y8OSX0p6nksvu8njs78YlR4ZD1T</div>
-                 </div>
-             </div>
-
- <div className='chatDdate  p-3 flex flex-row bg-green'>
-        
-                 <div className='messages flex flex-col p-1'>
-                    <div>Hello</div>
-                    <div>What do you see in me</div>
-                    <div>I  Believe i am wDo2yr9GrbXtY1ridrWAifogAef5vKo5Y8OSX0p6nksvu8njs78YlR4ZD1T</div>
-                 </div>
-                 <div className='img p-1'>
-                 <img src={userProfile1} alt="Profilepic" className='w-11 h-11 p-1 rounded-full '/>
-
-                 </div>
-                
-             </div>
-
-         </div> */}
-          {/*  CHATS MESSAGES BOX STTARTS */}
-
-          {/*  CHAT INPUT BOX STTARTS */}
-
-          <div className=" flex flex-row items-center   px-2  h-20 fixed w-full  z-10 -bottom-3">
-            <div className="messag  px-4 w-full relative flex items-center ">
-              <input
-                type="text"
-                placeholder="Hello my name is Max"
-                className="rounded-lg  border border-c-gold w-full px-15 py-2 m-0"
-              />
-              <button className="rounded-lg text-c-gold  border border-c-gold fixed px-4  py-2 bg-black right-0">
-                Send
-              </button>
-            </div>
-          </div>
-
+            </>
+          )}
           {/*  CHAT INPUT BOX STTARTS ENDS*/}
           {/*  CHAT INPUT BOX STTARTS ENDS*/}
           {/*  CHAT INPUT BOX STTARTS ENDS*/}

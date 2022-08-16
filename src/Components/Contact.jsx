@@ -27,9 +27,11 @@ const Contact = () => {
         text,
       });
       if (result) {
-        setEmail("");
-        setName("");
-        setText("");
+        // setEmail("");
+        // setName("");
+        // setText("");
+        console.log(result);
+        return toast(result.data.message);
       }
     } catch (e) {}
   };
