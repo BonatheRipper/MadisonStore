@@ -15,7 +15,7 @@ const AdminNavBar = ({ sidebar, setSidebar }) => {
       className={`
       ${
         themeBG ? `${themeBG} text-c-gold  ` : ""
-      } drop-shadow-xl top-0 right-0 left-0 z-50 w-full my-0 fixed  p-3 mx-0 flex flex-row items-center justify-between`}
+      } drop-shadow-xl shadow-lg  top-0 right-0 left-0 z-50 w-full my-0 fixed  p-3 mx-0 flex flex-row items-center justify-between`}
     >
       <div className="menu-icon  " onClick={() => setSidebar(!sidebar)}>
         <span className="mx-2 text-2xl">

@@ -19,23 +19,23 @@ const CloudinaryUploader = async (imageArr) => {
       }
     });
   }
-  try {
-    fs.readdir("public/images", (err, files) => {
-      if (err) throw err;
-      try {
-        for (const file of files) {
-          fs.unlink(path.join("public/images", file), (err) => {
-            if (err) throw err;
-          });
-        }
-        console.log("All local images deleted");
-      } catch (e) {
-        console.log(e);
-      }
-    });
-  } catch (e) {
-    console.log("There was and error removing directory", e);
-  }
+  // try {
+  //   fs.readdir("public/images", (err, files) => {
+  //     if (err) throw err;
+  //     try {
+  //       for (const file of files) {
+  //         fs.unlink(path.join("public/images", file), (err) => {
+  //           if (err) throw err;
+  //         });
+  //       }
+  //       console.log("All local images deleted");
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   });
+  // } catch (e) {
+  //   console.log("There was and error removing directory", e);
+  // }
   return newImagesarr;
 };
 const CloudinaryDeleter = async (id) => {

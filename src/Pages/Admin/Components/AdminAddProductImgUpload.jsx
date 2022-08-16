@@ -10,7 +10,6 @@ const AdminAddProductImgUpload = ({
   serverGallery,
   click,
 }) => {
-  console.log(serverImage);
   return (
     <div className="relative">
       <label
@@ -31,6 +30,7 @@ const AdminAddProductImgUpload = ({
         name={id === "imageGallery" ? "imageGallery" : "productImage"}
         className="hidden"
       />
+
       <div className="flex md:flex-row flex-col justify-center items-center">
         <div className="flex flex-col md:flex-row ">
           {images.length !== 0 && (

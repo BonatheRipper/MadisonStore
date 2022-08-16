@@ -18,12 +18,15 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import AdminSharedHeader from "./Components/AdminSharedHeader";
 import ProductsPageTopOptions from "./Components/ProductsPageTopBtn";
+import AdminPopUp from "./Components/AdminPopUp";
 
 const AdminProducts = () => {
-  const { user, themeBG } = useStateContext();
+  const { user, themeBG, popup, setPopup } = useStateContext();
   const [products, setProducts] = useState([]);
   const [currentTable, setCurrentTable] = useState(1);
   const [ordersPerTable, setOrdersPerTable] = useState(10);
+  const [productToDeleteID, setProductToDeleteID] = useState("");
+
   const indexOfLastTable = currentTable * ordersPerTable;
   const indexOfFirstTable = indexOfLastTable - ordersPerTable;
   useEffect(() => {
@@ -37,15 +40,20 @@ const AdminProducts = () => {
   const formatToCurrency = (amount) => {
     return "$" + amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
   };
+  console.log(productToDeleteID);
 
-  const handleProductDelete = async (productId) => {
+  const getProductToDeleteId = async (productId) => {
+    setProductToDeleteID(productId);
+    setPopup(!popup);
+  };
+  const handleProductDelete = async () => {
     try {
-      const results = await axios.delete(`/api/products/${productId}`, {
+      const results = await axios.delete(`/api/products/${productToDeleteID}`, {
         headers: { authorization: `Bearer ${user.token}` },
       });
       if (results) {
         setProducts(results.data.updatedProductsList);
-
+        setPopup(!popup);
         return toast(results.data.message);
       }
     } catch (e) {
@@ -86,11 +94,11 @@ const AdminProducts = () => {
                   <div className={` w-full  mt-20 overflow-hidden md:w-full`}>
                     <table className="w-full flex flex-col flex-1 ">
                       <>
-                        <tr className="flex w-full px-2 justify-between  mb-4 items-center text-gray-300 hover:text-white text-sm font-bold">
+                        <tr className="flex w-full justify-between  mb-4 text-gray-300 hover:text-white text-sm font-bold">
                           <th className="">ProductId</th>
                           <th>Stock</th>
                           <th>Title</th>
-                          <th>Date</th>
+                          <th className="hidden md:inline">Date</th>
                           <th>Price</th>
                         </tr>
                       </>
@@ -124,7 +132,7 @@ const AdminProducts = () => {
                                   </NavLink>
                                   <button
                                     onClick={() =>
-                                      handleProductDelete(item._id)
+                                      getProductToDeleteId(item._id)
                                     }
                                     className="underline hover:animate-pulse hover:text-red-600 transition duration-500 "
                                   >
@@ -134,15 +142,15 @@ const AdminProducts = () => {
                                 <td className="text-xs md:text-base hover:underline hover:text-gray-400 border-c-gold md:border-none w-24  px-2  md:px-0">
                                   {item._id.substring(0, 10) + "..."}
                                 </td>
-                                <td className="border-r border-c-gold md:border-none w-24 flex items-center justify-center py-1 md:py-2 text-xs md:text-base ">
+                                <td className=" border-c-gold md:border-none w-24 flex items-center justify-center py-1 md:py-2 text-xs md:text-base ">
                                   <span className=" px-3  rounded-lg py-1">
                                     <small> {item.countInStock}</small>
                                   </span>
                                 </td>
-                                <td className="border-r border-c-gold md:border-none  w-40 flex py-2 justify-start  text-xs md:text-base px-2  md:px-0 ">
+                                <td className=" border-c-gold md:border-none  w-40 flex py-2 justify-start  text-xs md:text-base px-2  md:px-0 ">
                                   <small>{item.name}</small>
                                 </td>
-                                <td className="text-xs md:text-base border-r py-2 border-c-gold md:border-none w-20 flex justify-center px-2  md:px-0">
+                                <td className=" hidden md:inline text-xs md:text-base border-r py-2 border-c-gold md:border-none w-20 flex justify-center px-2  md:px-0">
                                   {formatDate(new Date(item.createdAt))}
                                 </td>
                                 <td className=" border-c-gold md:border-none w-20 flex justify-center text-xs md:text-base px-2  md:px-0">
@@ -181,6 +189,7 @@ const AdminProducts = () => {
             </>
           }
         </div>
+        {popup && <AdminPopUp click={() => handleProductDelete()} />}
       </div>
       <AdminFooter />
     </>

@@ -207,6 +207,9 @@ export const ContextProvider = ({ children }) => {
     successPay: false,
   });
   const [smallLoadingBtn, setSmallLoadingBtn] = useState(false);
+  const [popup, setPopup] = useState(false);
+  const [orderToDeleteID, setOrderToDeleteID] = useState("");
+
   const [cart, cartDispatch] = useReducer(cartReducer, {
     cart: { cartItems: JSON.parse(localStorage.getItem("cartItems")) || [] },
     ShippingDetails: JSON.parse(localStorage.getItem("shippingAddress")) || {},
@@ -273,11 +276,15 @@ export const ContextProvider = ({ children }) => {
         loadingScreen,
         Adminsidebar,
         setAdminSidebar,
+        orderToDeleteID,
+        setOrderToDeleteID,
         Payments,
         setLoadingScreen,
         handleAddProductToCart,
         updateCartHandler,
         ThemeBackground,
+        popup,
+        setPopup,
         user,
         currentThemeLoader,
         setCurrentThemeLoader,

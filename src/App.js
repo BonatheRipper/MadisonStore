@@ -27,6 +27,7 @@ import AdminHome from "./Pages/Admin/AdminHome";
 import AdminProducts from "./Pages/Admin/AdminProducts";
 import AdminAddProduct from "./Pages/Admin/AdminAddProduct";
 import AdminEditProduct from "./Pages/Admin/AdminEditProduct";
+import AdminSupport from "./Pages/Admin/AdminSupport";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
@@ -58,6 +59,8 @@ const App = () => {
           <Route path="/shop/:catType" element={<ProductsByCategory />} />
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/admin/products" element={<AdminProducts />} />
+          <Route path="/admin/support" element={<AdminSupport />} />
+
           <Route
             path="/admin/products/addproduct"
             element={<AdminAddProduct />}

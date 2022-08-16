@@ -29,13 +29,12 @@ import TopProducts from "./Components/Tables/TopProducts";
 import RecentReviews from "./Components/Tables/RecentReviews";
 import AdminFooter from "./Components/AdminFooter";
 import { useStateContext } from "../../context/Statecontext";
-import {
-  FetchAllProducts,
-  FetchAllProductsAdmin,
-} from "./Services/FetchAllProducts";
+import { FetchAllProductsAdmin } from "./Services/FetchAllProducts";
 import { FetchReviewsAdmin } from "./Services/FetchReviews";
-import AdminSidebarLeft from "./Components/AdminSidebarLeft";
 import AdminSharedHeader from "./Components/AdminSharedHeader";
+import AdminPopUp from "./Components/AdminPopUp";
+import { toast } from "react-toastify";
+import axios from "axios";
 const data = [
   {
     Date: 1,
@@ -291,10 +290,11 @@ const TrafficSource = () => {
 };
 
 const AdminHome = () => {
-  const { user, Adminsidebar, setAdminSidebar } = useStateContext();
+  const { user, popup, setPopup, orderToDeleteID } = useStateContext();
   const [OrdersAdmin, setOrdersAdmin] = useState([]);
   const [ProductsAdmin, setProductsAdmin] = useState([]);
   const [ReviewsAdmin, setReviewsAdmin] = useState([]);
+
   useEffect(() => {
     const getaServices = async () => {
       const Orders = await FetchOrdersAdmin(user);
@@ -312,9 +312,22 @@ const AdminHome = () => {
     };
     getaServices();
   }, [setOrdersAdmin, user]);
-
+  const handleOrderDelete = async () => {
+    try {
+      const results = await axios.delete(`/api/orders/${orderToDeleteID}`, {
+        headers: { authorization: `Bearer ${user.token}` },
+      });
+      setPopup(!popup);
+      setOrdersAdmin(results.data.updatedOrders);
+      return toast(results.data.message);
+    } catch (e) {
+      return toast.error(e.response.data.error);
+    }
+  };
   return (
     <div className="relative">
+      {popup && <AdminPopUp click={() => handleOrderDelete()} />}
+
       <AdminSharedHeader />
       <div className=" mt-14 bg-[#F1FFFD] text-c-green">
         <h1 className="text-3xl p-4">Dashboard</h1>

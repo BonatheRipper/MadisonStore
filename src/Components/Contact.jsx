@@ -1,9 +1,38 @@
 import React from "react";
 import { useStateContext } from "../context/Statecontext";
 import "../App.css";
-import LongButtons from "./LongButtons";
+import LongButtons, { NormalButton } from "./LongButtons";
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 const Contact = () => {
   const { themeBG } = useStateContext();
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [text, setText] = useState("");
+
+  const HandleSupportMessage = async (e) => {
+    var filter =
+      /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+    if (!filter.test(email)) {
+      toast.error("Please provide a valid email address");
+      return false;
+    }
+
+    try {
+      const result = await axios.post("/api/support/message", {
+        email,
+        name,
+        text,
+      });
+      if (result) {
+        setEmail("");
+        setName("");
+        setText("");
+      }
+    } catch (e) {}
+  };
 
   return (
     <div
@@ -72,6 +101,8 @@ const Contact = () => {
               <input
                 type="email"
                 name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Your email here"
                 className={` ${themeBG} py-3 px-4 w-full bg-c-green tracking-widest left-12 block pl-14  placeholder-pry-50 bg-pry-100 border-b border-b-c-gold text-gold placeholder:text-c-gold  appearance-none transition duration-300 focus:outline-none focus:border-c-gold focus:ring-c-gold focus:ring-1 `}
               />
@@ -84,6 +115,8 @@ const Contact = () => {
                 <input
                   type="text"
                   name="pName"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   placeholder="Your name goes here"
                   className={` ${themeBG} py-3 px-4 w-full bg-c-green tracking-widest left-12 block pl-14  placeholder-pry-50 bg-pry-100 border-b border-b-c-gold text-gold placeholder:text-c-gold  appearance-none transition duration-300 focus:outline-none focus:border-c-gold focus:ring-c-gold focus:ring-1 `}
                 />
@@ -96,15 +129,18 @@ const Contact = () => {
                 </span>
                 <input
                   type="text"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
                   placeholder="Let's hear from you"
                   className={` ${themeBG} py-3 px-4 w-full bg-c-green tracking-widest left-12 block pl-14  placeholder-pry-50 bg-pry-100 border-b border-b-c-gold text-gold placeholder:text-c-gold  appearance-none transition duration-300 focus:outline-none focus:border-c-gold focus:ring-c-gold focus:ring-1 `}
                 />
               </label>
             </div>
             <div className="flex flex-col py-6 items-center">
-              <LongButtons
-                to="/"
+              <NormalButton
+                type="button"
                 text="send  message"
+                click={() => HandleSupportMessage()}
                 css={`text-c-gold ${themeBG} border border-c-gold hover:text-black`}
               />
             </div>

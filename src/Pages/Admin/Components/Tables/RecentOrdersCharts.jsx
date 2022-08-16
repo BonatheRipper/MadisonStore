@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useStateContext } from "../../../../context/Statecontext";
 import LoadinElementAdmin from "../LoadinElementAdmin";
-import axios from "axios";
+import AdminPopUp from "../AdminPopUp";
 import {
   paginateNumbersLength,
   PaginateOrder,
@@ -13,9 +13,14 @@ import {
 } from "../../../../Utils/Paginate";
 import { AiFillEye } from "react-icons/ai";
 import { RiDeleteBin4Line } from "react-icons/ri";
-import { toast } from "react-toastify";
 const RecentOrdersCharts = ({ Orders }) => {
-  const { themeBG, user } = useStateContext();
+  const {
+    themeBG,
+    popup,
+    setPopup,
+
+    setOrderToDeleteID,
+  } = useStateContext();
   const [currentTable, setCurrentTable] = useState(1);
   const [ordersPerTable, setOrdersPerTable] = useState(8);
   const indexOfLastTable = currentTable * ordersPerTable;
@@ -39,16 +44,10 @@ const RecentOrdersCharts = ({ Orders }) => {
       date.getFullYear(),
     ].join("/");
   }
-  const handleProductDelete = async (OrderId) => {
-    try {
-      const results = await axios.delete(`/api/orders/${OrderId}`, {
-        headers: { authorization: `Bearer ${user.token}` },
-      });
-      setAdminOrders(results.data.updatedOrders);
-      return toast(results.data.message);
-    } catch (e) {
-      return toast.error(e.response.data.error);
-    }
+
+  const getOrderToDeleteId = async (orderId) => {
+    setOrderToDeleteID(orderId);
+    setPopup(!popup);
   };
   return (
     <div
@@ -78,7 +77,7 @@ const RecentOrdersCharts = ({ Orders }) => {
                       <th className="">OrderId</th>
                       <th>Status</th>
                       <th>Customer</th>
-                      <th>Date</th>
+                      <th className="hidden md:inline">Date</th>
                       <th>Total</th>
                     </tr>
                   </>
@@ -93,9 +92,9 @@ const RecentOrdersCharts = ({ Orders }) => {
                           {" "}
                           <tr
                             key={item._id}
-                            className="flex relative w-stretch overflow-auto overflow-x-auto border px-2 border-c-gold justify-between  md:w-full items-center   text-c-gold "
+                            className="flex  relative w-full overflow-auto overflow-x-auto border px-2 border-c-gold justify-between   md:w-full items-center self-center   text-c-gold "
                           >
-                            <td className="h-8 font-bold w-full transition duration-1000 left-0 absolute bg-c-gold hover:opacity-100 opacity-0 hover:visible z-50 text-c-green px-4 border border-c-green flex justify-between items-center text-xl ">
+                            <td className="h-8 font-bold w-full transition duration-1000 left-0 absolute bg-c-gold hover:opacity-100 opacity-0 hover:visible z-40 text-c-green px-4 border border-c-green flex justify-between items-center text-xl ">
                               <button className="underline hover:animate-pulse  ">
                                 <NavLink
                                   to={`/order/orderhistory/${item._id}`}
@@ -106,19 +105,19 @@ const RecentOrdersCharts = ({ Orders }) => {
                               </button>
 
                               <button
-                                onClick={() => handleProductDelete(item._id)}
+                                onClick={() => getOrderToDeleteId(item._id)}
                                 className="underline hover:animate-pulse hover:text-red-600 transition duration-500 "
                               >
                                 <RiDeleteBin4Line />
                               </button>
                             </td>
-                            <td className="text-xs md:text-base hover:underline hover:text-gray-400 border-c-gold md:border-none w-24  px-2  md:px-0">
+                            <td className="w-3/12 md:w-24 flex justify-center items-center text-xs md:text-base hover:underline hover:text-gray-400 border-c-gold md:border-none  px-2  md:px-0">
                               {item.orderNo}
                             </td>
-                            <td className="border-r border-c-gold md:border-none w-24 flex items-center justify-center py-1 md:py-2 text-c-green text-xs md:text-base md:px-0 ">
+                            <td className=" border-c-gold md:border-none w-3/12 md:w-24  flex items-center justify-center  md:py-2 text-c-green text-xs md:text-base md:px-0 ">
                               {!item.isPaid ? (
                                 <span className="bg-[#716761]  px-3  rounded-lg py-1">
-                                  <small className=""> Unpaid</small>
+                                  {/* <small className=""> Unpaid</small> */}
                                   <span className="mx-1">
                                     <i
                                       className="fa fa-times"
@@ -128,7 +127,7 @@ const RecentOrdersCharts = ({ Orders }) => {
                                 </span>
                               ) : (
                                 <span className="bg-c-gold  px-3  rounded-lg py-1">
-                                  <small> paid</small>
+                                  {/* <small> paid</small> */}
                                   <span className="mx-1">
                                     <i
                                       className="fa fa-check"
@@ -138,18 +137,18 @@ const RecentOrdersCharts = ({ Orders }) => {
                                 </span>
                               )}
                             </td>
-                            <td className="border-r border-c-gold md:border-none  w-40 flex py-2 justify-start  text-xs md:text-base px-2  md:px-0 ">
-                              <small>
-                                <span className="p-1 mx-1 border border-c-gold rounded-full">
+                            <td className=" border-c-gold md:border-none w-4/12 md:w-40  flex py-2 justify-start items-center  text-xs md:text-base  md:px-0 ">
+                              <small className="w-full ">
+                                <span className="p-1 mx-1 border border-c-gold rounded-full ">
                                   {item.ShippingDetails.Fname.substring(0, 2)}
                                 </span>
-                                {item.ShippingDetails.Fname}
+                                {item.ShippingDetails.Fname.substring(0, 15)}
                               </small>
                             </td>
-                            <td className="text-xs md:text-base border-r py-2 border-c-gold md:border-none w-20 flex justify-center px-2  md:px-0">
+                            <td className="hidden w-3/12 md:w-24  text-xs md:text-base  py-2 border-c-gold md:border-none md:flex justify-center px-2  md:px-0">
                               {formatDate(new Date(item.createdAt))}
                             </td>
-                            <td className=" border-c-gold md:border-none w-20 flex justify-center text-xs md:text-base px-2  md:px-0">
+                            <td className="w-3/12 md:w-24  border-c-gold md:border-none  flex justify-center text-xs md:text-base px-2  md:px-0">
                               {formatToCurrency(item.totalPrice)}
                             </td>
                           </tr>
@@ -182,6 +181,7 @@ const RecentOrdersCharts = ({ Orders }) => {
           )}
         </>
       }
+      <AdminPopUp />
     </div>
   );
 };

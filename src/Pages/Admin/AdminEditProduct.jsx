@@ -116,6 +116,7 @@ const AdminEditProduct = () => {
         setSingleProduct(data.product);
         setImageGallery([]);
         setProductImage([]);
+        setImageGalleryBack([]);
         return toast(data.message);
       } catch (e) {
         toast.error(e.response.data.error);
