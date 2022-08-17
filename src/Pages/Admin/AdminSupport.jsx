@@ -5,7 +5,7 @@ import { CgArrowLongLeft } from "react-icons/cg";
 import AdminSharedHeader from "./Components/AdminSharedHeader";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import { useStateContext } from "../../context/Statecontext";
 /// This function sets the time in in minutes, days, hours, months , years ago format.
 function timeDifference(current, previous) {
   var msPerMinute = 60 * 1000;
@@ -66,6 +66,7 @@ const AdminSupport = () => {
   const [messages, setMessages] = useState([]);
   const [chats, setChats] = useState(false);
   const [searchterm, setSearchterm] = useState("");
+  const { themeBG } = useStateContext();
   let textInput = React.createRef();
 
   useEffect(() => {
@@ -135,7 +136,7 @@ const AdminSupport = () => {
         <div
           className={`${
             chatMenu ? "-left-full w-0" : "w-full left-0 "
-          }  z-20   h-screen   lg:w-3/12  fixed  bg-black pt-12`}
+          }  z-20   h-screen   lg:w-3/12  fixed  ${themeBG} my-4 pt-12`}
         >
           <div className="search flex flex-row items-center py-3">
             <div className="userImg px-1">
@@ -148,10 +149,10 @@ const AdminSupport = () => {
             <div className="userImg px-2 relative flex items-center  ">
               <BsSearch className="absolute ml-2  " />
               <input
-                type="search"
+                type="text"
                 onChange={(e) => setSearchterm(e.target.value)}
-                placeholder="search messages"
-                className="border border-c-gold w-10/12 active:border-none px-20 pl-8 py-1 bg-black rounded-md"
+                placeholder="search names"
+                className={` ${themeBG} border border-c-gold w-10/12 active:border-none px-10  py-1  rounded-md`}
               />
             </div>
           </div>

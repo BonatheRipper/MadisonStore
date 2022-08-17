@@ -28,6 +28,7 @@ import AdminProducts from "./Pages/Admin/AdminProducts";
 import AdminAddProduct from "./Pages/Admin/AdminAddProduct";
 import AdminEditProduct from "./Pages/Admin/AdminEditProduct";
 import AdminSupport from "./Pages/Admin/AdminSupport";
+import Welcome from "./Pages/Admin/Cms/Welcome";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
@@ -60,7 +61,6 @@ const App = () => {
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/admin/products" element={<AdminProducts />} />
           <Route path="/admin/support" element={<AdminSupport />} />
-
           <Route
             path="/admin/products/addproduct"
             element={<AdminAddProduct />}
@@ -69,6 +69,8 @@ const App = () => {
             path="/admin/products/update/:productId"
             element={<AdminEditProduct />}
           />
+          <Route path="/admin/cms/welcome" element={<Welcome />} />
+
           <Route path="*" element={<Four0Four />} />
         </Routes>
       </div>

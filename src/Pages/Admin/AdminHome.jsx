@@ -1,9 +1,7 @@
 import React, { PureComponent, useState, useEffect } from "react";
-import { Rating } from "react-simple-star-rating";
 
 import { FetchOrdersAdmin } from "./Services/FetchOrdersAdmin";
 // import { useStateContext } from "../context/contextProvider";
-
 import {
   BarChart,
   Cell,
@@ -192,7 +190,21 @@ const TrafficSourceData = [
   { name: "YouTue", value: 3900, color: "#816bff" },
   { name: "Others", value: 1000, color: "#6f9a37" },
 ];
-
+function TooltipStyle(h) {
+  return {
+    color: "black",
+    display: "flex",
+    flexDirection: "row",
+    flex: "1",
+    justifyContent: "center",
+    alignItems: "center",
+    height: h,
+    borderRadius: "13px 6px 6px 13px",
+    border: "1px solid #D2B6A2",
+    marginRight: "5px",
+    backgroundColor: "#D2B6A2",
+  };
+}
 const MonthlyChart = () => {
   return (
     <ResponsiveContainer width="100%" height={100}>
@@ -208,10 +220,14 @@ const MonthlyChart = () => {
         }}
       >
         {/* <CartesianGrid strokeDasharray="3 3" /> */}
-        <XAxis dataKey="Date" style={{ fontSize: "8px" }} stroke="white" />
+        <XAxis
+          dataKey="Date"
+          style={{ fontSize: "8px", padding: "3px" }}
+          stroke="white"
+        />
         {/* <YAxis /> */}
-        <Tooltip height={50} />
-        <Area type="monotone" dataKey="Sales" stroke="" fill="#D2B6A2" />
+        <Tooltip contentStyle={TooltipStyle("15px")} />
+        <Area type="monotone" dataKey="Sales" stroke="black" fill="#D2B6A2" />
       </AreaChart>
     </ResponsiveContainer>
   );
@@ -221,8 +237,9 @@ const OrdersNow = () => {
   return (
     <ResponsiveContainer width="100%" height={50}>
       <LineChart width={300} height={100} data={data}>
-        <Tooltip />
+        <Tooltip contentStyle={TooltipStyle("15px")} />
         <Legend />
+
         <Line
           type="monotone"
           dataKey="Sales"
@@ -247,12 +264,8 @@ const OrdersOverTime = () => {
           bottom: 0,
         }}
       >
-        {/* <CartesianGrid strokeDasharray="1 1" /> */}
-        {/* <XAxis dataKey="name" /> */}
-        {/* <YAxis /> */}
-        <Tooltip />
-        {/* <Legend /> */}
-        <Bar dataKey="Date" fill="gray" />
+        <Tooltip contentStyle={TooltipStyle("50px")} cursor={false} />
+        <Bar dataKey="Date" fill="black" stroke="black" />
         <Bar dataKey="Sales" fill="#D2B6A2" />
       </BarChart>
     </ResponsiveContainer>
@@ -283,7 +296,7 @@ const TrafficSource = () => {
           })}
         </Pie>
 
-        <Tooltip width={20} />
+        <Tooltip width={20} contentStyle={TooltipStyle()} />
       </PieChart>
     </ResponsiveContainer>
   );
