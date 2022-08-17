@@ -6,6 +6,7 @@ import AdminSharedHeader from "./Components/AdminSharedHeader";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+/// This function sets the time in in minutes, days, hours, months , years ago format.
 function timeDifference(current, previous) {
   var msPerMinute = 60 * 1000;
   var msPerHour = msPerMinute * 60;
@@ -18,19 +19,20 @@ function timeDifference(current, previous) {
   if (elapsed < msPerMinute) {
     if (elapsed / 1000 < 30) return " now";
 
-    return Math.round(elapsed / 1000) + " seconds ago";
+    return `started ~ ${Math.round(elapsed / 1000)} seconds ago`;
   } else if (elapsed < msPerHour) {
-    return Math.round(elapsed / msPerMinute) + " minutes ago";
+    return `${Math.round(elapsed / msPerMinute)} minutes ago`;
   } else if (elapsed < msPerDay) {
-    return Math.round(elapsed / msPerHour) + " hours ago";
+    return `started ~ ${Math.round(elapsed / msPerHour)} hours ago`;
   } else if (elapsed < msPerMonth) {
-    return Math.round(elapsed / msPerDay) + " days ago";
+    return `started ~ ${Math.round(elapsed / msPerDay)} days ago`;
   } else if (elapsed < msPerYear) {
-    return Math.round(elapsed / msPerMonth) + " months ago";
+    return `started ~ ${Math.round(elapsed / msPerMonth)} months ago`;
   } else {
-    return Math.round(elapsed / msPerYear) + " years ago";
+    return `started ~ ${Math.round(elapsed / msPerYear)} years ago`;
   }
 }
+//This fucntion sets the chats date my months format
 function getDateByMonths(date) {
   var months = [
     "January",
@@ -49,6 +51,7 @@ function getDateByMonths(date) {
   var d = new Date(date);
   return months[d.getMonth()] + " " + String(d.getDate()).padStart(2, "0");
 }
+// This function sorts the chats message by date posted
 function sortDateChatsByDate(array) {
   return array.sort(function (a, b) {
     var dateA = new Date(a.time),
@@ -62,21 +65,24 @@ const AdminSupport = () => {
   const [chatMenu, SetchatMenu] = useState(false);
   const [messages, setMessages] = useState([]);
   const [chats, setChats] = useState(false);
-  const [text, setText] = useState("");
+  const [searchterm, setSearchterm] = useState("");
   let textInput = React.createRef();
 
   useEffect(() => {
     const fetchMessages = async () => {
+      //we fetch all messages from server, we set chatbox to first message
       try {
         const messages = await axios.get("/api/support/message");
-        console.log(messages);
         setMessages(messages.data);
+        setChats(messages.data[0]);
       } catch (e) {
         console.log(e);
       }
     };
     fetchMessages();
   }, []);
+
+  // on click of any chat we get the chat from server and setCurrent chatbox to it.
   const HandleChatState = async (messageId) => {
     try {
       const messages = await axios.get(`/api/support/message/${messageId}`);
@@ -87,6 +93,8 @@ const AdminSupport = () => {
       toast.error("There was an error");
     }
   };
+
+  //we set meessage preview to last message user sent
   const lastMessageFromUser = (chats) => {
     for (let chat of chats.reverse()) {
       if (!chat.isAdmin) {
@@ -94,10 +102,12 @@ const AdminSupport = () => {
       }
     }
   };
+  //show or hide chatBox mobile
   const toggleChatPane = () => {
     SetchatMenu(!chatMenu);
   };
 
+  //send admin reply to server, then update chat aftwerwards
   const handAdminReply = async (messageId) => {
     let text = textInput.current.value;
 
@@ -108,7 +118,7 @@ const AdminSupport = () => {
       );
       toast(messages.data.success);
       setChats(messages.data.chat);
-      setText("");
+      setSearchterm("");
     } catch (e) {
       console.log(e);
       toast.error("There was an error");
@@ -139,60 +149,71 @@ const AdminSupport = () => {
               <BsSearch className="absolute ml-2  " />
               <input
                 type="search"
+                onChange={(e) => setSearchterm(e.target.value)}
                 placeholder="search messages"
                 className="border border-c-gold w-10/12 active:border-none px-20 pl-8 py-1 bg-black rounded-md"
               />
             </div>
           </div>
-          {/* //THIS IS WHERE I SHOULD MAP USERS */}
-          {/* //THIS IS WHERE I SHOULD MAP USERS */}
-          {/* //THIS IS WHERE I SHOULD MAP USERS */}
+
+          {/* // Filtering messages functions*/}
+
           {messages.length !== 0 && (
             <>
-              {messages.map((message) => {
-                return (
-                  <div
-                    id="RecentChats"
-                    key={message._id}
-                    onClick={() => HandleChatState(message._id)}
-                    className={` flex flex-row my-2 items-center py-1 border-b border-c-gold`}
-                  >
-                    <div className="userImg p-1 items-center flex flex-row w-full relative">
-                      <div className="flex relative  px-1">
-                        <img
-                          src="https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png"
-                          alt="Profilepic"
-                          className="w-11 h-11 rounded-full "
-                        />
-                        <RiCheckboxBlankCircleFill className="w-2 h-2 absolute mt-1 text-green-500 " />
-                      </div>
-                      <div className=" flex flex-row px-2 items-center justify-between  w-full">
-                        <div className="flex flex-col w-full text-left  ">
-                          <small className="bold text-gray-500">
-                            {message.name}
-                          </small>
-                          <small className="">
-                            {lastMessageFromUser(message.messages).message}
-                          </small>
+              {messages
+                .filter((val) => {
+                  if (searchterm === "") {
+                    return val;
+                  } else if (
+                    val.name.toLowerCase().includes(searchterm.toLowerCase())
+                  ) {
+                    return val;
+                  }
+                })
+                .map((message) => {
+                  return (
+                    <div
+                      id="RecentChats"
+                      key={message._id}
+                      onClick={() => HandleChatState(message._id)}
+                      className={` flex flex-row my-2 items-center py-1 border-b border-c-gold`}
+                    >
+                      <div className="userImg p-1 items-center flex flex-row w-full relative">
+                        <div className="flex relative  px-1">
+                          <img
+                            src="https://dl.memuplay.com/new_market/img/com.vicman.newprofilepic.icon.2022-06-07-21-33-07.png"
+                            alt="Profilepic"
+                            className="w-11 h-11 rounded-full "
+                          />
+                          <RiCheckboxBlankCircleFill className="w-2 h-2 absolute mt-1 text-green-500 " />
                         </div>
-                        <div className="lastSeeen text-right w-8/12">
-                          <small
-                            style={{ fontSize: "10px" }}
-                            className="px-5 w-full"
-                          >
-                            {timeDifference(
-                              new Date(),
-                              new Date(
-                                lastMessageFromUser(message.messages).time
-                              )
-                            )}
-                          </small>
+                        <div className=" flex flex-row px-2 items-center justify-between  w-full">
+                          <div className="flex flex-col w-full text-left  ">
+                            <small className="bold text-gray-500">
+                              {message.name}
+                            </small>
+                            <small className="">
+                              {lastMessageFromUser(message.messages).message}
+                            </small>
+                          </div>
+                          <div className="lastSeeen text-right w-11/12">
+                            <small
+                              style={{ fontSize: "10px" }}
+                              className="px-5 w-full"
+                            >
+                              {timeDifference(
+                                new Date(),
+                                new Date(
+                                  lastMessageFromUser(message.messages).time
+                                )
+                              )}
+                            </small>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </>
           )}
 
@@ -250,18 +271,37 @@ const AdminSupport = () => {
                 </div>
               </div>
               <div className="py-6  h-full flex flex-col items-center  w-full  grow top-24 z-0 text-center">
-                {sortDateChatsByDate(chats.messages).map((chat) => {
+                {sortDateChatsByDate(chats.messages).map((chat, i) => {
                   return (
                     <div
+                      key={chat._id}
                       id={!chat.isAdmin ? "UserChats" : "AdminChats"}
                       className="  w-full h-auto pb-10"
                     >
-                      {" "}
-                      <div className="  w-full h-5  text-center flex ">
-                        <small className="text-xs items-center w-full bold ">
-                          {getDateByMonths(chat.time)}
-                        </small>
-                      </div>
+                      {/* Using tenary operator to check date of chat, if date of chat not equals previous date, display the date, else, ignore */}
+                      {sortDateChatsByDate(chats.messages)[i - 1] ? (
+                        getDateByMonths(
+                          sortDateChatsByDate(chats.messages)[i].time
+                        ) !==
+                        getDateByMonths(
+                          sortDateChatsByDate(chats.messages)[i - 1].time
+                        ) ? (
+                          <div className="  w-full h-5  text-center flex ">
+                            <small className="text-xs items-center w-full bold ">
+                              {getDateByMonths(chat.time)}
+                            </small>
+                          </div>
+                        ) : (
+                          console.log("No")
+                        )
+                      ) : (
+                        <div className="  w-full h-5  text-center flex ">
+                          <small className="text-xs items-center w-full bold ">
+                            {getDateByMonths(chat.time)}
+                          </small>
+                        </div>
+                      )}
+
                       {!chat.isAdmin ? (
                         <div
                           className={`${
@@ -313,14 +353,14 @@ const AdminSupport = () => {
                   <input
                     type="text"
                     // value={text}
-                    // onChange={(e) => setText(e.target.value)}
+                    // onChange={(e) => setSearchterm(e.target.value)}
                     ref={textInput}
                     placeholder="  Hello my name is Max"
                     className="rounded-lg  border border-c-gold w-full  py-2 m-0"
                   />
                   <button
                     onClick={() => handAdminReply(chats._id)}
-                    className="rounded-lg text-c-gold  border border-c-gold fixed px-4  py-2 bg-black right-0"
+                    className="rounded-lg text-c-gold  border border-c-gold absolute px-4  py-2 bg-black right-0"
                   >
                     Send
                   </button>

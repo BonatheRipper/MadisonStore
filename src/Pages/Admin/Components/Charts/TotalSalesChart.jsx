@@ -56,7 +56,7 @@ const TotalSalesChart = ({ chart, Orders }) => {
     <div
       className={`${themeBG} relative shadow-lg ${
         !Orders.length ? "h-64 " : "h-full "
-      } w-full mb-3 mx-1 text-c-gold rounded p-0 py-4 border border-c-gold`}
+      } w-full mb-3  text-c-gold rounded p-0 py-4 border border-c-gold`}
     >
       {
         <>
