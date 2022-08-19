@@ -28,7 +28,10 @@ import AdminProducts from "./Pages/Admin/AdminProducts";
 import AdminAddProduct from "./Pages/Admin/AdminAddProduct";
 import AdminEditProduct from "./Pages/Admin/AdminEditProduct";
 import AdminSupport from "./Pages/Admin/AdminSupport";
-import Welcome from "./Pages/Admin/Cms/Welcome";
+import WelcomeCms from "./Pages/Admin/Cms/WelcomeCms";
+import AboutCms from "./Pages/Admin/Cms/AboutCms";
+import SubscriptionCms from "./Pages/Admin/Cms/SubscriptionCms";
+import ContactCms from "./Pages/Admin/Cms/ContactCms";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
@@ -69,7 +72,10 @@ const App = () => {
             path="/admin/products/update/:productId"
             element={<AdminEditProduct />}
           />
-          <Route path="/admin/cms/welcome" element={<Welcome />} />
+          <Route path="/admin/cms/welcome" element={<WelcomeCms />} />
+          <Route path="/admin/cms/about" element={<AboutCms />} />
+          <Route path="/admin/cms/subscription" element={<SubscriptionCms />} />
+          <Route path="/admin/cms/contact" element={<ContactCms />} />
 
           <Route path="*" element={<Four0Four />} />
         </Routes>
