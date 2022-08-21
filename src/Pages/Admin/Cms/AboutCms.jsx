@@ -7,14 +7,22 @@ const AboutCms = () => {
   const [title, setTitle] = useState("");
   const [header, setHeader] = useState("");
   const [button, setButton] = useState("");
+  const [body, setBody] = useState("");
 
+  const handFormSubmit = async (e) => {
+    e.preventDefault();
+    console.log(title, header, body, button);
+  };
   return (
     <>
       <div className="relative bg-[#F1FFFD] m-0  flex flex-col w-full  h-screen">
         <AdminSharedHeader />
         <div className="flex p-2 md:p-6 flex-col my-20 w-full text-c-green">
           <p className="text-xl font-bold font-fair "> About Page</p>
-          <form className="my-4 w-full border">
+          <form
+            onSubmit={(e) => handFormSubmit(e)}
+            className="my-4 w-full border"
+          >
             <InputCms
               header="Title"
               value={title}
@@ -30,7 +38,13 @@ const AboutCms = () => {
               <label htmlFor="body" className=" py-2 text-sm">
                 Body
               </label>
-              <textarea id="body" className="h-60"></textarea>
+              <textarea
+                id="body"
+                className="h-60"
+                onChange={(e) => setBody(e.target.value)}
+              >
+                {body}
+              </textarea>
             </div>
             <InputCms
               header="Button"

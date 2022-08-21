@@ -7,9 +7,8 @@ const InputCms = ({ header, value, click }) => {
         {header}
       </label>
       <input
-        onChange={"="}
         value={value}
-        onClick={click}
+        onChange={click}
         type="text"
         id={value}
         className=" h-8 border"

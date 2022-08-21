@@ -44,19 +44,3 @@ const SubscriptionCms = () => {
 };
 
 export default SubscriptionCms;
-
-// var arr = [10,4,2,56,33,582,4,3,1,4]
-// var sorted=[]
-// var x= -1
-//  while(sorted.length!==arr.length){
-//   x++
-//   if(x===arr.length){
-//     x=-1
-//   }
-//   sorted.push(arr[x])
-//   for(var i=0; i<sorted.length; i++){
-//     console.log(sorted[i] + "==" + arr[x]);
-//   }
-
-//  }
-//     console.log(sorted);
