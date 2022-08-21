@@ -12,7 +12,7 @@ import { BiSupport } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 import { IoIosPeople } from "react-icons/io";
 import { AiFillHome } from "react-icons/ai";
-import { FcAbout } from "react-icons/fc";
+import { BsCardHeading } from "react-icons/bs";
 
 import { useStateContext } from "../../../context/Statecontext";
 
@@ -40,6 +40,11 @@ const AdminSidebarLeft = ({}) => {
             text="Home"
             icon={<AiFillHome />}
             link="/admin/cms/welcome"
+          />
+          <LeftSideBarBtn
+            text="H-Header"
+            icon={<BsCardHeading />}
+            link="/admin/cms/header"
           />
           <LeftSideBarBtn
             text="About"

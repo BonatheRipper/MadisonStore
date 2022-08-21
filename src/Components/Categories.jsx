@@ -4,9 +4,12 @@ import { useStateContext } from "../context/Statecontext";
 import { useEffect } from "react";
 import LoadingScreen from "../Screens/LoadingScreen";
 import { GetCategories } from "../services/GetCategories";
+import Aos from "aos";
 const Categories = () => {
   const { categories, setCats } = useStateContext();
   useEffect(() => {
+    Aos.init({ duration: 500 });
+
     GetCategories(setCats);
   }, []);
 
@@ -15,7 +18,7 @@ const Categories = () => {
       {!categories.length ? (
         <LoadingScreen />
       ) : (
-        <div className="w-full py-6 my-14">
+        <div data-aos="fade-up" className="w-full py-6 my-14">
           <div className="CategoriesForYou border-b border-b-black w-full flex justify-center">
             <h1 className="font-fair text-3xl text-c-green mb-4">
               Categories For You

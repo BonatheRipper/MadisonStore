@@ -9,7 +9,7 @@ const LongButtons = ({ to, css, text }) => {
   return (
     <NavLink
       to={to}
-      className={`${themeShape}  bg-c-gold w-full md:w-10/12  px-3 py-3 text-center hover:bg-white  transition duration-1000 ${css}`}
+      className={`${themeShape} w-full bg-c-gold px-3 py-3 text-center hover:bg-white  transition duration-1000 ${css}`}
     >
       {text}
     </NavLink>

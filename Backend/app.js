@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import productRouter from "./routes/productRoutes.js";
 import reviewRouter from "./routes/reviewRoute.js";
+import pagesRouter from "./routes/pagesRouter.js";
+
 import orderRouter from "./routes/orderRouter.js";
 import usersRouter from "./routes/usersRoutes.js";
 import supportRouter from "./routes/supportRouter.js";
@@ -42,6 +44,7 @@ app.use("/api/keys", gatewayRouter);
 app.use("/api/review", reviewRouter);
 app.use("/api/subscription", subscribersRouter);
 app.use("/api/support", supportRouter);
+app.use("/api/pages", pagesRouter);
 
 // const __dirname = path.resolve();
 // app.use(express.static(path.join(__dirname, "../build")));

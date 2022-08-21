@@ -1,5 +1,8 @@
+import axios from "axios";
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import AdminSharedHeader from "../Components/AdminSharedHeader";
 import InputCms from "../Components/InputCms";
 
@@ -10,15 +13,71 @@ const ContactCms = () => {
   const [phone, setPhone] = useState("");
   const [website, setWebsite] = useState("");
   const [button, setButton] = useState("");
+  const [address, setAddressText] = useState("");
+  useEffect(() => {
+    const getPage = async () => {
+      try {
+        const { data } = await axios.get("/api/pages/contact");
+        if (data) {
+          setTitle(data.title);
+          setButton(data.ButtonText);
+          setBody(data.BodyText);
+          setEmail(data.emailText);
+          setPhone(data.phoneText);
+          setWebsite(data.websiteText);
+          setAddressText(data.AddressText);
+        }
+      } catch (e) {
+        toast.error(e.response.data);
+      }
+    };
+    getPage();
+  }, []);
 
-  const [header, setHeader] = useState("");
+  const handFormSubmit = async (e) => {
+    e.preventDefault();
+    console.log(title, address, body, button);
+    if (!title || !body || !button) {
+      return toast.error("Some fields are missing ");
+    } else {
+      const contact = {
+        title: title,
+        BodyText: body,
+        ButtonText: button,
+        websiteText: website,
+        phoneText: phone,
+        emailText: email,
+        AddressText: address,
+      };
+      const postPage = async () => {
+        try {
+          const { data } = await axios.post("/api/pages/contact", { contact });
+          setTitle(data.title);
+          setButton(data.ButtonText);
+          setBody(data.BodyText);
+          setEmail(data.emailText);
+          setPhone(data.phoneText);
+          setWebsite(data.websiteText);
+          setAddressText(data.AddressText);
+
+          return toast("Page updated successfully");
+        } catch (e) {
+          toast.error(e.response.data);
+        }
+      };
+      postPage();
+    }
+  };
   return (
     <>
       <div className="relative bg-[#F1FFFD] m-0  flex flex-col w-full  h-screen">
         <AdminSharedHeader />
         <div className="flex p-2 md:p-6 flex-col my-20 w-full text-c-green">
           <p className="text-xl font-bold font-fair "> Contacxt Page</p>
-          <form className="my-4 w-full border">
+          <form
+            onSubmit={(e) => handFormSubmit(e)}
+            className="my-4 w-full border"
+          >
             <InputCms
               header="Title"
               value={title}
@@ -29,7 +88,12 @@ const ContactCms = () => {
               <label htmlFor="body" className=" py-2 text-sm">
                 Body
               </label>
-              <textarea id="body" className="h-60"></textarea>
+              <textarea
+                onChange={(e) => setBody(e.target.value)}
+                value={body}
+                id="body"
+                className="h-60"
+              ></textarea>
             </div>
             <InputCms
               header="Phone"
@@ -40,6 +104,11 @@ const ContactCms = () => {
               header="Email"
               value={email}
               click={(e) => setEmail(e.target.value)}
+            />
+            <InputCms
+              header="Address"
+              value={address}
+              click={(e) => setAddressText(e.target.value)}
             />
             <InputCms
               header="Website"

@@ -32,6 +32,7 @@ import WelcomeCms from "./Pages/Admin/Cms/WelcomeCms";
 import AboutCms from "./Pages/Admin/Cms/AboutCms";
 import SubscriptionCms from "./Pages/Admin/Cms/SubscriptionCms";
 import ContactCms from "./Pages/Admin/Cms/ContactCms";
+import HomeHeaderCms from "./Pages/Admin/Cms/HomeHeaderCms";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
@@ -76,6 +77,7 @@ const App = () => {
           <Route path="/admin/cms/about" element={<AboutCms />} />
           <Route path="/admin/cms/subscription" element={<SubscriptionCms />} />
           <Route path="/admin/cms/contact" element={<ContactCms />} />
+          <Route path="/admin/cms/header" element={<HomeHeaderCms />} />
 
           <Route path="*" element={<Four0Four />} />
         </Routes>

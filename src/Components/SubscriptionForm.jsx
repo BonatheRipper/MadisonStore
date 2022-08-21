@@ -1,15 +1,31 @@
 import axios from "axios";
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useStateContext } from "../context/Statecontext";
-import { NormalButton } from "./LongButtons";
 
 const SubscriptionForm = () => {
   const { themeBG, themeShape } = useStateContext();
   const [emailPending, setemailPending] = useState(false);
   const [email, setEmail] = useState(" ");
+  const [page, setPage] = useState({});
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const getPage = async () => {
+      try {
+        const { data } = await axios.get("/api/pages/subscription");
+        if (data) {
+          setPage(data);
+          return setLoading(false);
+        }
+      } catch (e) {
+        toast.error(e.response.data);
+      }
+    };
+    getPage();
+  }, []);
   function validateEmail(email) {
     const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return re.test(email);
@@ -38,11 +54,8 @@ const SubscriptionForm = () => {
       onSubmit={(e) => handleSubscription(e, email)}
       className="flex flex-col justify-between w-full md:w-3/5 mt-6 md:mt-0 space-y-8 md:space-y-0 "
     >
-      <h6 className="tracking-widest   text-xl">Subscribe to our newsletter</h6>
-      <p className="text-base text-center md:text-left">
-        Signup to get the latest discount and information on our products &
-        services
-      </p>
+      <h6 className="tracking-widest   text-xl">{page.title}</h6>
+      <p className="text-base text-center md:text-left">{page.BodyText}</p>
       <div className="flex flex-col py">
         <label className="relative focus-within:text-c-gold block">
           <span className="pointer-events-none w-8 h-8 absolute top-1/2 transform -translate-y-1/2 left-3">
@@ -64,7 +77,7 @@ const SubscriptionForm = () => {
             emailPending ? "animate-bounce" : ""
           } border-c-gold hover:text-black  px-3 py-3 text-center hover:bg-white  transition duration-1000  `}
         >
-          Subscribe
+          {page.ButtonText}
         </button>
       </div>
     </form>

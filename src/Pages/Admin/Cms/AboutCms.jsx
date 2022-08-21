@@ -1,17 +1,58 @@
+import axios from "axios";
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import AdminSharedHeader from "../Components/AdminSharedHeader";
 import InputCms from "../Components/InputCms";
 
 const AboutCms = () => {
   const [title, setTitle] = useState("");
-  const [header, setHeader] = useState("");
+  const [header, setHeader] = useState();
   const [button, setButton] = useState("");
   const [body, setBody] = useState("");
+  useEffect(() => {
+    const getPage = async () => {
+      try {
+        const { data } = await axios.get("/api/pages/about");
+        if (data) {
+          setTitle(data.title);
+          setHeader(data.headerText);
+          setButton(data.ButtonText);
+          setBody(data.BodyText);
+        }
+      } catch (e) {
+        toast.error(e.response.data);
+      }
+    };
+    getPage();
+  }, []);
 
   const handFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(title, header, body, button);
+    if (!title || !header || !body || !button) {
+      return toast.error("Some fields are missing ");
+    } else {
+      const about = {
+        title: title,
+        headerText: header,
+        BodyText: body,
+        ButtonText: button,
+      };
+      const postPage = async () => {
+        try {
+          const { data } = await axios.post("/api/pages/about", { about });
+          setTitle(data.title);
+          setHeader(data.headerText);
+          setButton(data.ButtonText);
+          setBody(data.BodyText);
+          return toast("Page updated successfully");
+        } catch (e) {
+          toast.error(e.response.data);
+        }
+      };
+      postPage();
+    }
   };
   return (
     <>
@@ -42,9 +83,8 @@ const AboutCms = () => {
                 id="body"
                 className="h-60"
                 onChange={(e) => setBody(e.target.value)}
-              >
-                {body}
-              </textarea>
+                value={body}
+              ></textarea>
             </div>
             <InputCms
               header="Button"
