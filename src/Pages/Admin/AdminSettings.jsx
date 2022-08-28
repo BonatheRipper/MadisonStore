@@ -8,114 +8,75 @@ import axios from "axios";
 import { useStateContext } from "../../context/Statecontext";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import AdminsettingsInput from "./Components/AdminsettingsInput";
 const AdminSettings = () => {
   const { user } = useStateContext();
-  const [singleProduct, setSingleProduct] = useState(false);
-  const { productId } = useParams();
 
-  const [slug, setSlug] = useState("");
-  const [description, setDesciption] = useState("");
-  const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
-  const [material, setMaterial] = useState("");
   const [title, setTitle] = useState("");
-  const [itemInStock, setItemInStock] = useState("");
-  const [imageGallery, setImageGallery] = useState([]);
-  const [imageGalleryBack, setImageGalleryBack] = useState([]);
-  const [productImageBack, setProductImageBack] = useState([]);
+  const [tawkTo, setTawkTo] = useState("");
+
+  const [description, setDescription] = useState("");
+  const [websiteLogoBack, setwebsiteLogoBack] = useState([]);
+  const [websiteFaviconBack, setwebsiteFaviconBack] = useState([]);
+  const [websiteFavicon, setwebsiteFavicon] = useState([]);
+
   const [serverImage, setServerImage] = useState(false);
-  const [serverGallery, setServerGallery] = useState(false);
 
-  const [productImage, setProductImage] = useState([]);
+  const [websiteLogo, setwebsiteLogo] = useState([]);
 
-  useEffect(() => {
-    const getProducts = async () => {
-      try {
-        setSingleProduct(false);
-        const results = await axios.get(`/api/products/`);
-        if (results.data) {
-          setSingleProduct(results.data);
-        } else {
-        }
-      } catch (e) {
-        console.log(e.response.data.error);
-        setSingleProduct(false);
-      }
-    };
-    if (!singleProduct) {
-      getProducts();
-    } else {
-      setSlug(singleProduct.slug);
-      setSingleProduct(singleProduct);
-      setCategory(singleProduct.category);
-      setPrice(singleProduct.price);
-      setDesciption(singleProduct.description);
-      setTitle(singleProduct.name);
-      setMaterial(singleProduct.material);
-      setItemInStock(singleProduct.countInStock);
-      setServerImage(singleProduct.image);
-      setServerGallery(singleProduct.gallery);
-    }
-  }, [setSingleProduct, productId, singleProduct]);
+  useEffect(() => {}, []);
   const handleUploadImageChange = (e) => {
+    // setwebsiteLogoBack sets the logo image to be uploaded in backend
+    // setwebsiteLogo sets the logo image to be previewed in frontend
+    // setwebsiteFavicon sets the favicon image to be previewd in frontend
+    // setwebsiteFaviconBack sets the Favicon image to be uploaded in backend
+
     let imageArr = [];
+    // we loop through all the images and create a preview
     for (let image of e.target.files) {
       imageArr.push(URL.createObjectURL(image));
     }
-    if (e.target.id === "imageGallery") {
-      setImageGalleryBack(e.target.files);
-      return setImageGallery(imageArr);
+    if (e.target.id === "websiteLogo") {
+      setwebsiteLogoBack(e.target.files[0]);
+      return setwebsiteLogo(imageArr.slice(0, 1));
+    } else {
+      setwebsiteFaviconBack(e.target.files[0]);
+      setwebsiteFavicon(imageArr.slice(0, 1));
     }
-    setProductImageBack(e.target.files[0]);
-    return setProductImage(imageArr.slice(0, 1));
   };
-  const handleProductEdit = async (e) => {
+  const handleSettingsUpdate = async (e) => {
     e.preventDefault();
-    console.log(serverImage);
+    console.log(title);
+
     var myFormData = new FormData();
     if (
-      (slug &&
-        description &&
-        price &&
-        category &&
-        material &&
-        title &&
-        itemInStock) ||
-      (productImage.length !== 0 && serverImage.public_id !== "NONE")
+      title &&
+      tawkTo &&
+      description &&
+      websiteLogo.length !== 0 &&
+      serverImage.public_id !== "NONE"
     ) {
-      myFormData.append("slug", slug);
-      myFormData.append("description", description);
-      myFormData.append("price", price);
       myFormData.append("title", title);
-      myFormData.append("itemInStock", itemInStock);
-      myFormData.append("category", category);
-      myFormData.append("material", material);
-      myFormData.append("serverImage", serverImage.public_id);
+      myFormData.append("description", description);
+      myFormData.append("tawkTo", tawkTo);
+      // myFormData.append("serverImage", serverImage.public_id);
 
-      if (imageGalleryBack) {
-        for (const images of imageGalleryBack) {
-          myFormData.append("imageGallery", images);
-        }
+      if (websiteLogoBack) {
+        myFormData.append("websiteLogo", websiteLogoBack);
       }
-      if (productImageBack) {
-        myFormData.append("productImage", productImageBack);
+
+      if (websiteFaviconBack) {
+        myFormData.append("websiteFavicon", websiteFaviconBack);
       }
+
       try {
         const config = {
           headers: {
             "content-type": "multipart/form-data",
           },
         };
-        const { data } = await axios.patch(
-          `/api/products/${productId}`,
-          myFormData,
-          config
-        );
-        setSingleProduct(data.product);
-        setImageGallery([]);
-        setProductImage([]);
-        setImageGalleryBack([]);
+        const { data } = await axios.post(`/api/settings`, myFormData, config);
+        setwebsiteLogo([]);
         return toast(data.message);
       } catch (e) {
         toast.error(e.response.data.error);
@@ -128,16 +89,12 @@ const AdminSettings = () => {
     const public_id = e.target.getAttribute("data-public_id");
     const imageType = e.target.getAttribute("data-key");
     try {
-      const { data } = await axios.patch(
-        `/api/products/imagedestroy/${productId}`,
-        {
-          public_id,
-          imageType,
-        }
-      );
+      const { data } = await axios.post(`/api/settings/imagedestroy/`, {
+        public_id,
+        imageType,
+      });
       if (data) {
         toast(data.message);
-        setSingleProduct(data.product);
         console.log(data);
       }
     } catch (e) {
@@ -154,31 +111,48 @@ const AdminSettings = () => {
           <h1 className=" font-fair text-xl font-bold">Website Settings</h1>
           <div className=" ">
             <form
-              onSubmit={(e) => handleProductEdit(e)}
+              onSubmit={(e) => handleSettingsUpdate(e)}
               className="p-2 md:p-4 border  shadow-lg"
             >
               <div className=" class name image flex flex-col py-2">
-                <div className="relative my-2 flex flex-col border py-2 px-2 ">
-                  <label htmlFor="description" className=" py-2 text-sm">
-                    Site Title{" "}
-                  </label>
-                  <input
-                    onChange={(e) => setTitle(e.target.value)}
-                    value={title}
-                    type="text"
-                    id="description"
-                    className=" h-8 border"
+                <AdminsettingsInput
+                  value={title}
+                  text="Site title"
+                  css=" h-8 border"
+                  inputChange={(e) => setTitle(e.target.value)}
+                />
+                <AdminsettingsInput
+                  value={description}
+                  text="Site description"
+                  css=" h-8 border"
+                  inputChange={(e) => setDescription(e.target.value)}
+                />
+                <AdminsettingsInput
+                  value={tawkTo}
+                  text="Tawk.to  Key"
+                  css=" h-8 border"
+                  inputChange={(e) => setTawkTo(e.target.value)}
+                />
+                <div className="flex flex-row justify-evenly">
+                  <AdminAddProductImgUpload
+                    text="Add Logo"
+                    change={(e) => handleUploadImageChange(e)}
+                    id="websiteLogo"
+                    click={(e) => handleImageDelete(e)}
+                    images={websiteLogo}
+                    serverImage={serverImage}
+                    css="w-24 h-24 my-2 flex justify-start"
+                  />
+                  <AdminAddProductImgUpload
+                    text="Add Favicon"
+                    change={(e) => handleUploadImageChange(e)}
+                    id="websiteFavicon"
+                    click={(e) => handleImageDelete(e)}
+                    images={websiteFavicon}
+                    serverImage={serverImage}
+                    css="w-12 h-12 my-2 flex justify-start"
                   />
                 </div>
-                <AdminAddProductImgUpload
-                  text="Add media"
-                  change={(e) => handleUploadImageChange(e)}
-                  id="productImage"
-                  click={(e) => handleImageDelete(e)}
-                  images={productImage}
-                  serverImage={serverImage}
-                  css="w-64 h-64 my-2 flex justify-start"
-                />
               </div>
               <button className="px-4 mt-4 py-2 border w-full bg-black text-c-gold">
                 Update Website

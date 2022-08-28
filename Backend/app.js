@@ -10,6 +10,7 @@ import gatewayRouterDB from "./routes/gatewayRouter.js";
 
 import usersRouter from "./routes/usersRoutes.js";
 import supportRouter from "./routes/supportRouter.js";
+import settingsRouter from "./routes/settingsRouter.js";
 
 import subscribersRouter from "./routes/subscribersList.js";
 import bodyParser from "body-parser";
@@ -48,6 +49,7 @@ app.use("/api/subscription", subscribersRouter);
 app.use("/api/support", supportRouter);
 app.use("/api/pages", pagesRouter);
 app.use("/api/gateway", gatewayRouterDB);
+app.use("/api/settings", settingsRouter);
 
 // const __dirname = path.resolve();
 // app.use(express.static(path.join(__dirname, "../build")));

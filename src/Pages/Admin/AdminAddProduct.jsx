@@ -24,15 +24,25 @@ const AdminAddProduct = () => {
   const [productImage, setProductImage] = useState([]);
   const handleUploadImageChange = (e) => {
     let imageArr = [];
+    // setImageGalleryBack sets the  imageGallery to be uploaded in backend
+    // setImageGallery sets the  imageGallery to be previewed in frontend
+    // setProductImage sets the  image to be previewd in frontend
+    // setProductImageBack sets the  image to be uploaded in backend
+
     for (let image of e.target.files) {
+      // we loop through all the images and create a preview
+
       imageArr.push(URL.createObjectURL(image));
     }
+    // if the files inout ID is imageGallery we set the preview to imageGallery
+    //Else we set it to single image
     if (e.target.id === "imageGallery") {
       setImageGalleryBack(e.target.files);
       return setImageGallery(imageArr);
+    } else {
+      setProductImageBack(e.target.files[0]);
+      return setProductImage(imageArr.slice(0, 1));
     }
-    setProductImageBack(e.target.files[0]);
-    return setProductImage(imageArr.slice(0, 1));
   };
   const handleProductAdd = async (e) => {
     e.preventDefault();
