@@ -1,12 +1,25 @@
 import React from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useStateContext } from "../../../context/Statecontext";
 
-export const LeftSideBarBtn = ({ text, icon, link }) => {
-  const { themeBG } = useStateContext();
+export const LeftSideBarBtn = ({ text, icon, link, lock }) => {
+  const [active, setActive] = useState(false);
+  // function handleSideBarClick(e, lock) {
+  //   console.log(e.target, lock);
+  //   if (e.target.id === lock) {
+  //     setActive(true);
+  //   } else {
+  //     setActive(false);
+  //   }
+  // }
   return (
     <li
-      className={`border-b border-c-gold hover:animate-pulse mb-4 w-full p-2 text-base md:text-lg flex justify-start items-center`}
+      id={text}
+      // onClick={(e) => handleSideBarClick(e, lock)}
+      // onMouseLeave={() => setActive(false)}
+      className={`${
+        active ? "border-b" : ""
+      }  border-c-gold hover:animate-pulse mb-4 w-full p-2 text-base md:text-lg flex justify-start items-center`}
     >
       <span className="mr-3">{icon}</span>
       <span>

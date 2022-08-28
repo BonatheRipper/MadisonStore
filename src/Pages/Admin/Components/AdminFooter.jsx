@@ -1,6 +1,4 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import LongButtons from "../../../Components/LongButtons";
 import { useStateContext } from "../../../context/Statecontext";
 const AdminFooter = () => {
   const { themeBG, categories } = useStateContext();

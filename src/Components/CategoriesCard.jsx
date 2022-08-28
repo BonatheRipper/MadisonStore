@@ -2,8 +2,8 @@ import React from "react";
 import { useStateContext } from "../context/Statecontext";
 import LongButtons from "./LongButtons";
 import "aos/dist/aos.css";
-const CategoriesCard = ({ catName, catDesc, to }) => {
-  const { themeBG, themeBorder, themeShape } = useStateContext();
+const CategoriesCard = ({ catName, catDesc, to, image }) => {
+  const { themeBG, themeShape } = useStateContext();
   console.log(themeShape);
   const CardClass = () => {
     return `${
@@ -16,8 +16,7 @@ const CategoriesCard = ({ catName, catDesc, to }) => {
     <div className={CardClass()}>
       <div className="flex flex-col items-center w-full space-y-2 mb-6">
         <img
-          src="https://picsum.photos/500/300?random=1
-"
+          src={image}
           alt="Categories"
           className={`h-64 ${
             themeShape === "rounded-full"

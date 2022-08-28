@@ -1,7 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useStateContext } from "../context/Statecontext";
-import LongButtons from "./LongButtons";
 import SubscriptionForm from "./SubscriptionForm";
 
 const Footer = () => {

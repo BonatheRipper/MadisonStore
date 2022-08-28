@@ -6,17 +6,9 @@ import { useStateContext } from "../../context/Statecontext";
 import { PaystackButton } from "react-paystack";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import ClipLoader from "react-spinners/ClipLoader";
 
 const Paystack = () => {
-  const {
-    user,
-    orderPay,
-    successPay,
-    paymentDispatch,
-    smallLoadingBtn,
-    setSmallLoadingBtn,
-  } = useStateContext();
+  const { user, orderPay, successPay, paymentDispatch } = useStateContext();
   const navigate = useNavigate();
   const [paystackey, setPaystackey] = useState();
   const { orderId } = useParams();

@@ -1,4 +1,4 @@
-import React, { PureComponent, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { FetchOrdersAdmin } from "./Services/FetchOrdersAdmin";
 // import { useStateContext } from "../context/contextProvider";
@@ -33,6 +33,7 @@ import AdminSharedHeader from "./Components/AdminSharedHeader";
 import AdminPopUp from "./Components/AdminPopUp";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const data = [
   {
     Date: 1,
@@ -226,7 +227,10 @@ const MonthlyChart = () => {
           stroke="white"
         />
         {/* <YAxis /> */}
-        <Tooltip contentStyle={TooltipStyle("15px")} />
+        <Tooltip
+          wrapperStyle={{ outline: "none" }}
+          contentStyle={TooltipStyle("15px")}
+        />
         <Area type="monotone" dataKey="Sales" stroke="black" fill="#D2B6A2" />
       </AreaChart>
     </ResponsiveContainer>
@@ -237,7 +241,10 @@ const OrdersNow = () => {
   return (
     <ResponsiveContainer width="100%" height={50}>
       <LineChart width={300} height={100} data={data}>
-        <Tooltip contentStyle={TooltipStyle("15px")} />
+        <Tooltip
+          wrapperStyle={{ outline: "none" }}
+          contentStyle={TooltipStyle("15px")}
+        />
         <Legend />
 
         <Line
@@ -264,7 +271,10 @@ const OrdersOverTime = () => {
           bottom: 0,
         }}
       >
-        <Tooltip contentStyle={TooltipStyle("50px")} cursor={false} />
+        <Tooltip
+          wrapperStyle={{ outline: "none" }}
+          contentStyle={TooltipStyle("50px")}
+        />
         <Bar dataKey="Date" fill="black" stroke="black" />
         <Bar dataKey="Sales" fill="#D2B6A2" />
       </BarChart>
@@ -296,7 +306,11 @@ const TrafficSource = () => {
           })}
         </Pie>
 
-        <Tooltip width={20} contentStyle={TooltipStyle()} />
+        <Tooltip
+          wrapperStyle={{ outline: "none" }}
+          width={20}
+          contentStyle={TooltipStyle()}
+        />
       </PieChart>
     </ResponsiveContainer>
   );
@@ -307,12 +321,15 @@ const AdminHome = () => {
   const [OrdersAdmin, setOrdersAdmin] = useState([]);
   const [ProductsAdmin, setProductsAdmin] = useState([]);
   const [ReviewsAdmin, setReviewsAdmin] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const getaServices = async () => {
       const Orders = await FetchOrdersAdmin(user);
       const Products = await FetchAllProductsAdmin(user);
       const Reviews = await FetchReviewsAdmin(user);
+      if (!user) {
+        return navigate("/login");
+      }
       if (Products) {
         setProductsAdmin(Products.products);
       }

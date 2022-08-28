@@ -1,6 +1,6 @@
 import React from "react";
 import { useStateContext } from "../context/Statecontext";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
@@ -29,7 +29,7 @@ const TestimonialCard = ({ testimony, ocuppation, name, image }) => {
               <div className={`${themeBG} ${themeShape} `}>
                 <img
                   alt="Reviews-Img"
-                  className="w-24 h-30 py-4  bg-pry-100 "
+                  className={`w-20 h-32 py-4  ${themeShape} `}
                   src={image}
                 />
               </div>

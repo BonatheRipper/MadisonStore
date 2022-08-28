@@ -7,6 +7,9 @@ import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import headerImg1 from "../images/headerImg1.webp";
+import headerImg2 from "../images/headerImg2.webp";
+
 import LoadingElementUser from "./LoadingElementUser";
 const WelcomeHome = () => {
   const { themeShape } = useStateContext();
@@ -49,7 +52,7 @@ const WelcomeHome = () => {
                 <img
                   className={`${themeShape} md:w-64 md:h-64 w-full h-60`}
                   alt="Store-Stack"
-                  src="https://maplestore.netlify.app/static/media/welcomeImg3.b7bad03e37a1c9411ce5.jpg"
+                  src={headerImg1}
                 />
               </div>
               <div
@@ -58,7 +61,7 @@ const WelcomeHome = () => {
                 <img
                   className={`${themeShape} md:w-64 md:h-64 w-full h-60`}
                   alt="Store-Stack"
-                  src="https://maplestore.netlify.app/static/media/heroimg.f09a970a8387059b2485.jpg"
+                  src={headerImg2}
                 />
               </div>
             </div>

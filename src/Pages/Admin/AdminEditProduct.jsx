@@ -8,7 +8,6 @@ import axios from "axios";
 import { useStateContext } from "../../context/Statecontext";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { FetchSingleProduct } from "../../services/FetchSingleProduct";
 import { useParams } from "react-router-dom";
 const AdminEditProduct = () => {
   const { user } = useStateContext();

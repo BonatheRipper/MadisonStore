@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -15,7 +15,7 @@ import { FetchSingleProduct } from "../services/FetchSingleProduct";
 import LoadingScreen from "../Screens/LoadingScreen";
 import ShareHeader from "../Components/ShareHeader";
 import Footer from "../Components/Footer";
-import { RatingsHome, RatingsProductPage } from "../Components/Ratings";
+import { RatingsProductPage } from "../Components/Ratings";
 const ProductsPage = () => {
   const { themeBG, handleAddProductToCart, scrollToTop, user, themeShape } =
     useStateContext();

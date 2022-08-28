@@ -1,29 +1,34 @@
 import React, { useState } from "react";
 import { LeftSideBarBtn } from "./LeftSideBarBtn";
-import { MdDashboard } from "react-icons/md";
 import { GrProductHunt } from "react-icons/gr";
 import {
   MdNotes,
   MdContactSupport,
   MdMarkEmailRead,
   MdContactPhone,
+  MdDashboard,
 } from "react-icons/md";
 import { BiSupport } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 import { IoIosPeople } from "react-icons/io";
 import { AiFillHome } from "react-icons/ai";
-import { BsCardHeading } from "react-icons/bs";
+import { BsCardHeading, BsPaypal } from "react-icons/bs";
+import { RiSecurePaymentFill } from "react-icons/ri";
+import { SiPicpay } from "react-icons/si";
+import { GiCircleClaws } from "react-icons/gi";
 
 import { useStateContext } from "../../../context/Statecontext";
 
 const AdminSidebarLeft = ({}) => {
   const { Adminsidebar, setAdminSidebar, themeBG } = useStateContext();
-  const [dropdown, setDropdown] = useState(false);
-  const productsDropDown = () => {
+  const [dropdownPages, setDropdownPages] = useState(false);
+  const [dropdownGateway, setDropdownGateway] = useState(false);
+
+  const pagesDropDown = () => {
     return (
       <div
-        onMouseLeave={() => setDropdown(false)}
-        onMouseEnter={() => setDropdown(true)}
+        onMouseLeave={() => setDropdownPages(false)}
+        onMouseEnter={() => setDropdownPages(true)}
         className="w-full flex flex-col relative"
       >
         <div>
@@ -31,7 +36,7 @@ const AdminSidebarLeft = ({}) => {
         </div>
         <div
           className={` ml-8 ${
-            dropdown
+            dropdownPages
               ? " visible z-10 translate-y-1 transition "
               : "invisible opacity-0 absolute top-full  left-0 w-full -translate-y-10 -z-10 transition  duration-100 "
           }`}
@@ -42,7 +47,7 @@ const AdminSidebarLeft = ({}) => {
             link="/admin/cms/welcome"
           />
           <LeftSideBarBtn
-            text="H-Header"
+            text="Header"
             icon={<BsCardHeading />}
             link="/admin/cms/header"
           />
@@ -60,6 +65,47 @@ const AdminSidebarLeft = ({}) => {
             text="Subscription"
             icon={<MdMarkEmailRead />}
             link="/admin/cms/subscription"
+          />
+        </div>
+      </div>
+    );
+  };
+  const gatewayDropDown = () => {
+    return (
+      <div
+        onMouseLeave={() => setDropdownGateway(false)}
+        onMouseEnter={() => setDropdownGateway(true)}
+        className="w-full flex flex-col relative"
+      >
+        <div>
+          <LeftSideBarBtn
+            text="Payment Gateway"
+            lock="Payment Gateway"
+            icon={<RiSecurePaymentFill />}
+            link="/admin/"
+          />
+        </div>
+        <div
+          className={` ml-8 ${
+            dropdownGateway
+              ? " visible z-10 translate-y-1 transition "
+              : "invisible opacity-0 absolute top-full  left-0 w-full -translate-y-10 -z-10 transition  duration-100 "
+          }`}
+        >
+          <LeftSideBarBtn
+            text="PayPal"
+            icon={<BsPaypal />}
+            link="/admin/gateway/Paypal"
+          />
+          <LeftSideBarBtn
+            text="Paystack"
+            icon={<SiPicpay />}
+            link="/admin/gateway/paystack"
+          />
+          <LeftSideBarBtn
+            text="Flutterwave"
+            icon={<GiCircleClaws />}
+            link="/admin/gateway/flutterwave"
           />
         </div>
       </div>
@@ -86,7 +132,7 @@ const AdminSidebarLeft = ({}) => {
             icon={<GrProductHunt />}
             link="/admin/products"
           />
-          {productsDropDown()}
+          {pagesDropDown()}
           <LeftSideBarBtn
             text="Subscribers"
             icon={<IoIosPeople />}
@@ -98,6 +144,7 @@ const AdminSidebarLeft = ({}) => {
             icon={<BiSupport />}
             link="/admin/support"
           />
+          {gatewayDropDown()}
           <LeftSideBarBtn
             text="Settings"
             icon={<FiSettings />}

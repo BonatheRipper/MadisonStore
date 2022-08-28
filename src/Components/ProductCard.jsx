@@ -4,7 +4,6 @@ import { useStateContext } from "../context/Statecontext";
 import { NavLink } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
-import { RatingsHome } from "./Ratings";
 const ProductCard = ({
   image,
   css,

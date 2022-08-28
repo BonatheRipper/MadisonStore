@@ -22,6 +22,7 @@ reviewRouter.post("/", async (req, res) => {
   if (newReview) {
     const product = await Products.findById(productId);
     product.reviews.push(newReview._id);
+    await product.save();
     return res.send("Your review was successful");
   }
 });

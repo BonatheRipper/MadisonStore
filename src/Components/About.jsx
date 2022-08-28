@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useStateContext } from "../context/Statecontext";
 import LoadingElementUser from "./LoadingElementUser";
 import LongButtons from "./LongButtons";
+import AboutImg from "../images/AboutImg.jpeg";
 
 const About = () => {
   const { themeBG, themeShape } = useStateContext();
@@ -63,7 +64,7 @@ const About = () => {
             className={` ${themeBG}  ${themeShape} md:rounded-none px-6  py-6 border-2 border-[#D2B6A2] md:border-0 md:py-24 md:px-12 w-4/5 -mt-24 md:mt-0 md:w-2/5 md:-ml-72 z-10`}
           >
             <img
-              src="https://maplestore.netlify.app/static/media/about.cc96bce04dcfb8aa290e.jpg"
+              src={AboutImg}
               alt="About-pic"
               className={`${themeShape} md:border border-[#D2B6A2]`}
             />

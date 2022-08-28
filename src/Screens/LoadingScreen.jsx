@@ -1,5 +1,4 @@
 import React from "react";
-import "./LoadinScreen.css";
 import { useStateContext } from "../context/Statecontext";
 import { CircleLoaderx, HashLoaderx, RingLoaderx } from "./Loaders";
 

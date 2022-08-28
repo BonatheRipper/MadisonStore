@@ -33,6 +33,11 @@ import AboutCms from "./Pages/Admin/Cms/AboutCms";
 import SubscriptionCms from "./Pages/Admin/Cms/SubscriptionCms";
 import ContactCms from "./Pages/Admin/Cms/ContactCms";
 import HomeHeaderCms from "./Pages/Admin/Cms/HomeHeaderCms";
+import Paypal from "./Pages/Admin/Gateway/Paypal";
+import Flutterwave from "./Pages/Admin/Gateway/Flutterwave";
+import Paystack from "./Pages/Admin/Gateway/Paystack";
+import AdminSettings from "./Pages/Admin/AdminSettings";
+
 const App = () => {
   const { themeBG } = useStateContext();
   return (
@@ -78,6 +83,10 @@ const App = () => {
           <Route path="/admin/cms/subscription" element={<SubscriptionCms />} />
           <Route path="/admin/cms/contact" element={<ContactCms />} />
           <Route path="/admin/cms/header" element={<HomeHeaderCms />} />
+          <Route path="/admin/gateway/paypal" element={<Paypal />} />
+          <Route path="/admin/gateway/paystack" element={<Paystack />} />
+          <Route path="/admin/gateway/flutterwave" element={<Flutterwave />} />
+          <Route path="/admin/settings" element={<AdminSettings />} />
 
           <Route path="*" element={<Four0Four />} />
         </Routes>

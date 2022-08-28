@@ -3,7 +3,7 @@ import { ImBin } from "react-icons/im";
 import { AiFillInfoCircle } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { useStateContext } from "../context/Statecontext";
-import LongButtons, { NormalButton } from "../Components/LongButtons";
+import LongButtons from "../Components/LongButtons";
 import CheckoutOptions from "../Payments/CheckoutOptions";
 import { useEffect } from "react";
 import Footer from "../Components/Footer";

@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import headerImg from "../images/headerImg.png";
 import { useStateContext } from "../context/Statecontext";
 import Aos from "aos";
 import "aos/dist/aos.css";
@@ -8,11 +8,9 @@ import LongButtons from "./LongButtons";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { PayPalHostedField } from "@paypal/react-paypal-js";
 const Header = () => {
   const { themeBG, themeShape } = useStateContext();
   const [page, setPage] = useState({});
-  const [loading, setLoading] = useState(true);
   useEffect(() => {
     Aos.init({ duration: 500 });
     const getPage = async () => {
@@ -20,7 +18,6 @@ const Header = () => {
         const { data } = await axios.get("/api/pages/homeheader");
         if (data) {
           setPage(data);
-          return setLoading(false);
         }
       } catch (e) {
         toast.error(e.response.data);
@@ -28,7 +25,6 @@ const Header = () => {
     };
     getPage();
   }, []);
-  console.log(page.headerText.split("LUXURY MADE FOR YOU"));
   return (
     <header className="w-full">
       <div
@@ -43,7 +39,7 @@ const Header = () => {
             >
               {page.headerText}
             </h1>
-            <p className="text-gold md:text-sm md:w-8/12 block text-xs md:text-left text-center leading-loose">
+            <p className="text-gold md:w-8/12 block text-sm md:text-left text-center leading-loose">
               {page.BodyText}
             </p>
             <LongButtons
@@ -57,7 +53,7 @@ const Header = () => {
               className={`rounded-t-full  md:w-80 w-64 py-8 border border-c-gold flex justify-center items-center  ${themeShape} `}
             >
               <img
-                src="https://maplestore.netlify.app/static/media/headerimg.50dac08defd1a145b7c6.jpg"
+                src={headerImg}
                 alt="Header-img"
                 className="rounded-t-full h-2/5 w-4/5 rounded-b-full hover:w-10/12 duration-500 transition-all"
               />

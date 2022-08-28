@@ -9,8 +9,6 @@ pagesRouter.get("/:pageName", async (req, res) => {
       if (pageName === "about") {
         return res.send(pageItems.about);
       } else if (pageName === "home") {
-        console.log(pageItems);
-
         return res.send(pageItems.home);
       } else if (pageName === "subscription") {
         return res.send(pageItems.subscription);
@@ -56,7 +54,6 @@ pagesRouter.post("/:pageName", async (req, res) => {
     } //If Page === homeheader
     else if (pageName === "homeheader") {
       pageItems.homeHeader = req.body.homeHeader;
-      console.log(pageItems.homeHeader);
       await pageItems.save();
       return res.send(pageItems.homeHeader);
     } //Else display an error

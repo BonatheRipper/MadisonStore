@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import { FaImages } from "react-icons/fa";
 const AdminAddProductImgUpload = ({
   css,

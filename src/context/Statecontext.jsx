@@ -173,10 +173,10 @@ export const ContextProvider = ({ children }) => {
     localStorage.getItem("currentThemeLoader") || ThemeLoaders[2].name
   );
   const [themeBorder, setThemeBorder] = useState(ThemeBorders.Rounded);
+
   const Payments = [
     { name: "Stripe", option: <Stripe />, isActive: false },
     { name: "Flutterwave", option: <Flutterwave />, isActive: true },
-
     {
       name: "PayPal",
       option: <PayPal />,

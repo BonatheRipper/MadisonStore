@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import AdminSharedHeader from "../Components/AdminSharedHeader";
 import InputCms from "../Components/InputCms";
+import AdminPagesCmsSaveBtn from "../Components/AdminPagesCmsSaveBtn";
 
 const ContactCms = () => {
   const [title, setTitle] = useState("");
@@ -121,9 +122,7 @@ const ContactCms = () => {
               click={(e) => setButton(e.target.value)}
             />
 
-            <button className="px-4 mt-4 py-2 border w-full bg-black text-c-gold">
-              Save
-            </button>
+            <AdminPagesCmsSaveBtn text="Save" />
           </form>
         </div>
       </div>

@@ -1,8 +1,14 @@
+import axios from "axios";
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useStateContext } from "../context/Statecontext";
+import { PayPal, PayStack, Flutterwave } from "../Payments/PaymentOptions";
 const CheckoutOptions = () => {
-  const { Payments, cart } = useStateContext();
+  const { cart } = useStateContext();
+  const [Payments, setPayments] = useState([]);
   const navigate = useNavigate();
   const handleCheckoutClick = () => {
     if (!cart.PaymentMethod) {
@@ -11,12 +17,36 @@ const CheckoutOptions = () => {
       navigate("/shipping");
     }
   };
+  function displayGateway(name) {
+    if (name.toLowerCase() === "paypal") {
+      return <PayPal />;
+    }
+    if (name.toLowerCase() === "paystack") {
+      return <PayStack />;
+    }
+    if (name.toLowerCase() === "flutterwave") {
+      return <Flutterwave />;
+    }
+  }
+  useEffect(() => {
+    const fetchGatwayItems = async () => {
+      try {
+        const { data } = await axios.get("/api/gateway");
+        if (data) {
+          setPayments(data);
+        }
+      } catch (e) {
+        toast.error(e.response.data);
+      }
+    };
+    fetchGatwayItems();
+  }, []);
   return (
     <div>
       <p className="text-sm p-2">Payment method</p>
       {Payments.map((gateway) => {
         if (gateway.isActive) {
-          return <div key={gateway.name}>{gateway.option}</div>;
+          return <div key={gateway.name}>{displayGateway(gateway.name)}</div>;
         }
       })}
       <span>

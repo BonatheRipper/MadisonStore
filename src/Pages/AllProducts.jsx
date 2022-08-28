@@ -12,7 +12,6 @@ import ShareHeader from "../Components/ShareHeader";
 import Footer from "../Components/Footer";
 import {
   paginateNumbersLength,
-  PaginateOrder,
   paginatePager,
   paginatePageToDisplay,
 } from "../Utils/Paginate";

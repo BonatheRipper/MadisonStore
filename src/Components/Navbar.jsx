@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { useStateContext } from "../context/Statecontext";
 import { useState } from "react";
 
-const Navbar = (props) => {
+const Navbar = () => {
   const { themeBG, sidebar, setSidebar, themeShape, cart, user, handleLogout } =
     useStateContext();
   const [userDropdown, setUserDropdown] = useState(false);

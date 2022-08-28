@@ -2,10 +2,9 @@ import React from "react";
 import { useStateContext } from "../../../context/Statecontext";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { FiBell } from "react-icons/fi";
 
 const AdminNavBar = ({ sidebar, setSidebar }) => {
-  const { themeBG, themeShape, cart, user, handleLogout } = useStateContext();
+  const { themeBG, themeShape, user, handleLogout } = useStateContext();
   const [userDropdown, setUserDropdown] = useState(false);
   const navButtonsClass = () => {
     return `mx-2 hover:text-white transition duration-500`;

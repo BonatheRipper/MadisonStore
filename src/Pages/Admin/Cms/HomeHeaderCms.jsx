@@ -3,6 +3,8 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
+// import AdminCmsImageUpload from "../Components/AdminCmsImageUpload";
+import AdminPagesCmsSaveBtn from "../Components/AdminPagesCmsSaveBtn";
 import AdminSharedHeader from "../Components/AdminSharedHeader";
 import InputCms from "../Components/InputCms";
 
@@ -83,9 +85,8 @@ const HomeHeaderCms = () => {
               value={button}
               click={(e) => setButton(e.target.value)}
             />
-            <button className="px-4 mt-4 py-2 border w-full bg-black text-c-gold">
-              Save
-            </button>
+            {/* <AdminCmsImageUpload text="Add media"  /> */}
+            <AdminPagesCmsSaveBtn text="Save" />
           </form>
         </div>
       </div>

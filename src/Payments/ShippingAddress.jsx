@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import LongButtons, { NormalButton } from "../Components/LongButtons";
+import { useNavigate } from "react-router-dom";
+import { NormalButton } from "../Components/LongButtons";
 import { useStateContext } from "../context/Statecontext";
 import { useEffect } from "react";
 import ShareHeader from "../Components/ShareHeader";

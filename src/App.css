@@ -60,7 +60,7 @@ div#js-licensing {
 .swiper-button-next {
   color: #d2b6a2 !important;
 }
-input[type="radio"]:after {
+.PaymentRadio:after {
   width: 15px;
   height: 15px;
   border-radius: 15px;
@@ -75,7 +75,7 @@ input[type="radio"]:after {
 }
 
 /*gives radio button orange fill when clicked*/
-input[type="radio"]:checked:after {
+.PaymentRadio:checked:after {
   width: 15px;
   height: 15px;
   border-radius: 15px;

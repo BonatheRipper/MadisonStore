@@ -5,6 +5,10 @@ import "../App.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper";
+import test1 from "../images/test1.jpeg";
+import test2 from "../images/test2.jpeg";
+import test3 from "../images/test3.jpeg";
+import test4 from "../images/test4.jpeg";
 
 const TestimonialsArr = [
   {
@@ -12,32 +16,28 @@ const TestimonialsArr = [
       " They were extremely reliable and delivered way beyond my expectation",
     name: "Simon Cowell",
     ocuppation: "Big Brother",
-    image:
-      "https://maplestore.netlify.app/static/media/reviewer1.5ea592c10df7e85558a7.png",
+    image: test1,
   },
   {
     testimony:
       " They were extremely reliable and delivered way beyond my expectation",
     name: "Jojn Johnson",
     ocuppation: "Internet Marketer",
-    image:
-      "https://maplestore.netlify.app/static/media/reviewer1.5ea592c10df7e85558a7.png",
+    image: test2,
   },
   {
     testimony:
       " They were extremely reliable and delivered way beyond my expectation",
     name: "Andrew Gayfield",
     ocuppation: "Banker",
-    image:
-      "https://maplestore.netlify.app/static/media/reviewer1.5ea592c10df7e85558a7.png",
+    image: test3,
   },
   {
     testimony:
       " They were extremely reliable and delivered way beyond my expectation",
     name: "Jessica Banks",
     ocuppation: "Realtor",
-    image:
-      "https://maplestore.netlify.app/static/media/reviewer1.5ea592c10df7e85558a7.png",
+    image: test4,
   },
 ];
 const Testimonials = () => {
