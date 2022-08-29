@@ -163,9 +163,12 @@ const AdminSupport = () => {
             <>
               {messages
                 .filter((val) => {
+                  //If the query search to filter is emty return all
+
                   if (searchterm === "") {
                     return val;
                   } else if (
+                    //Else return the filtered
                     val.name.toLowerCase().includes(searchterm.toLowerCase())
                   ) {
                     return val;

@@ -8,8 +8,13 @@ import { useState } from "react";
 const Products = () => {
   const { themeBG, products, handleAddProductToCart, categories } =
     useStateContext();
+  console.log(products, "This is home products");
 
   const [querySearch, setQuerySearch] = useState("");
+
+  function handlreFrontPageProductsFilter(e) {
+    setQuerySearch(e.target.value);
+  }
   return (
     <div
       className={`${themeBG} relative px-8 md:px-24 py-32 flex flex-col space-y-8 justify-center items-center w-full `}
@@ -24,7 +29,7 @@ const Products = () => {
             return (
               <ProductsMenuBtn
                 key={cat}
-                click={(e) => setQuerySearch(e.target.value)}
+                click={(e) => handlreFrontPageProductsFilter(e)}
                 text={cat}
               />
             );
@@ -33,21 +38,36 @@ const Products = () => {
       </div>
       {products.items && (
         <div className="flex  justify-between flex-col md:flex-row w-full md:flex-wrap">
-          {products.items.map((item) => {
-            return (
-              <ProductCard
-                key={item._id}
-                image={item.image}
-                pID={item._id}
-                catName={item.category}
-                pName={item.name}
-                price={item.price}
-                pDesc={item.description}
-                click={() => handleAddProductToCart(item)}
-                stars={<Starratings productReviews={item.reviews} />}
-              />
-            );
-          })}
+          {products.items
+            .filter((productsFiltered) => {
+              //If the query search to filter products is empty then return all products
+              if (querySearch === "") {
+                return productsFiltered;
+              } else if (
+                // Else return the filtered Product
+
+                productsFiltered.category
+                  .toLowerCase()
+                  .includes(querySearch.toLowerCase())
+              ) {
+                return productsFiltered;
+              }
+            })
+            .map((item) => {
+              return (
+                <ProductCard
+                  key={item._id}
+                  image={item.image}
+                  pID={item._id}
+                  catName={item.category}
+                  pName={item.name}
+                  price={item.price}
+                  pDesc={item.description}
+                  click={() => handleAddProductToCart(item)}
+                  stars={<Starratings productReviews={item.reviews} />}
+                />
+              );
+            })}
         </div>
       )}
     </div>

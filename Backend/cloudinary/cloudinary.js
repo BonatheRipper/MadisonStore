@@ -26,7 +26,7 @@ const CloudinaryUploader = async (imageArr) => {
   //       for (const file of files) {
   //         fs.unlink(path.join("public/images", file), (err) => {
   //           if (err) throw err;
-  //         });
+  //         });;
   //       }
   //       console.log("All local images deleted");
   //     } catch (e) {

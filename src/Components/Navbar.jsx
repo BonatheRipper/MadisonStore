@@ -3,10 +3,11 @@ import "../App.css";
 import { NavLink } from "react-router-dom";
 import { useStateContext } from "../context/Statecontext";
 import { useState } from "react";
-
+import { FetchContext } from "../context/FetchContext";
 const Navbar = () => {
   const { themeBG, sidebar, setSidebar, themeShape, cart, user, handleLogout } =
     useStateContext();
+  const { siteLogo, siteTitle } = FetchContext();
   const [userDropdown, setUserDropdown] = useState(false);
   const navButtonsClass = () => {
     return `mx-2 hover:text-white transition duration-500`;
@@ -32,12 +33,12 @@ const Navbar = () => {
       </div>
       <div className="logo md:ml-20 flex flex-row items-center ">
         <img
-          src="https://maplestore.netlify.app/static/media/logo.b95d75cbc72894bc8035.png"
+          src={siteLogo ? siteLogo : ""}
           alt="Logo"
-          className="w-8 h-8 mx-2"
+          className="w-12 h-12 mx-2"
         />
         <NavLink to="/" className="mx-2">
-          <h2 className="">MarpleStore</h2>
+          <h2 className="">{siteTitle ? siteTitle : "MadisonStore"}</h2>
         </NavLink>
       </div>
       <div className="menus md:flex flex-row justify-between  items-center hidden">

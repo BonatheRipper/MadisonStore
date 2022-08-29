@@ -5,13 +5,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { HelmetProvider } from "react-helmet-async";
 import { ContextProvider } from "./context/Statecontext";
+import { FetchContextProvider } from "./context/FetchContext";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 function Index() {
   return (
     <PayPalScriptProvider deferLoading={true}>
-      <ContextProvider>
-        <App />
-      </ContextProvider>
+      <FetchContextProvider>
+        <ContextProvider>
+          <App />
+        </ContextProvider>
+      </FetchContextProvider>
     </PayPalScriptProvider>
   );
 }

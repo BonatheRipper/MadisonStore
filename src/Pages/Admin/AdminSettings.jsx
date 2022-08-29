@@ -1,8 +1,7 @@
 import React from "react";
 import AdminFooter from "./Components/AdminFooter";
 import AdminSharedHeader from "./Components/AdminSharedHeader";
-import AdminAddProductInput from "./Components/AdminAddProductInput";
-import AdminAddProductImgUpload from "./Components/AdminAddProductImgUpload";
+import AdminSettingsImageUpload from "./Components/AdminSettingsImageUpload";
 import { useState } from "react";
 import axios from "axios";
 import { useStateContext } from "../../context/Statecontext";
@@ -20,11 +19,29 @@ const AdminSettings = () => {
   const [websiteFaviconBack, setwebsiteFaviconBack] = useState([]);
   const [websiteFavicon, setwebsiteFavicon] = useState([]);
 
-  const [serverImage, setServerImage] = useState(false);
+  const [serverLogo, setserverLogo] = useState(false);
+  const [serverFavicon, setserverFavicon] = useState(false);
 
   const [websiteLogo, setwebsiteLogo] = useState([]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const { data } = await axios.get(`/api/settings`);
+        if (data) {
+          const { title, description, tawkTo, logoImage, faviconImage } = data;
+          setTitle(title);
+          setDescription(description);
+          setTawkTo(tawkTo);
+          setserverLogo(logoImage);
+          setserverFavicon(faviconImage);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchSettings();
+  }, []);
   const handleUploadImageChange = (e) => {
     // setwebsiteLogoBack sets the logo image to be uploaded in backend
     // setwebsiteLogo sets the logo image to be previewed in frontend
@@ -46,21 +63,12 @@ const AdminSettings = () => {
   };
   const handleSettingsUpdate = async (e) => {
     e.preventDefault();
-    console.log(title);
 
     var myFormData = new FormData();
-    if (
-      title &&
-      tawkTo &&
-      description &&
-      websiteLogo.length !== 0 &&
-      serverImage.public_id !== "NONE"
-    ) {
+    if (title && tawkTo && description) {
       myFormData.append("title", title);
       myFormData.append("description", description);
       myFormData.append("tawkTo", tawkTo);
-      // myFormData.append("serverImage", serverImage.public_id);
-
       if (websiteLogoBack) {
         myFormData.append("websiteLogo", websiteLogoBack);
       }
@@ -76,29 +84,25 @@ const AdminSettings = () => {
           },
         };
         const { data } = await axios.post(`/api/settings`, myFormData, config);
-        setwebsiteLogo([]);
-        return toast(data.message);
+
+        if (data) {
+          console.log(data);
+          const { title, description, tawkTo, logoImage, faviconImage } = data;
+          setTitle(title);
+          setDescription(description);
+          setTawkTo(tawkTo);
+          setserverLogo(logoImage);
+          setserverFavicon(faviconImage);
+          toast("Settings Updated");
+          setwebsiteLogo([]);
+          setwebsiteFavicon([]);
+          return;
+        }
       } catch (e) {
-        toast.error(e.response.data.error);
+        toast.error(e);
       }
     } else {
       return toast.error("Some inputs are empty");
-    }
-  };
-  const handleImageDelete = async (e) => {
-    const public_id = e.target.getAttribute("data-public_id");
-    const imageType = e.target.getAttribute("data-key");
-    try {
-      const { data } = await axios.post(`/api/settings/imagedestroy/`, {
-        public_id,
-        imageType,
-      });
-      if (data) {
-        toast(data.message);
-        console.log(data);
-      }
-    } catch (e) {
-      toast.error(e.response.data.error);
     }
   };
 
@@ -134,22 +138,22 @@ const AdminSettings = () => {
                   inputChange={(e) => setTawkTo(e.target.value)}
                 />
                 <div className="flex flex-row justify-evenly">
-                  <AdminAddProductImgUpload
+                  <AdminSettingsImageUpload
                     text="Add Logo"
                     change={(e) => handleUploadImageChange(e)}
                     id="websiteLogo"
-                    click={(e) => handleImageDelete(e)}
+                    // click={(e) => handleImageDelete(e)}
                     images={websiteLogo}
-                    serverImage={serverImage}
+                    serverImage={serverLogo}
                     css="w-24 h-24 my-2 flex justify-start"
                   />
-                  <AdminAddProductImgUpload
+                  <AdminSettingsImageUpload
                     text="Add Favicon"
                     change={(e) => handleUploadImageChange(e)}
                     id="websiteFavicon"
-                    click={(e) => handleImageDelete(e)}
+                    // click={(e) => handleImageDelete(e)}
                     images={websiteFavicon}
-                    serverImage={serverImage}
+                    serverImage={serverFavicon}
                     css="w-12 h-12 my-2 flex justify-start"
                   />
                 </div>
