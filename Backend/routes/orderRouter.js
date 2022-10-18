@@ -7,8 +7,13 @@ import Products from "../models/products.js";
 const orderRouter = express.Router();
 
 orderRouter.post("/", isAuth, async (req, res, next) => {
+  console.log(req.body.orderItems[0].image);
   const newOrder = new Orders({
-    orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
+    orderItems: req.body.orderItems.map((x) => ({
+      ...x,
+      product: x._id,
+      image: x.image.url,
+    })),
     ShippingDetails: req.body.ShippingDetails,
     PaymentMethod: req.body.PaymentMethod,
     taxFee: Number(req.body.taxFee),

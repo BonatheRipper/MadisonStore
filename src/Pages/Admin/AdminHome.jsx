@@ -354,6 +354,7 @@ const AdminHome = () => {
       return toast.error(e.response.data.error);
     }
   };
+  console.log(ReviewsAdmin);
   return (
     <div className="relative">
       {popup && <AdminPopUp click={() => handleOrderDelete()} />}

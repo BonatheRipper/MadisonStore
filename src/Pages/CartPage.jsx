@@ -45,7 +45,11 @@ const CartPage = () => {
                       className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 py-4 border-b border-b-c-green"
                     >
                       <div className="md:w-80 w-80 h-80">
-                        <img src={item.image} alt="Product" />
+                        <img
+                          src={item.image.url}
+                          alt="Product"
+                          className="w-6/12 "
+                        />
                       </div>
                       <div className="flex flex-col w-full space-y-4 md:space-y-6">
                         <div className="flex flex-row justify-between">

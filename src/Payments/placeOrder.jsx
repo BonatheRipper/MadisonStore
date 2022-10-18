@@ -187,24 +187,28 @@ const PlaceOrder = () => {
                   {cart.cart.cartItems.map((item) => {
                     return (
                       <div
-                        className="flex py-2 px-4 justify-between space-x-6 items-center"
+                        className="flex py-2 px-4 justify-start space-x-6 items-center"
                         key={item.name}
                       >
-                        <p className="font-bold ">
-                          <img
-                            className={`${themeShape} w-12 h-12 border  border-c-gold `}
-                            src={item.image}
-                            alt="Item"
-                          />
-                        </p>
-                        <NavLink
-                          to={`/products/${item._id}`}
-                          className="text-xs hover:text-white "
-                        >
-                          {item.name}
-                        </NavLink>
-                        <span className="text-xs">{item.quantity}</span>
-                        <span className="text-xs ">{item.price}</span>
+                        <img
+                          className={`${themeShape} !w-14 p-2 !h-12 border  border-c-gold `}
+                          src={item.image.url}
+                          alt="Item"
+                        />
+                        <div className="flex justify-between items-center  w-full">
+                          <NavLink
+                            to={`/products/${item._id}`}
+                            className="text-xs hover:text-white mx-2 w-6/12"
+                          >
+                            {item.name}
+                          </NavLink>
+                          <span className="text-xs mx-2 w-2/12">
+                            {item.quantity}
+                          </span>
+                          <span className="text-xs mx-2 w-2/12">
+                            ${item.price}
+                          </span>
+                        </div>
                       </div>
                     );
                   })}

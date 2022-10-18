@@ -1,13 +1,13 @@
 import React from "react";
 import { useStateContext } from "../../../context/Statecontext";
-const AdminPopUp = ({ click }) => {
+const AdminPopUp = ({ click, text }) => {
   const { popup, setPopup } = useStateContext();
   return (
     <div className="fixed bg-black opacity-90 text-c-green h-screen w-full z-50   flex justify-center items-center">
       <div
         className={`bg-white p-4 justify-center items-center opacity-100 rounded-lg flex flex-col w-10/12  `}
       >
-        <p>Are you sure you want to delete this product?</p>
+        <p>{text || "Are you sure you want to delete this product?"}</p>
         <div className="flex justify-between items-center my-6">
           <button
             onClick={() => setPopup(!popup)}

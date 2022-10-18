@@ -18,7 +18,11 @@ const ProductCard = ({
 }) => {
   const { themeBG, themeShape } = useStateContext();
   const [desc, setDesc] = useState(false);
-
+  const toCapital = (word) => {
+    let firstTest = word[0].toUpperCase();
+    let restOfText = word.slice(1);
+    return firstTest + restOfText;
+  };
   return (
     <div
       className={`${
@@ -57,7 +61,7 @@ const ProductCard = ({
 
       <div className="flex justify-between">
         <p className="tracking-widest font-medium hover:cursor-pointer hover:font-extrabold">
-          <NavLink to={catName}>{catName}</NavLink>
+          <NavLink to={`/shop/${catName}`}>{toCapital(catName)}</NavLink>
         </p>
         <span className="cursor-pointer transition duration-500">
           <i className="fa fa-heart-o" aria-hidden="true"></i>
@@ -65,8 +69,8 @@ const ProductCard = ({
       </div>
       <div className="flex flex-col justify-between items-start">
         <div className="flex justify-between w-full items-center">
-          <p className=" text-lg hover:cursor-pointer hover:font-extrabold transition duration-5000">
-            <NavLink to={`/products/${pID}`}>{pName}</NavLink>
+          <p className=" text-lg hover:cursor-pointer  transition duration-5000">
+            <NavLink to={`/products/${pID}`}>{toCapital(pName)}</NavLink>
           </p>
           <p className="tracking-widest font-bold">${price}</p>
         </div>

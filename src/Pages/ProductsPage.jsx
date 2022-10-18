@@ -30,6 +30,7 @@ const ProductsPage = () => {
   const handleGalleryClick = (imgLink) => {
     setCurrentImg(imgLink);
   };
+  console.log(singleProduct);
   return (
     <>
       <ShareHeader />
@@ -56,11 +57,11 @@ const ProductsPage = () => {
               <div
                 className={`${themeBG} ${
                   themeShape ? themeShape : "rounded-lg"
-                }  w-full h-full my-4 flex justify-center items-center`}
+                }  w-full h-3/6 my-4 flex px-10 py-10 justify-center items-center`}
               >
                 <img
-                  className={`${themeShape} transition  duration-1000 h-96 w-96`}
-                  src={currentImg || singleProduct.image}
+                  className={`${themeShape} transition  duration-1000 h-5/6 w-full `}
+                  src={currentImg || singleProduct.image.url}
                   alt="Product-Pic"
                 />
               </div>
@@ -91,15 +92,15 @@ const ProductsPage = () => {
                     return (
                       <SwiperSlide
                         key={item + Math.random() * 353}
-                        onClick={() => handleGalleryClick(item)}
+                        onClick={() => handleGalleryClick(item.url)}
                         className="relative flex items-center justify-center"
                       >
                         <img
                           className={`${
                             themeShape ? themeShape : "rounded-lg"
                           } border-c-darkGreen  w-16 h-16 md:h-20 md:w-20 border p-2 m-2`}
-                          src={item}
-                          alt="Product-Pic"
+                          src={item.url}
+                          alt="Product-gallery-Pic"
                         />
 
                         {currentImg === item && (

@@ -57,7 +57,7 @@ const Products = () => {
               return (
                 <ProductCard
                   key={item._id}
-                  image={item.image}
+                  image={item.image.url}
                   pID={item._id}
                   catName={item.category}
                   pName={item.name}

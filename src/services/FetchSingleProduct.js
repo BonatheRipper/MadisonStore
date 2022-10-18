@@ -9,7 +9,7 @@ export const FetchSingleProduct = async (
     setSingleProduct(false);
     const results = await axios.get(`/api/products/${id}`);
     setSingleProduct(results.data);
-    setCurrentImg(singleProduct.image);
+    setCurrentImg(singleProduct.image.url);
   } catch (e) {
     console.log(e.response.data.error);
     setSingleProduct(false);

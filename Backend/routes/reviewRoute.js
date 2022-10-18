@@ -27,6 +27,7 @@ reviewRouter.post("/", async (req, res) => {
   }
 });
 reviewRouter.get("/", async (req, res) => {
+  // await Reviews.deleteMany({});
   const reviews = await Reviews.find({})
     .populate([{ path: "product" }, { path: "author" }])
     .exec();

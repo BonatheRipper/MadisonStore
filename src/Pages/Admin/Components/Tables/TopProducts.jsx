@@ -57,8 +57,8 @@ const TopProducts = ({ TopProducts }) => {
                       <div className="product flex items-center flex-row p-4 py-2">
                         <span className="rounded-md ">
                           <img
-                            className="px-0 w-12  h-12  rounded-md border border-c-gold mr-3 "
-                            src={item.image}
+                            className="px-2 py-1 w-12  h-12  rounded-md border border-c-gold mr-3 "
+                            src={item.image.url}
                             alt={item.name}
                           />
                         </span>

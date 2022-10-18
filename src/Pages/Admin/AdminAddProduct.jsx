@@ -7,8 +7,11 @@ import { useState } from "react";
 import axios from "axios";
 import { useStateContext } from "../../context/Statecontext";
 import { toast } from "react-toastify";
+import ClipLoader from "react-spinners/ClipLoader";
+import { useNavigate } from "react-router-dom";
+
 const AdminAddProduct = () => {
-  const { user } = useStateContext();
+  const { user, themeBG } = useStateContext();
 
   const [slug, setSlug] = useState("");
   const [description, setDesciption] = useState("");
@@ -20,7 +23,8 @@ const AdminAddProduct = () => {
   const [imageGallery, setImageGallery] = useState([]);
   const [imageGalleryBack, setImageGalleryBack] = useState([]);
   const [productImageBack, setProductImageBack] = useState([]);
-
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [productImage, setProductImage] = useState([]);
   const handleUploadImageChange = (e) => {
     let imageArr = [];
@@ -74,6 +78,8 @@ const AdminAddProduct = () => {
         myFormData.append("productImage", productImageBack);
       }
       try {
+        setLoading(true);
+
         const config = {
           headers: {
             "content-type": "multipart/form-data",
@@ -85,6 +91,10 @@ const AdminAddProduct = () => {
           config
         );
         toast(data.message);
+        setLoading(false);
+        setTimeout(function () {
+          window.location.href = window.location.href;
+        }, 2000);
       } catch (e) {
         console.log(e.response);
       }
@@ -97,7 +107,13 @@ const AdminAddProduct = () => {
     <>
       <div className="relative bg-[#F1FFFD] m-0  flex flex-col   h-full">
         <AdminSharedHeader />
-
+        {loading && (
+          <div
+            className={`absolute ${themeBG} w-full h-full z-50 opacity-50 flex justify-center items-center`}
+          >
+            <ClipLoader color={`white`} loading={loading} size={80} />
+          </div>
+        )}
         <div className="flex p-2 md:p-6 flex-col my-20 text-c-green">
           <h1 className=" font-fair text-xl font-bold">Add a Product</h1>
           <div className=" ">
@@ -190,7 +206,9 @@ const AdminAddProduct = () => {
                   css="w-20 h-16 my-4"
                 />
               </div>
-              <button className="px-4 mt-4 py-2 border w-full bg-black text-c-gold">
+              <button
+                className={`px-4 mt-4 py-2 border w-full ${themeBG} text-c-gold hover:text-white`}
+              >
                 Save Product
               </button>
             </form>

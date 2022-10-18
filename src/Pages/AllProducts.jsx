@@ -179,7 +179,7 @@ const AllProducts = () => {
                   <div data-aos="fade-up">
                     <ProductCard
                       key={item._id}
-                      image={item.image}
+                      image={item.image.url}
                       css={`
                         ${themeBG}
                       `}

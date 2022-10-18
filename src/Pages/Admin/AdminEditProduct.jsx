@@ -9,10 +9,13 @@ import { useStateContext } from "../../context/Statecontext";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
+
 const AdminEditProduct = () => {
-  const { user } = useStateContext();
+  const { user, themeBG } = useStateContext();
   const [singleProduct, setSingleProduct] = useState(false);
   const { productId } = useParams();
+  const [loading, setLoading] = useState(false);
 
   const [slug, setSlug] = useState("");
   const [description, setDesciption] = useState("");
@@ -102,6 +105,7 @@ const AdminEditProduct = () => {
         myFormData.append("productImage", productImageBack);
       }
       try {
+        setLoading(true);
         const config = {
           headers: {
             "content-type": "multipart/form-data",
@@ -116,6 +120,8 @@ const AdminEditProduct = () => {
         setImageGallery([]);
         setProductImage([]);
         setImageGalleryBack([]);
+        setLoading(false);
+
         return toast(data.message);
       } catch (e) {
         toast.error(e.response.data.error);
@@ -149,7 +155,13 @@ const AdminEditProduct = () => {
     <>
       <div className="relative bg-[#F1FFFD] m-0  flex flex-col   h-full">
         <AdminSharedHeader />
-
+        {loading && (
+          <div
+            className={`absolute ${themeBG} w-full h-full z-50 opacity-50 flex justify-center items-center`}
+          >
+            <ClipLoader color={`white`} loading={loading} size={80} />
+          </div>
+        )}
         <div className="flex p-2 md:p-6 flex-col my-20 text-c-green">
           <h1 className=" font-fair text-xl font-bold">Add a Product</h1>
           <div className=" ">
@@ -246,7 +258,9 @@ const AdminEditProduct = () => {
                   css="w-20 h-16 my-4"
                 />
               </div>
-              <button className="px-4 mt-4 py-2 border w-full bg-black text-c-gold">
+              <button
+                className={`px-4 mt-4 py-2 border w-full ${themeBG} hover:text-white text-c-gold`}
+              >
                 Update Product
               </button>
             </form>

@@ -37,6 +37,7 @@ import Paypal from "./Pages/Admin/Gateway/Paypal";
 import Flutterwave from "./Pages/Admin/Gateway/Flutterwave";
 import Paystack from "./Pages/Admin/Gateway/Paystack";
 import AdminSettings from "./Pages/Admin/AdminSettings";
+import AdminSubscribers from "./Pages/Admin/AdminSubscribers";
 
 const App = () => {
   const { themeBG } = useStateContext();
@@ -88,7 +89,9 @@ const App = () => {
           <Route path="/admin/gateway/flutterwave" element={<Flutterwave />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
 
-          <Route path="*" element={<Four0Four />} />
+          <Route path="/admin/subscribers" element={<AdminSubscribers />} />
+
+          <Route element={<Four0Four />} />
         </Routes>
       </div>
     </BrowserRouter>
