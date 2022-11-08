@@ -4,7 +4,6 @@ import LongButtons from "./LongButtons";
 import "aos/dist/aos.css";
 const CategoriesCard = ({ catName, catDesc, to, image }) => {
   const { themeBG, themeShape } = useStateContext();
-  console.log(themeShape);
   const CardClass = () => {
     return `${
       themeShape !== "rounded-full"

@@ -159,11 +159,11 @@ const RecentOrdersCharts = ({ Orders }) => {
                 </table>
                 <div className="Paginate  flex flex-row px-4 py-4 bg-c-gold mt-10 md:mt-0 text-c-green md:absolute bottom-0  w-full ">
                   {paginateNumbersLength(adminOrders, ordersPerTable).map(
-                    (number) => {
+                    (number, i) => {
                       return (
                         <span
                           onClick={() => paginatePager(setCurrentTable, number)}
-                          key={number}
+                          key={i}
                           className={` flex mx-2 items-center justify-center ${
                             number === currentTable
                               ? `${themeBG} bg-c-gold  text-c-gold`

@@ -75,7 +75,6 @@ const AdminEditProduct = () => {
   };
   const handleProductEdit = async (e) => {
     e.preventDefault();
-    console.log(serverImage);
     var myFormData = new FormData();
     if (
       (slug &&
@@ -106,15 +105,11 @@ const AdminEditProduct = () => {
       }
       try {
         setLoading(true);
-        const config = {
-          headers: {
-            "content-type": "multipart/form-data",
-          },
-        };
+
         const { data } = await axios.patch(
           `/api/products/${productId}`,
           myFormData,
-          config
+          { headers: { authorization: `Bearer ${user.token}` } }
         );
         setSingleProduct(data.product);
         setImageGallery([]);
@@ -124,7 +119,8 @@ const AdminEditProduct = () => {
 
         return toast(data.message);
       } catch (e) {
-        toast.error(e.response.data.error);
+        toast.error(e.response.data.message);
+        return setLoading(false);
       }
     } else {
       return toast.error("Some inputs are empty");
@@ -139,15 +135,15 @@ const AdminEditProduct = () => {
         {
           public_id,
           imageType,
+          headers: { authorization: `Bearer ${user.token}` },
         }
       );
       if (data) {
         toast(data.message);
         setSingleProduct(data.product);
-        console.log(data);
       }
     } catch (e) {
-      toast.error(e.response.data.error);
+      toast.error(e.response.data.message);
     }
   };
 

@@ -5,7 +5,8 @@ import upload from "../cloudinary/multerUploader.js";
 import Products from "../models/products.js";
 import asycHandler from "../middleware/asycHandler.js";
 import Reviews from "../models/productReview.js";
-
+import { isAuth } from "../middleware/isAuth.js";
+import { isAdmin } from "../middleware/isAdmin.js";
 const productRouter = express.Router();
 
 productRouter.get("/", async (req, res, next) => {
@@ -15,7 +16,7 @@ productRouter.get("/", async (req, res, next) => {
   const products = await Products.find(
     productsQuery ? { category: productsQuery } : {}
   )
-    .limit(PAGE_SIZE)
+
     .populate("reviews")
     .exec();
 
@@ -37,6 +38,8 @@ productRouter.get("/allproducts", async (req, res, next) => {
 });
 productRouter.post(
   "/addNew",
+  isAuth,
+  isAdmin,
   upload.fields([
     { name: "imageGallery", maxCount: 20 },
     { name: "productImage", maxCount: 1 },
@@ -45,7 +48,6 @@ productRouter.post(
     const { slug, description, price, category, material, title, itemInStock } =
       req.body;
     const { imageGallery, productImage } = req.files;
-
     if (
       !slug ||
       !description ||
@@ -82,7 +84,6 @@ productRouter.post(
         gallery: images,
       });
       if (newProduct) {
-        console.log(newProduct);
         return res.send({ message: "Product created successfully" });
       }
     }
@@ -100,43 +101,49 @@ productRouter.get("/:id", async (req, res, next) => {
   if (product) return res.send(product);
   return res.status(404).json({ error: "Product not found" });
 });
-productRouter.patch("/imagedestroy/:id", async (req, res, next) => {
-  console.log(req.params.id, req.body);
-  const product = await Products.findById(req.params.id)
-    .populate("reviews")
-    .exec();
-  if (product) {
-    if (req.body.imageType === "productImage") {
-      const ImageToDeleteId = product.image.public_id;
-      if (ImageToDeleteId !== "NONE") {
-        product.image.url = "NONE";
-        product.image.public_id = "NONE";
-        await product.save();
-        return res.send({ message: "Image deleted", product });
-      } else {
-        return res.status(404).json({ error: "Image not found" });
-      }
-    } else if (req.body.imageType === "imageGallery") {
-      const imageExist = product.gallery.find(
-        (image) => image.public_id === req.body.public_id
-      );
-      if (imageExist !== undefined) {
-        await CloudinaryDeleter(req.body.public_id);
-        const newGallery = product.gallery.filter(function (obj) {
-          return obj.public_id !== req.body.public_id;
-        });
-        product.gallery = newGallery;
-        await product.save();
-        return res.send({ message: "Image deleted", product });
-      } else {
-        return res.status(404).json({ error: "Image not found" });
+productRouter.patch(
+  "/imagedestroy/:id",
+  isAuth,
+  isAdmin,
+  async (req, res, next) => {
+    const product = await Products.findById(req.params.id)
+      .populate("reviews")
+      .exec();
+    if (product) {
+      if (req.body.imageType === "productImage") {
+        const ImageToDeleteId = product.image.public_id;
+        if (ImageToDeleteId !== "NONE") {
+          product.image.url = "NONE";
+          product.image.public_id = "NONE";
+          await product.save();
+          return res.send({ message: "Image deleted", product });
+        } else {
+          return res.status(404).json({ error: "Image not found" });
+        }
+      } else if (req.body.imageType === "imageGallery") {
+        const imageExist = product.gallery.find(
+          (image) => image.public_id === req.body.public_id
+        );
+        if (imageExist !== undefined) {
+          await CloudinaryDeleter(req.body.public_id);
+          const newGallery = product.gallery.filter(function (obj) {
+            return obj.public_id !== req.body.public_id;
+          });
+          product.gallery = newGallery;
+          await product.save();
+          return res.send({ message: "Image deleted", product });
+        } else {
+          return res.status(404).json({ error: "Image not found" });
+        }
       }
     }
+    return res.status(404).json({ error: "Product not found" });
   }
-  return res.status(404).json({ error: "Product not found" });
-});
+);
 productRouter.patch(
   "/:id",
+  isAuth,
+  isAdmin,
   upload.fields([
     { name: "imageGallery", maxCount: 20 },
     { name: "productImage", maxCount: 1 },
@@ -182,7 +189,6 @@ productRouter.patch(
         if (productImage) {
           try {
             let image = await CloudinaryUploader(productImage);
-            console.log(image);
             product.image = image[0];
           } catch (e) {
             console.log(e);
@@ -208,7 +214,7 @@ productRouter.patch(
     }
   }
 );
-productRouter.delete("/:id", async (req, res, next) => {
+productRouter.delete("/:id", isAuth, isAdmin, async (req, res, next) => {
   const productToDelete = await Products.findById(req.params.id);
   if (productToDelete) {
     if (productToDelete.reviews.length) {

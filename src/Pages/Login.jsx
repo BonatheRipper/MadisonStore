@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Footer from "../Components/Footer";
 import { NormalButton } from "../Components/LongButtons";
@@ -13,6 +13,7 @@ const Login = () => {
   const [usernameEmail, setUsernameEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
   const handleLoginFormSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -27,7 +28,11 @@ const Login = () => {
   useEffect(() => {
     scrollToTop();
     if (user) {
-      navigate("/");
+      if (location.state?.from) {
+        navigate(location.state.from);
+      } else {
+        navigate("/");
+      }
     }
   }, [user, navigate]);
   return (
@@ -82,13 +87,13 @@ const Login = () => {
                   `}
                 />
               </div>
-              <div className="w-full  flex  justify-center flex-row md:mx-auto">
+              <div className="w-full  flex  justify-center flex-row md:mx-auto text-gray-700">
                 <p className="text-pry-100 font-body text-base">
                   Don't have an account?
                 </p>
                 <NavLink
-                  className="text-pry-100 font-body ml-2 font-bold text-base hover:text-pry-50 transition duration-300"
-                  to="/Rregister"
+                  className="text-pry-100 font-body ml-2 font-bold text-base hover:text-pry-50 transition duration-300 underline"
+                  to="/register"
                 >
                   Register
                 </NavLink>

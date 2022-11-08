@@ -51,7 +51,6 @@ const Paypal = () => {
           type: "setLoadingStatus",
           value: "pending",
         });
-        console.log(gatewayKey);
       };
       loadGateWayKey();
     }

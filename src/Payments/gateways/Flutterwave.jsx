@@ -99,7 +99,6 @@ const Flutterwave = () => {
     text: "Pay with Flutterwave!",
     callback: (response) => {
       onFlutterWaveApprove(response);
-      console.log(response);
       closePaymentModal(); // this will close the modal programmatically
     },
     onClose: () => {},

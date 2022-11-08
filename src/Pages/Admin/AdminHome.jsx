@@ -327,9 +327,7 @@ const AdminHome = () => {
       const Orders = await FetchOrdersAdmin(user);
       const Products = await FetchAllProductsAdmin(user);
       const Reviews = await FetchReviewsAdmin(user);
-      if (!user) {
-        return navigate("/login");
-      }
+
       if (Products) {
         setProductsAdmin(Products.products);
       }
@@ -351,10 +349,11 @@ const AdminHome = () => {
       setOrdersAdmin(results.data.updatedOrders);
       return toast(results.data.message);
     } catch (e) {
-      return toast.error(e.response.data.error);
+      setPopup(!popup);
+
+      return toast.error(e.response.data.message);
     }
   };
-  console.log(ReviewsAdmin);
   return (
     <div className="relative">
       {popup && <AdminPopUp click={() => handleOrderDelete()} />}

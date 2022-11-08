@@ -3,6 +3,7 @@ import Orders from "../models/orders.js";
 import asycHandler from "../middleware/asycHandler.js";
 import { isAuth } from "../middleware/isAuth.js";
 import Products from "../models/products.js";
+import { isAdmin } from "../middleware/isAdmin.js";
 
 const orderRouter = express.Router();
 
@@ -24,7 +25,6 @@ orderRouter.post("/", isAuth, async (req, res, next) => {
   });
 
   const order = await newOrder.save();
-  console.log(order);
   res.status(201).send({ message: "New Order Created", order });
 });
 orderRouter.get("/", isAuth, async (req, res, next) => {
@@ -58,12 +58,12 @@ orderRouter.get("/:orderId", isAuth, async (req, res) => {
     res.status(404).send({ message: "Order Not Found" });
   }
 });
-orderRouter.delete("/:orderId", isAuth, async (req, res, next) => {
+orderRouter.delete("/:orderId", isAuth, isAdmin, async (req, res, next) => {
   const OrderToDelete = await Orders.findById(req.params.orderId);
   if (OrderToDelete) {
     Orders.findByIdAndRemove(req.params.orderId, function (err) {
       if (err) {
-        return res.status(404).send({ error: "There was an error" });
+        return res.status(404).send({ message: "There was an error" });
       }
     });
     const updatedOrders = await Orders.find({});
@@ -72,7 +72,7 @@ orderRouter.delete("/:orderId", isAuth, async (req, res, next) => {
       updatedOrders,
     });
   }
-  return res.status(404).send({ error: "There was an error" });
+  return res.status(404).send({ message: "There was an error" });
 });
 orderRouter.put("/:orderId/pay", isAuth, async (req, res) => {
   console.log(req.body);

@@ -38,9 +38,7 @@ function getAmount(Array) {
 const TotalSalesChart = ({ chart, Orders }) => {
   const { themeBG } = useStateContext();
 
-  useEffect(() => {
-    console.log(Orders);
-  }, [Orders]);
+  useEffect(() => {}, [Orders]);
 
   function getDaysAgoData(data, time) {
     return data.filter(function (a) {

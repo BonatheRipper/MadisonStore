@@ -80,10 +80,10 @@ const TopProducts = ({ TopProducts }) => {
               <div className="mt-14 absolute w-full bottom-1 left-0">
                 <div className="Paginate  flex flex-row px-4 py-4 bg-c-gold mt-10 md:mt-0 text-c-green absolute bottom-0  w-full left-0">
                   {paginateNumbersLength(TopProducts, ordersPerTable).map(
-                    (number) => {
+                    (number, i) => {
                       return (
                         <span
-                          key={number}
+                          key={i}
                           onClick={() => paginatePager(setCurrentTable, number)}
                           className={` ${
                             number === currentTable

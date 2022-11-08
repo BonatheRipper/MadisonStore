@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 
 export const isAuth = (req, res, next) => {
-  const authorization = req.headers.authorization;
+  const authorization =
+    req.headers.authorization || req.body.headers.authorization;
   if (authorization) {
     const token = authorization.slice(7, authorization.length); //BEARER XXXXXXX
     jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
@@ -9,10 +10,13 @@ export const isAuth = (req, res, next) => {
         res.status(401).send({ message: "Invalid request" });
       } else {
         req.user = decode;
+        console.log(req.user);
         next();
       }
     });
   } else {
-    res.status(401).send({ message: "NO TOKEN" });
+    res.status(401).send({
+      message: "No token or  reserved for admins!",
+    });
   }
 };

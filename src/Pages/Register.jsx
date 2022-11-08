@@ -35,7 +35,6 @@ const Register = () => {
         confirmPassword,
       });
       if (data) {
-        console.log(data);
         localStorage.setItem("user", JSON.stringify(data));
         setUser(data);
         toast("Account created successfully");

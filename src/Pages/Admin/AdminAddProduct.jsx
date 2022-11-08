@@ -80,23 +80,17 @@ const AdminAddProduct = () => {
       try {
         setLoading(true);
 
-        const config = {
-          headers: {
-            "content-type": "multipart/form-data",
-          },
-        };
-        const { data } = await axios.post(
-          "/api/products/addNew",
-          myFormData,
-          config
-        );
+        const { data } = await axios.post("/api/products/addNew", myFormData, {
+          headers: { authorization: `Bearer ${user.token}` },
+        });
         toast(data.message);
         setLoading(false);
         setTimeout(function () {
           window.location.href = window.location.href;
         }, 2000);
       } catch (e) {
-        console.log(e.response);
+        toast.error(e.response.data.message);
+        return setLoading(false);
       }
     } else {
       return toast.error("Some inputs are empty");

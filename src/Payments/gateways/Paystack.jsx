@@ -61,7 +61,6 @@ const Paystack = () => {
     onSuccess: () => onPayStackApprove(),
     onClose: () => alert("Wait! You need this oil, don't go!!!!"),
   };
-  console.log(componentProps);
   function onPayStackApprove() {
     const updateOrder = async () => {
       try {

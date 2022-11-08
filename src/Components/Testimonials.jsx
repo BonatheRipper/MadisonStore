@@ -72,11 +72,10 @@ const Testimonials = () => {
           },
         }}
       >
-        {TestimonialsArr.map((item) => {
+        {TestimonialsArr.map((item, i) => {
           return (
-            <SwiperSlide>
+            <SwiperSlide key={i}>
               <TestimonialCard
-                key={Math.random() * 16928}
                 name={item.name}
                 image={item.image}
                 testimony={item.testimony}

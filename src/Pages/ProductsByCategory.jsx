@@ -95,7 +95,6 @@ const ProductsByCategory = () => {
     };
     fetchProducts();
   }, [catType]);
-  console.log(products.items);
 
   return (
     <>
@@ -167,10 +166,10 @@ const ProductsByCategory = () => {
                       onChange={(e) => handleSortCat(e.target.value)}
                       className="bg-[#F1FFFD] border border-c-green md:w-2/5 text-c-green px-6 capitalize hover:bg-c-green hover:text-c-gold py-2 bg-pry-50 transition duration-300 ease-in"
                     >
-                      {sortCat.arr.map((sort) => {
+                      {sortCat.arr.map((sort, i) => {
                         return (
                           <>
-                            <option value={sort} key={sort}>
+                            <option value={sort} key={i}>
                               {sort}
                             </option>
                           </>
@@ -231,17 +230,16 @@ const ProductsByCategory = () => {
                       </button>
                     </li>
 
-                    {pages.map((index) => {
+                    {pages.map((index, i) => {
                       num++;
                       return (
-                        <li>
+                        <li key={i}>
                           <button
                             className={` ${
                               num === pageNumber ? themeBG : "text-c-green"
                             } border text-sm  px-2 border-c-green rounded-full h-6 mx-1 w-6 flex items-center justify-center`}
                             type="button"
                             value={num}
-                            key={num}
                             onClick={(e) => handleClick(Number(e.target.value))}
                             id={num}
                           >

@@ -40,7 +40,6 @@ const AdminProducts = () => {
   const formatToCurrency = (amount) => {
     return "$" + amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
   };
-  console.log(productToDeleteID);
 
   const getProductToDeleteId = async (productId) => {
     setProductToDeleteID(productId);
@@ -57,8 +56,8 @@ const AdminProducts = () => {
         return toast(results.data.message);
       }
     } catch (e) {
-      console.log(e);
-      return toast.error(e.response.data.error);
+      setPopup(!popup);
+      return toast.error(e.response.data.message);
     }
   };
   function padTo2Digits(num) {
@@ -164,13 +163,13 @@ const AdminProducts = () => {
                     </table>
                     <div className="Paginate  flex flex-row px-4 py-4 bg-c-gold  text-c-green   w-full ">
                       {paginateNumbersLength(products, ordersPerTable).map(
-                        (number) => {
+                        (number, i) => {
                           return (
                             <span
                               onClick={() =>
                                 paginatePager(setCurrentTable, number)
                               }
-                              key={number}
+                              key={i}
                               className={` flex mx-2 items-center justify-center ${
                                 number === currentTable
                                   ? `${themeBG} bg-c-gold  text-c-gold`

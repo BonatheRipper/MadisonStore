@@ -46,11 +46,11 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row  justify-center space-y-6 md:space-y-0 md:justify-between w-full">
           <div className="flex flex-col justify-between space-y-6 md:space-y-4">
             <h6 className=" md:tracking-widest  text-2xl md:text-xl ">Shop</h6>
-            {categories.map((cat) => {
+            {categories.map((cat, i) => {
               let categorySingle =
                 cat.charAt(0).toUpperCase() + cat.slice(1).toLowerCase();
               return (
-                <NavLink key={cat} to={`/shop/${cat}`}>
+                <NavLink key={i} to={`/shop/${cat}`}>
                   {categorySingle}
                 </NavLink>
               );

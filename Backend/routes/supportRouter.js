@@ -1,11 +1,13 @@
 import express from "express";
 import Messages from "../models/messages.js";
+
+import { isAdmin } from "../middleware/isAdmin.js";
+import { isAuth } from "../middleware/isAuth.js";
 const supportRouter = express.Router();
-supportRouter.post("/message", async (req, res) => {
+supportRouter.post("/message", isAuth, async (req, res) => {
   const { email, name, text } = req.body;
   //   await Messages.deleteMany({});
   const messages = await Messages.find({});
-  console.log(messages, "this is messages");
 
   if (email && name && text) {
     var filter =
@@ -33,7 +35,6 @@ supportRouter.post("/message", async (req, res) => {
           messages: [{ message: text, time: Date.now(), isAdmin: false }],
         });
         if (newMessage) {
-          console.log(newMessage, "this is what was created");
           return res.send({
             message: "Your message was sent successfully",
             messages: messages,
@@ -46,31 +47,35 @@ supportRouter.post("/message", async (req, res) => {
   }
   return res.status(401).send({ error: "Your request have been submitted" });
 });
-supportRouter.post("/message/admin/:messageId", async (req, res) => {
-  const { text } = req.body;
-  if (text) {
-    try {
-      const chat = await Messages.findById(req.params.messageId);
-      if (chat) {
-        console.log(chat);
-        chat.messages.push({
-          message: text,
-          time: Date.now(),
-          isAdmin: true,
-        });
-        await chat.save();
-        return res.send({
-          success: "Your message was sent successfully",
-          chat,
-        });
+supportRouter.post(
+  "/message/admin/:messageId",
+  isAuth,
+  isAdmin,
+  async (req, res) => {
+    const { text } = req.body;
+    if (text) {
+      try {
+        const chat = await Messages.findById(req.params.messageId);
+        if (chat) {
+          chat.messages.push({
+            message: text,
+            time: Date.now(),
+            isAdmin: true,
+          });
+          await chat.save();
+          return res.send({
+            success: "Your message was sent successfully",
+            chat,
+          });
+        }
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
     }
-  }
 
-  return res.status(401).send({ error: "There was an errror" });
-});
+    return res.status(401).send({ error: "There was an errror" });
+  }
+);
 supportRouter.get("/message", async (req, res) => {
   const messages = await Messages.find({});
   if (messages) {

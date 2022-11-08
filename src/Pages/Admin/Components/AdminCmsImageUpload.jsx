@@ -34,10 +34,10 @@ const AdminCmsImageUpload = ({
         <div className="flex flex-col md:flex-row ">
           {images.length !== 0 && (
             <>
-              {images.map((image) => {
+              {images.map((image, i) => {
                 return (
                   <img
-                    key={image}
+                    key={i}
                     src={image}
                     alt={text}
                     className={`${css} mx-2`}

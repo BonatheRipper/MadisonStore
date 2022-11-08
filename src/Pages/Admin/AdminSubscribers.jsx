@@ -20,6 +20,7 @@ import AdminSharedHeader from "./Components/AdminSharedHeader";
 import AdminPopUp from "./Components/AdminPopUp";
 import ProductsPageBtn from "./Components/ProductsPageBtn";
 import { BsFillPeopleFill } from "react-icons/bs";
+import { MdCancel } from "react-icons/md";
 
 const AdminSubscribers = () => {
   const { user, themeBG, popup, setPopup } = useStateContext();
@@ -35,8 +36,9 @@ const AdminSubscribers = () => {
   const indexOfFirstTable = indexOfLastTable - ordersPerTable;
   useEffect(() => {
     (async function () {
-      let subscribersFromServer = await axios.get("/api/subscription");
-      console.log(subscribersFromServer);
+      let subscribersFromServer = await axios.get("/api/subscription", {
+        headers: { authorization: `Bearer ${user.token}` },
+      });
       setSubscribers(subscribersFromServer.data);
     })();
   }, []);
@@ -47,7 +49,6 @@ const AdminSubscribers = () => {
   };
   const handleSubscriberDelete = async () => {
     try {
-      console.log(subscriberToDeleteID);
       const results = await axios.delete(
         `/api/subscription/${subscriberToDeleteID}`,
         {
@@ -82,6 +83,7 @@ const AdminSubscribers = () => {
       let subscribersFromServer = await axios.post(`/api/subscription/`, {
         emailPseudo: subscriberToAdd,
         fromAdmin: true,
+        headers: { authorization: `Bearer ${user.token}` },
       });
       setSubscribers(subscribersFromServer.data);
       toast("Subscriber added successfully");
@@ -123,6 +125,12 @@ const AdminSubscribers = () => {
         {subscriberToEdit !== false && (
           <div className="w-full flex justify-center">
             <div className="w-11/12 flex border my-4 flex-col justify-between items-center px-8 py-2 shadow">
+              <div
+                onClick={() => setSubscriberToEdit(false)}
+                className="w-full  hover:text-red-500 flex justify-end text-2xl text-gray-800  font-bold"
+              >
+                <MdCancel />
+              </div>
               <p className="w-full text-left text-gray-800 py-2 font-bold">
                 Edit Subscriber
               </p>
@@ -149,6 +157,12 @@ const AdminSubscribers = () => {
         {subscriberToAdd !== false && (
           <div className="w-full flex justify-center">
             <div className="w-11/12 flex border my-4 flex-col justify-between items-center px-8 py-2 shadow">
+              <div
+                onClick={() => setSubscriberToAdd(false)}
+                className="w-full  hover:text-red-500 flex justify-end text-2xl text-gray-800  font-bold"
+              >
+                <MdCancel />
+              </div>
               <p className="w-full text-left text-gray-800 py-2 font-bold">
                 Add Subscriber
               </p>
@@ -194,51 +208,53 @@ const AdminSubscribers = () => {
                           subscribers,
                           indexOfFirstTable,
                           indexOfLastTable
-                        ).map((item) => {
-                          return (
-                            <>
-                              <tr
-                                key={item.orderNo}
-                                className="flex relative  w-full border px-2 border-c-gold justify-between z-10 md:w-full items-center   text-c-gold "
-                              >
-                                <td className="h-8 font-bold w-full transition duration-1000 left-0 absolute bg-c-gold hover:opacity-100 opacity-0 hover:visible z-20 text-c-green px-4 border border-c-green flex justify-between items-center text-xl ">
-                                  <button
-                                    onClick={() => setSubscriberToEdit(item)}
-                                    className="underline hover:animate-pulse "
-                                  >
-                                    <FaRegEdit />
-                                  </button>
-                                  <button
-                                    onClick={() =>
-                                      getSubscriberToDeleteId(item._id)
-                                    }
-                                    className="underline hover:animate-pulse hover:text-red-600 transition duration-500 "
-                                  >
-                                    <RiDeleteBin4Line />
-                                  </button>
-                                </td>
-                                <td className="text-xs md:text-base hover:underline hover:text-gray-400 border-c-gold md:border-none w-24  px-2  md:px-0">
-                                  {item.email}
-                                </td>
+                        )
+                          .reverse()
+                          .map((item) => {
+                            return (
+                              <>
+                                <tr
+                                  key={item.orderNo}
+                                  className="flex relative  w-full border px-2 border-c-gold justify-between z-10 md:w-full items-center   text-c-gold "
+                                >
+                                  <td className="h-8 font-bold w-full transition duration-1000 left-0 absolute bg-c-gold hover:opacity-100 opacity-0 hover:visible z-20 text-c-green px-4 border border-c-green flex justify-between items-center text-xl ">
+                                    <button
+                                      onClick={() => setSubscriberToEdit(item)}
+                                      className="underline hover:animate-pulse "
+                                    >
+                                      <FaRegEdit />
+                                    </button>
+                                    <button
+                                      onClick={() =>
+                                        getSubscriberToDeleteId(item._id)
+                                      }
+                                      className="underline hover:animate-pulse hover:text-red-600 transition duration-500 "
+                                    >
+                                      <RiDeleteBin4Line />
+                                    </button>
+                                  </td>
+                                  <td className="text-xs md:text-base hover:underline hover:text-gray-400 border-c-gold md:border-none w-24  px-2  md:px-0">
+                                    {item.email}
+                                  </td>
 
-                                <td className="  md:inline text-xs md:text-base border-r py-2 border-c-gold md:border-none w-20 flex justify-center px-2  md:px-0">
-                                  {formatDate(new Date(item.createdAt))}
-                                </td>
-                              </tr>
-                            </>
-                          );
-                        })}
+                                  <td className="  md:inline text-xs md:text-base border-r py-2 border-c-gold md:border-none w-20 flex justify-center px-2  md:px-0">
+                                    {formatDate(new Date(item.createdAt))}
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          })}
                       </>
                     </table>
                     <div className="Paginate  flex flex-row px-4 py-4 bg-c-gold  text-c-green   w-full ">
                       {paginateNumbersLength(subscribers, ordersPerTable).map(
-                        (number) => {
+                        (number, i) => {
                           return (
                             <span
                               onClick={() =>
                                 paginatePager(setCurrentTable, number)
                               }
-                              key={number}
+                              key={i}
                               className={` flex mx-2 items-center justify-center ${
                                 number === currentTable
                                   ? `${themeBG} bg-c-gold  text-c-gold`

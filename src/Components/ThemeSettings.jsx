@@ -67,10 +67,10 @@ const ThemeSettings = () => {
           <div className="py-6 px-4 flex flex-col ">
             <h4 className="text-sm  border-b  border-c-gold">Theme Colors</h4>
             <div className="flex py-4 px-4 items-center justify-evenly">
-              {ThemeBackground.map((bg) => {
+              {ThemeBackground.map((bg, i) => {
                 return (
                   <div
-                    key={Math.random() * 16928 + bg.color}
+                    key={i}
                     onClick={() => handleThemeBg(bg.color)}
                     className={`${bg.color} ${
                       themeShape ? themeShape : ""
@@ -88,10 +88,10 @@ const ThemeSettings = () => {
           <div className="py-6 px-4 flex flex-col ">
             <h4 className="text-sm  border-b  border-c-gold">Theme Loaders</h4>
             <div className="flex py-4 px-4 items-center justify-evenly">
-              {ThemeLoaders.map((loader) => {
+              {ThemeLoaders.map((loader, i) => {
                 return (
                   <div
-                    key={loader.name}
+                    key={loader.name + i}
                     onClick={() => handleLoader(loader.name)}
                     className={`${themeBG} ${
                       themeShape ? themeShape : ""

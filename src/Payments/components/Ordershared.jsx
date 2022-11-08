@@ -76,11 +76,11 @@ const Ordershared = ({ order, button }) => {
                   {order.isPaid ? "Paid Items" : "Items To Pay"}
                 </h4>
                 <div className=" border border-c-gold flex  flex-col  w-full ">
-                  {order.orderItems.map((item) => {
+                  {order.orderItems.map((item, i) => {
                     return (
                       <div
                         className="flex py-2 px-4 justify-between space-x-6 items-center"
-                        key={item.name}
+                        key={i}
                       >
                         <p className="font-bold ">
                           <img

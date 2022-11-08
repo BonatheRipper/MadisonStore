@@ -132,7 +132,6 @@ const cartReducer = (state, action) => {
         ShippingDetails: action.payload,
       };
     case "PAYMENT_METHOD":
-      console.log(state);
       return {
         ...state,
         PaymentMethod: action.payload,

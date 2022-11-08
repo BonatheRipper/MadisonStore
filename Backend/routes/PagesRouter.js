@@ -1,5 +1,9 @@
 import express from "express";
 import Pages from "../models/pages.js";
+
+import { isAdmin } from "../middleware/isAdmin.js";
+import { isAuth } from "../middleware/isAuth.js";
+
 const pagesRouter = express.Router();
 pagesRouter.get("/:pageName", async (req, res) => {
   const pageName = req.params.pageName.toLocaleLowerCase();
@@ -25,7 +29,7 @@ pagesRouter.get("/:pageName", async (req, res) => {
     return res.status(401).send("There was an error");
   }
 });
-pagesRouter.post("/:pageName", async (req, res) => {
+pagesRouter.post("/:pageName", isAuth, isAdmin, async (req, res) => {
   const pageName = req.params.pageName.toLocaleLowerCase();
   try {
     const pageItems = await Pages.findById("63019459ff4e92918aed2728");

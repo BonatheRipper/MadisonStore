@@ -27,7 +27,9 @@ const AdminSettings = () => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const { data } = await axios.get(`/api/settings`);
+        const { data } = await axios.get(`/api/settings`, {
+          headers: { authorization: `Bearer ${user.token}` },
+        });
         if (data) {
           const { title, description, tawkTo, logoImage, faviconImage } = data;
           setTitle(title);
@@ -78,15 +80,11 @@ const AdminSettings = () => {
       }
 
       try {
-        const config = {
-          headers: {
-            "content-type": "multipart/form-data",
-          },
-        };
-        const { data } = await axios.post(`/api/settings`, myFormData, config);
+        const { data } = await axios.post(`/api/settings`, myFormData, {
+          headers: { authorization: `Bearer ${user.token}` },
+        });
 
         if (data) {
-          console.log(data);
           const { title, description, tawkTo, logoImage, faviconImage } = data;
           setTitle(title);
           setDescription(description);
@@ -99,7 +97,7 @@ const AdminSettings = () => {
           return;
         }
       } catch (e) {
-        toast.error(e);
+        return toast.error(e.response.data.message);
       }
     } else {
       return toast.error("Some inputs are empty");

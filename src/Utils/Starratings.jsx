@@ -50,9 +50,9 @@ const Starratings = ({ productReviews }) => {
   }
   return (
     <div className="flex flex-row items-end p-2">
-      {Array.from(Array(StarRating()).keys()).map((item) => {
+      {Array.from(Array(StarRating()).keys()).map((item, i) => {
         return (
-          <small key={item}>
+          <small key={i}>
             <i className="fa fa-star" aria-hidden="true"></i>
           </small>
         );

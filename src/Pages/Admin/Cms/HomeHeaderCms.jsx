@@ -7,15 +7,18 @@ import { toast } from "react-toastify";
 import AdminPagesCmsSaveBtn from "../Components/AdminPagesCmsSaveBtn";
 import AdminSharedHeader from "../Components/AdminSharedHeader";
 import InputCms from "../Components/InputCms";
-
+import { useStateContext } from "../../../context/Statecontext";
 const HomeHeaderCms = () => {
+  const { user } = useStateContext();
   const [header, setHeader] = useState();
   const [button, setButton] = useState("");
   const [body, setBody] = useState("");
   useEffect(() => {
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/pages/homeheader");
+        const { data } = await axios.get("/api/pages/homeheader", {
+          headers: { authorization: `Bearer ${user.token}` },
+        });
         if (data) {
           setHeader(data.headerText);
           setButton(data.ButtonText);
@@ -42,13 +45,14 @@ const HomeHeaderCms = () => {
         try {
           const { data } = await axios.post("/api/pages/homeheader", {
             homeHeader,
+            headers: { authorization: `Bearer ${user.token}` },
           });
           setHeader(data.headerText);
           setButton(data.ButtonText);
           setBody(data.BodyText);
           return toast("Page updated successfully");
         } catch (e) {
-          toast.error(e.response.data);
+          toast.error(e.response.data.message);
         }
       };
       postPage();

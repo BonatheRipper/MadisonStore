@@ -38,7 +38,8 @@ import Flutterwave from "./Pages/Admin/Gateway/Flutterwave";
 import Paystack from "./Pages/Admin/Gateway/Paystack";
 import AdminSettings from "./Pages/Admin/AdminSettings";
 import AdminSubscribers from "./Pages/Admin/AdminSubscribers";
-
+import PrivateRoutes from "./Utils/PrivateRoute";
+import AdminUsers from "./Pages/Admin/AdminUsers";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
@@ -50,8 +51,6 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/account/:id" element={<UpdateAccount />} />
           <Route path="/products/:id" element={<ProductsPage />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/cart" element={<CartPage />} />
@@ -68,30 +67,43 @@ const App = () => {
           <Route path="/shop" element={<AllProducts />} />
           <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/shop/:catType" element={<ProductsByCategory />} />
-          <Route path="/admin" element={<AdminHome />} />
-          <Route path="/admin/products" element={<AdminProducts />} />
-          <Route path="/admin/support" element={<AdminSupport />} />
-          <Route
-            path="/admin/products/addproduct"
-            element={<AdminAddProduct />}
-          />
-          <Route
-            path="/admin/products/update/:productId"
-            element={<AdminEditProduct />}
-          />
-          <Route path="/admin/cms/welcome" element={<WelcomeCms />} />
-          <Route path="/admin/cms/about" element={<AboutCms />} />
-          <Route path="/admin/cms/subscription" element={<SubscriptionCms />} />
-          <Route path="/admin/cms/contact" element={<ContactCms />} />
-          <Route path="/admin/cms/header" element={<HomeHeaderCms />} />
-          <Route path="/admin/gateway/paypal" element={<Paypal />} />
-          <Route path="/admin/gateway/paystack" element={<Paystack />} />
-          <Route path="/admin/gateway/flutterwave" element={<Flutterwave />} />
-          <Route path="/admin/settings" element={<AdminSettings />} />
 
-          <Route path="/admin/subscribers" element={<AdminSubscribers />} />
+          {/* PRIVATE ROUTES */}
+          <Route element={<PrivateRoutes />}>
+            <Route path="/account" element={<Account />} />
+            <Route path="/account/:id" element={<UpdateAccount />} />
+            <Route path="/admin" element={<AdminHome />} />
+            <Route path="/admin/products" element={<AdminProducts />} />
+            <Route path="/admin/support" element={<AdminSupport />} />
+            <Route
+              path="/admin/products/addproduct"
+              element={<AdminAddProduct />}
+            />
+            <Route
+              path="/admin/products/update/:productId"
+              element={<AdminEditProduct />}
+            />
+            <Route path="/admin/cms/welcome" element={<WelcomeCms />} />
+            <Route path="/admin/cms/about" element={<AboutCms />} />
+            <Route
+              path="/admin/cms/subscription"
+              element={<SubscriptionCms />}
+            />
+            <Route path="/admin/cms/contact" element={<ContactCms />} />
+            <Route path="/admin/cms/header" element={<HomeHeaderCms />} />
+            <Route path="/admin/gateway/paypal" element={<Paypal />} />
+            <Route path="/admin/gateway/paystack" element={<Paystack />} />
+            <Route
+              path="/admin/gateway/flutterwave"
+              element={<Flutterwave />}
+            />
+            <Route path="/admin/settings" element={<AdminSettings />} />
+            <Route path="/admin/subscribers" element={<AdminSubscribers />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+          </Route>
+          {/* PRIVATE ROUTES ENDS*/}
 
-          <Route element={<Four0Four />} />
+          <Route path="*" element={<Four0Four />} />
         </Routes>
       </div>
     </BrowserRouter>

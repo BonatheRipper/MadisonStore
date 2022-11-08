@@ -31,7 +31,6 @@ const WelcomeCms = () => {
 
   const handFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(title, header, body, button);
     if (!title || !header || !body || !button) {
       return toast.error("Some fields are missing ");
     } else {

@@ -6,8 +6,9 @@ import { toast } from "react-toastify";
 import AdminSharedHeader from "../Components/AdminSharedHeader";
 import InputCms from "../Components/InputCms";
 import AdminPagesCmsSaveBtn from "../Components/AdminPagesCmsSaveBtn";
-
+import { useStateContext } from "../../../context/Statecontext";
 const ContactCms = () => {
+  const { user } = useStateContext();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [email, setEmail] = useState("");
@@ -18,7 +19,9 @@ const ContactCms = () => {
   useEffect(() => {
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/pages/contact");
+        const { data } = await axios.get("/api/pages/contact", {
+          headers: { authorization: `Bearer ${user.token}` },
+        });
         if (data) {
           setTitle(data.title);
           setButton(data.ButtonText);
@@ -29,7 +32,7 @@ const ContactCms = () => {
           setAddressText(data.AddressText);
         }
       } catch (e) {
-        toast.error(e.response.data);
+        toast.error(e.response.data.message);
       }
     };
     getPage();
@@ -37,7 +40,6 @@ const ContactCms = () => {
 
   const handFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(title, address, body, button);
     if (!title || !body || !button) {
       return toast.error("Some fields are missing ");
     } else {
@@ -52,7 +54,10 @@ const ContactCms = () => {
       };
       const postPage = async () => {
         try {
-          const { data } = await axios.post("/api/pages/contact", { contact });
+          const { data } = await axios.post("/api/pages/contact", {
+            contact,
+            headers: { authorization: `Bearer ${user.token}` },
+          });
           setTitle(data.title);
           setButton(data.ButtonText);
           setBody(data.BodyText);
@@ -63,7 +68,7 @@ const ContactCms = () => {
 
           return toast("Page updated successfully");
         } catch (e) {
-          toast.error(e.response.data);
+          toast.error(e.response.data.message);
         }
       };
       postPage();

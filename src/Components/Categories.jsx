@@ -21,25 +21,25 @@ const Categories = () => {
   }, []);
   function catImage(name) {
     if (name.toLowerCase() === "bags") {
-      return CatBag;
+      return "https://res.cloudinary.com/drl5x0n4p/image/upload/v1667841225/CatBag_ojejji.png";
     }
     if (name.toLowerCase() === "watches") {
-      return CatWatch;
+      return "https://res.cloudinary.com/drl5x0n4p/image/upload/v1667841227/CatWatch_jvitg7.png";
     }
-    if (name.toLowerCase() === "necklaces") {
-      return CatNecklace;
+    if (name.toLowerCase() === "necklace") {
+      return "https://res.cloudinary.com/drl5x0n4p/image/upload/v1667841226/CatNecklace_hbz82u.png";
     }
     if (name.toLowerCase() === "earrings") {
-      return CatEarrings;
+      return "https://res.cloudinary.com/drl5x0n4p/image/upload/v1667841225/CatEarrings_rjgcku.png";
     }
     if (name.toLowerCase() === "shoes") {
-      return CatShoe;
+      return "https://res.cloudinary.com/drl5x0n4p/image/upload/v1667841228/CatShoe_c0utuj.png";
     }
     if (name.toLowerCase() === "rings") {
-      return CatRing;
+      return "https://res.cloudinary.com/drl5x0n4p/image/upload/v1667841226/CatRing_ghlgx8.png";
     }
     if (name.toLowerCase() === "shirts") {
-      return CatShirt;
+      return "https://res.cloudinary.com/drl5x0n4p/image/upload/v1667841226/CatShirt_gtet9t.png";
     }
   }
   return (
@@ -58,9 +58,10 @@ const Categories = () => {
               {categories
                 .sort()
                 .slice(0, 3)
-                .map((cat) => {
+                .map((cat, i) => {
                   return (
                     <CategoriesCard
+                      key={i}
                       catName={cat}
                       to={`/shop/${cat}`}
                       image={catImage(cat)}

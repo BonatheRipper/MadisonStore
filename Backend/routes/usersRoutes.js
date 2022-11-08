@@ -25,6 +25,7 @@ usersRouter.post(
 );
 usersRouter.put(
   "/profile/:id",
+  isAuth,
   expressAsyncHanler(async (req, res, next) => {
     const { username, password, email } = req.body;
     const user = await Users.findById(req.params.id);
@@ -71,7 +72,6 @@ usersRouter.post(
           password: bcrypt.hashSync(password),
         });
         if (newUser) {
-          console.log(newUser);
           return res.send({
             _id: newUser._id,
             username: newUser.username,
@@ -83,6 +83,52 @@ usersRouter.post(
         return res.status(401).send({ message: "There was an error " });
       }
       return res.status(401).send({ message: "Password needs to match" });
+    } else {
+      return res.status(401).send({ message: "One or more fields  empty" });
+    }
+  })
+);
+usersRouter.get(
+  "/admin/users",
+  expressAsyncHanler(async (req, res, next) => {
+    const users = await Users.find({}).select("-password");
+    if (users) {
+      res.send(users);
+    }
+  })
+);
+usersRouter.post(
+  "/admin/users",
+  expressAsyncHanler(async (req, res, next) => {
+    const { email, password, username, checked } = req.body;
+    if (email && password && username) {
+      const thisEmailExist = await Users.findOne({ email: email });
+      const thisUsernameExist = await Users.findOne({ username: username });
+
+      if (thisEmailExist) {
+        return res
+          .status(401)
+          .send({ message: "user with that email already exist" });
+      }
+      if (thisUsernameExist) {
+        return res
+          .status(401)
+          .send({ message: "user with that username already exist" });
+      }
+      const newUser = await Users.create({
+        email: email,
+        username: username,
+        isAdmin: checked,
+        password: bcrypt.hashSync(password),
+      });
+      if (newUser) {
+        console.log(newUser);
+        const users = await Users.find({}).select("-password");
+        if (users) {
+          return res.send(users);
+        }
+      }
+      return res.status(401).send({ message: "There was an error " });
     } else {
       return res.status(401).send({ message: "One or more fields  empty" });
     }

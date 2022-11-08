@@ -133,10 +133,10 @@ const AllProducts = () => {
                   className="bg-[#F1FFFD] border border-c-green md:w-2/5 text-c-green px-6 capitalize hover:bg-c-green hover:text-c-gold py-2 bg-pry-50 transition duration-300 ease-in"
                 >
                   <option disabled>Category</option>
-                  {cats.map((cat) => {
+                  {cats.map((cat, i) => {
                     return (
                       <>
-                        <option key={cat}>{cat}</option>
+                        <option key={cat + i}>{cat}</option>
                       </>
                     );
                   })}
@@ -148,10 +148,10 @@ const AllProducts = () => {
                   onChange={(e) => handleSortCat(e.target.value)}
                   className="bg-[#F1FFFD] border border-c-green md:w-2/5 text-c-green px-6 capitalize hover:bg-c-green hover:text-c-gold py-2 bg-pry-50 transition duration-300 ease-in"
                 >
-                  {sortCat.arr.map((sort) => {
+                  {sortCat.arr.map((sort, i) => {
                     return (
                       <>
-                        <option value={sort} key={sort}>
+                        <option value={sort} key={sort + i}>
                           {sort}
                         </option>
                       </>
@@ -174,11 +174,10 @@ const AllProducts = () => {
                 products.items,
                 indexOfFirstTable,
                 indexOfLastTable
-              ).map((item) => {
+              ).map((item, i) => {
                 return (
-                  <div data-aos="fade-up">
+                  <div key={item._id + i} data-aos="fade-up">
                     <ProductCard
-                      key={item._id}
                       image={item.image.url}
                       css={`
                         ${themeBG}
@@ -201,9 +200,9 @@ const AllProducts = () => {
             <nav aria-label="pagination navigation">
               <ul className="flex flex-row">
                 {paginateNumbersLength(products.items, ordersPerTable).map(
-                  (num) => {
+                  (num, i) => {
                     return (
-                      <li>
+                      <li key={i}>
                         <button
                           className={` flex mx-2 items-center justify-center ${
                             num === currentTable
@@ -212,7 +211,6 @@ const AllProducts = () => {
                           } rounded-full w-6 h-6`}
                           type="button"
                           value={num}
-                          key={num}
                           onClick={(e) => paginatePager(setCurrentTable, num)}
                           id={num}
                         >

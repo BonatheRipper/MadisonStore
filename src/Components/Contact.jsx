@@ -29,7 +29,6 @@ const Contact = () => {
     };
     getPage();
   }, []);
-  console.log(page);
   const HandleSupportMessage = async (e) => {
     var filter =
       /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;

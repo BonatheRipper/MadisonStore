@@ -6,19 +6,21 @@ import AdminSharedHeader from "../Components/AdminSharedHeader";
 import InputCms from "../Components/InputCms";
 import AdminPagesCmsSaveBtn from "../Components/AdminPagesCmsSaveBtn";
 import RadionInputAdmin from "../Components/RadionInputAdmin";
+import { useStateContext } from "../../../context/Statecontext";
 
 const Paypal = () => {
   const [gatewayName, setGatewayName] = useState("");
   const [testKey, setTestKey] = useState("");
   const [liveKey, setLiveKey] = useState("");
   const [checked, setChecked] = useState(true);
-
+  const { user } = useStateContext();
   useEffect(() => {
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/gateway/Paypal");
+        const { data } = await axios.get("/api/gateway/Paypal", {
+          headers: { authorization: `Bearer ${user.token}` },
+        });
         if (data) {
-          console.log(data);
           setChecked(data.isActive);
           setLiveKey(data.liveKey);
           setTestKey(data.testKey);
@@ -46,6 +48,8 @@ const Paypal = () => {
         try {
           const { data } = await axios.post("/api/gateway/Paypal", {
             Paypal,
+            user,
+            headers: { authorization: `Bearer ${user.token}` },
           });
           if (data) {
             setChecked(data.isActive);
@@ -53,10 +57,9 @@ const Paypal = () => {
             setTestKey(data.testKey);
             setGatewayName(data.name);
           }
-
           return toast("Updated  successfully");
         } catch (e) {
-          toast.error(e.response.data);
+          toast.error(e.response.data.message);
         }
       };
       postGateway();

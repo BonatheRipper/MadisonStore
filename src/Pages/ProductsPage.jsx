@@ -30,7 +30,6 @@ const ProductsPage = () => {
   const handleGalleryClick = (imgLink) => {
     setCurrentImg(imgLink);
   };
-  console.log(singleProduct);
   return (
     <>
       <ShareHeader />
@@ -88,10 +87,10 @@ const ProductsPage = () => {
                     },
                   }}
                 >
-                  {singleProduct.gallery.map((item) => {
+                  {singleProduct.gallery.map((item, i) => {
                     return (
                       <SwiperSlide
-                        key={item + Math.random() * 353}
+                        key={i}
                         onClick={() => handleGalleryClick(item.url)}
                         className="relative flex items-center justify-center"
                       >

@@ -3,7 +3,11 @@ import { useStateContext } from "../../../context/Statecontext";
 const AdminPopUp = ({ click, text }) => {
   const { popup, setPopup } = useStateContext();
   return (
-    <div className="fixed bg-black opacity-90 text-c-green h-screen w-full z-50   flex justify-center items-center">
+    <div
+      className={`fixed bg-black ${
+        !popup ? "hidden" : ""
+      } opacity-90 text-c-green h-screen w-full z-50   flex justify-center items-center`}
+    >
       <div
         className={`bg-white p-4 justify-center items-center opacity-100 rounded-lg flex flex-col w-10/12  `}
       >

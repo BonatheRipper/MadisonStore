@@ -71,20 +71,22 @@ const RecentReviews = ({ recentReviews }) => {
                       </div>
                       <div className="product flex items-center flex-row px-4">
                         <div className="flex flex-row items-end p-2">
-                          {Array.from(Array(item.rating).keys()).map((item) => {
-                            return (
-                              <small>
-                                <i
-                                  className="fa fa-star"
-                                  aria-hidden="true"
-                                ></i>
-                              </small>
-                            );
-                          })}
-                          {Array.from(Array(5 - item.rating).keys()).map(
-                            (item) => {
+                          {Array.from(Array(item.rating).keys()).map(
+                            (item, i) => {
                               return (
-                                <small>
+                                <small key={i}>
+                                  <i
+                                    className="fa fa-star"
+                                    aria-hidden="true"
+                                  ></i>
+                                </small>
+                              );
+                            }
+                          )}
+                          {Array.from(Array(5 - item.rating).keys()).map(
+                            (item, i) => {
+                              return (
+                                <small key={i}>
                                   <i
                                     className="fa fa-star-o"
                                     aria-hidden="true"
@@ -102,10 +104,10 @@ const RecentReviews = ({ recentReviews }) => {
               <div className="mt-14 relative">
                 <div className="Paginate  flex flex-row px-4 py-4 bg-c-gold mt-10 md:mt-0 text-c-green absolute bottom-0  w-full left-0">
                   {paginateNumbersLength(recentReviews, ordersPerTable).map(
-                    (number) => {
+                    (number, i) => {
                       return (
                         <span
-                          key={number}
+                          key={i}
                           onClick={() => paginatePager(setCurrentTable, number)}
                           className={` ${
                             number === currentTable

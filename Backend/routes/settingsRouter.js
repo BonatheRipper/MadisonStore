@@ -3,6 +3,8 @@ import upload from "../cloudinary/multerUploader.js";
 import { CloudinaryUploader } from "../cloudinary/cloudinary.js";
 import { CloudinaryDeleter } from "../cloudinary/cloudinary.js";
 import Settings from "../models/settings.js";
+import { isAuth } from "../middleware/isAuth.js";
+import { isAdmin } from "../middleware/isAdmin.js";
 
 const settingsRouter = express.Router();
 settingsRouter.get("/", async (req, res, next) => {
@@ -16,6 +18,8 @@ settingsRouter.get("/", async (req, res, next) => {
 });
 settingsRouter.post(
   "/",
+  isAuth,
+  isAdmin,
   upload.fields([
     { name: "websiteLogo", maxCount: 1 },
     { name: "websiteFavicon", maxCount: 1 },

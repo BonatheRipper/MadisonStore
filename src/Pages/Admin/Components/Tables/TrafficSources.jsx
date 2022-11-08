@@ -39,9 +39,12 @@ const TrafficSources = ({ TrafficSource }) => {
                   <p>Source</p>
                   <p>Traffic</p>
                 </div>
-                {TrafficSourceData.map((item) => {
+                {TrafficSourceData.map((item, i) => {
                   return (
-                    <div className="flex border border-c-gold flex-row justify-between p-1">
+                    <div
+                      key={i}
+                      className="flex border border-c-gold flex-row justify-between p-1"
+                    >
                       <p>
                         <span
                           className={` px-1 rounded-full mr-2 bg-[${item.color}]`}

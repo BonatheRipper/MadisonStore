@@ -66,14 +66,16 @@ const AdminSupport = () => {
   const [messages, setMessages] = useState([]);
   const [chats, setChats] = useState(false);
   const [searchterm, setSearchterm] = useState("");
-  const { themeBG } = useStateContext();
+  const { themeBG, user } = useStateContext();
   let textInput = React.createRef();
 
   useEffect(() => {
     const fetchMessages = async () => {
       //we fetch all messages from server, we set chatbox to first message
       try {
-        const messages = await axios.get("/api/support/message");
+        const messages = await axios.get("/api/support/message", {
+          headers: { authorization: `Bearer ${user.token}` },
+        });
         setMessages(messages.data);
         setChats(messages.data[0]);
       } catch (e) {
@@ -86,7 +88,9 @@ const AdminSupport = () => {
   // on click of any chat we get the chat from server and setCurrent chatbox to it.
   const HandleChatState = async (messageId) => {
     try {
-      const messages = await axios.get(`/api/support/message/${messageId}`);
+      const messages = await axios.get(`/api/support/message/${messageId}`, {
+        headers: { authorization: `Bearer ${user.token}` },
+      });
       setChats(messages.data);
       SetchatMenu(!chatMenu);
     } catch (e) {
@@ -115,14 +119,14 @@ const AdminSupport = () => {
     try {
       const messages = await axios.post(
         `/api/support/message/admin/${messageId}`,
-        { text }
+        { text, headers: { authorization: `Bearer ${user.token}` } }
       );
       toast(messages.data.success);
       setChats(messages.data.chat);
       setSearchterm("");
     } catch (e) {
       console.log(e);
-      toast.error("There was an error");
+      toast.error(e.response.data.message);
     }
   };
 

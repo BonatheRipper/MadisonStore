@@ -10,6 +10,8 @@ import {
 } from "react-icons/md";
 import { BiSupport } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
+import { HiUsers } from "react-icons/hi";
+
 import { IoIosPeople } from "react-icons/io";
 import { AiFillHome } from "react-icons/ai";
 import { BsCardHeading, BsPaypal } from "react-icons/bs";
@@ -88,7 +90,7 @@ const AdminSidebarLeft = ({}) => {
         <div
           className={` ml-8 ${
             dropdownGateway
-              ? " visible z-10 translate-y-1 transition "
+              ? " visible z-40 translate-y-1 transition "
               : "invisible opacity-0 absolute top-full  left-0 w-full -translate-y-10 -z-10 transition  duration-100 "
           }`}
         >
@@ -114,9 +116,10 @@ const AdminSidebarLeft = ({}) => {
   return (
     <>
       <div
+        style={{ zIndex: 51 }}
         className={`${
           Adminsidebar ? "left-0" : "-left-80"
-        } md:block fixed h-screen top-0  p-4 pt-16 w-80 z-40 ${themeBG}`}
+        } md:block fixed h-screen top-0  p-4 pt-16 w-80 ${themeBG}`}
       >
         <ul
           onClick={() => setAdminSidebar(!Adminsidebar)}
@@ -135,8 +138,13 @@ const AdminSidebarLeft = ({}) => {
           {pagesDropDown()}
           <LeftSideBarBtn
             text="Subscribers"
-            icon={<IoIosPeople />}
+            icon={<HiUsers />}
             link="/admin/subscribers"
+          />
+          <LeftSideBarBtn
+            text="Users"
+            icon={<IoIosPeople />}
+            link="/admin/users"
           />
 
           <LeftSideBarBtn

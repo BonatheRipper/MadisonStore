@@ -5,15 +5,19 @@ import { toast } from "react-toastify";
 import AdminSharedHeader from "../Components/AdminSharedHeader";
 import InputCms from "../Components/InputCms";
 import AdminPagesCmsSaveBtn from "../Components/AdminPagesCmsSaveBtn";
+import { useStateContext } from "../../../context/Statecontext";
 
 const SubscriptionCms = () => {
   const [title, setTitle] = useState("");
   const [button, setButton] = useState("");
   const [body, setBody] = useState("");
+  const { user } = useStateContext();
   useEffect(() => {
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/pages/subscription");
+        const { data } = await axios.get("/api/pages/subscription", {
+          headers: { authorization: `Bearer ${user.token}` },
+        });
         if (data) {
           console.group(data);
           setTitle(data.title);
@@ -21,7 +25,7 @@ const SubscriptionCms = () => {
           setBody(data.BodyText);
         }
       } catch (e) {
-        toast.error(e.response.data);
+        toast.error(e.response.data.message);
       }
     };
     getPage();
@@ -29,7 +33,6 @@ const SubscriptionCms = () => {
 
   const handFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(title, body, button);
     if (!title || !body || !button) {
       return toast.error("Some fields are missing ");
     } else {
@@ -42,13 +45,14 @@ const SubscriptionCms = () => {
         try {
           const { data } = await axios.post("/api/pages/subscription", {
             subscription,
+            headers: { authorization: `Bearer ${user.token}` },
           });
           setTitle(data.title);
           setButton(data.ButtonText);
           setBody(data.BodyText);
           return toast("Page updated successfully");
         } catch (e) {
-          toast.error(e.response.data);
+          toast.error(e.response.data.message);
         }
       };
       postPage();

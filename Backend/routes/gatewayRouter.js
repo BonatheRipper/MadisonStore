@@ -1,6 +1,7 @@
 import express from "express";
 import Gateway from "../models/gateways.js";
-
+import { isAdmin } from "../middleware/isAdmin.js";
+import { isAuth } from "../middleware/isAuth.js";
 const gatewayRouterDB = express.Router();
 gatewayRouterDB.get("/", async (req, res) => {
   try {
@@ -19,7 +20,7 @@ gatewayRouterDB.get("/", async (req, res) => {
     console.log(e);
   }
 });
-gatewayRouterDB.get("/:gatewayTitle", async (req, res) => {
+gatewayRouterDB.get("/:gatewayTitle", isAuth, async (req, res) => {
   const gatewayTitle = req.params.gatewayTitle.toLowerCase();
   const gatewayItems = await Gateway.findById("630a6a60afd04f42315cee76");
 
@@ -37,7 +38,7 @@ gatewayRouterDB.get("/:gatewayTitle", async (req, res) => {
     return res.status(401).send("There was an error");
   }
 });
-gatewayRouterDB.post("/:gatewayTitle", async (req, res) => {
+gatewayRouterDB.post("/:gatewayTitle", isAuth, isAdmin, async (req, res) => {
   const gatewayTitle = req.params.gatewayTitle.toLowerCase();
   const gatewayItems = await Gateway.findById("630a6a60afd04f42315cee76");
   if (gatewayTitle) {

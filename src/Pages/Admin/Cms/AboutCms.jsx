@@ -6,8 +6,9 @@ import { toast } from "react-toastify";
 import AdminSharedHeader from "../Components/AdminSharedHeader";
 import InputCms from "../Components/InputCms";
 import AdminPagesCmsSaveBtn from "../Components/AdminPagesCmsSaveBtn";
-
+import { useStateContext } from "../../../context/Statecontext";
 const AboutCms = () => {
+  const { user } = useStateContext();
   const [title, setTitle] = useState("");
   const [header, setHeader] = useState();
   const [button, setButton] = useState("");
@@ -15,7 +16,9 @@ const AboutCms = () => {
   useEffect(() => {
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/pages/about");
+        const { data } = await axios.get("/api/pages/about", {
+          headers: { authorization: `Bearer ${user.token}` },
+        });
         if (data) {
           setTitle(data.title);
           setHeader(data.headerText);
@@ -42,14 +45,17 @@ const AboutCms = () => {
       };
       const postPage = async () => {
         try {
-          const { data } = await axios.post("/api/pages/about", { about });
+          const { data } = await axios.post("/api/pages/about", {
+            about,
+            headers: { authorization: `Bearer ${user.token}` },
+          });
           setTitle(data.title);
           setHeader(data.headerText);
           setButton(data.ButtonText);
           setBody(data.BodyText);
           return toast("Page updated successfully");
         } catch (e) {
-          toast.error(e.response.data);
+          toast.error(e.response.data.message);
         }
       };
       postPage();

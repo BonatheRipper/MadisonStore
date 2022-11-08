@@ -14,6 +14,7 @@ const AdminNavBar = ({ sidebar, setSidebar }) => {
   };
   return (
     <nav
+      style={{ zIndex: 52 }}
       className={`
       ${
         themeBG ? `${themeBG} text-c-gold  ` : ""

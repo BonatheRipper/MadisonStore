@@ -76,13 +76,10 @@ const Navbar = () => {
           )}
           <i className="fa fa-shopping-basket" aria-hidden="true"></i>
         </NavLink>
-        <NavLink
-          to="/wishlist"
-          className="hidden md:block hover:text-white  mx-2"
-        >
+        {/* wishlist */}
+        <NavLink to="/" className="hidden md:block hover:text-white  mx-2">
           <i className="fa fa-heart-o" aria-hidden="true"></i>
         </NavLink>
-
         {!user && (
           <>
             {" "}
@@ -100,7 +97,6 @@ const Navbar = () => {
             </NavLink>
           </>
         )}
-
         {user && (
           <>
             <div className="relative w-full mx-2 flex flex-col">

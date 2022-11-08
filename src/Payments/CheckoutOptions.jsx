@@ -12,7 +12,7 @@ const CheckoutOptions = () => {
   const navigate = useNavigate();
   const handleCheckoutClick = () => {
     if (!cart.PaymentMethod) {
-      return alert("failed choose a payment method");
+      return toast.error("failed choose a payment method");
     } else {
       navigate("/shipping");
     }
@@ -44,9 +44,11 @@ const CheckoutOptions = () => {
   return (
     <div>
       <p className="text-sm p-2">Payment method</p>
-      {Payments.map((gateway) => {
+      {Payments.map((gateway, i) => {
         if (gateway.isActive) {
-          return <div key={gateway.name}>{displayGateway(gateway.name)}</div>;
+          return (
+            <div key={gateway.name + i}>{displayGateway(gateway.name)}</div>
+          );
         }
       })}
       <span>

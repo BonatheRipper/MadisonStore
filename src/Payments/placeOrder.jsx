@@ -184,11 +184,11 @@ const PlaceOrder = () => {
                   Items To Pay
                 </h4>
                 <div className=" border border-c-gold flex  flex-col  w-full ">
-                  {cart.cart.cartItems.map((item) => {
+                  {cart.cart.cartItems.map((item, i) => {
                     return (
                       <div
                         className="flex py-2 px-4 justify-start space-x-6 items-center"
-                        key={item.name}
+                        key={i}
                       >
                         <img
                           className={`${themeShape} !w-14 p-2 !h-12 border  border-c-gold `}

@@ -8,7 +8,6 @@ import { useState } from "react";
 const Products = () => {
   const { themeBG, products, handleAddProductToCart, categories } =
     useStateContext();
-  console.log(products, "This is home products");
 
   const [querySearch, setQuerySearch] = useState("");
 
@@ -25,10 +24,10 @@ const Products = () => {
       <div className="flex justify-center w-full md:items-center flex-wrap md:flex-nowrap">
         <ProductsMenuBtn click={(e) => setQuerySearch("")} text="All" />
         <>
-          {categories.map((cat) => {
+          {categories.map((cat, i) => {
             return (
               <ProductsMenuBtn
-                key={cat}
+                key={i}
                 click={(e) => handlreFrontPageProductsFilter(e)}
                 text={cat}
               />
@@ -53,10 +52,10 @@ const Products = () => {
                 return productsFiltered;
               }
             })
-            .map((item) => {
+            .map((item, i) => {
               return (
                 <ProductCard
-                  key={item._id}
+                  key={item._id + i}
                   image={item.image.url}
                   pID={item._id}
                   catName={item.category}

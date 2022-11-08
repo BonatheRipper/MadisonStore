@@ -18,7 +18,6 @@ const Paystack = () => {
       try {
         const { data } = await axios.get("/api/gateway/Paystack");
         if (data) {
-          console.log(data);
           setChecked(data.isActive);
           setLiveKey(data.liveKey);
           setTestKey(data.testKey);
