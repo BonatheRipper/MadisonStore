@@ -38,7 +38,7 @@ subscribersRouter.delete("/:subId", async (req, res) => {
       req.params.subId
     );
     if (subscriber) {
-      const subscribers = await SubscribersList.find();
+      const subscribers = await SubscribersList.find().sort({ _id: -1 });
       res.send(subscribers);
     }
   } catch (e) {
@@ -51,7 +51,7 @@ subscribersRouter.patch("/:subId", async (req, res) => {
     if (subscriber) {
       subscriber.email = req.body.subscriberToEdit.email;
       await subscriber.save();
-      const subscribers = await SubscribersList.find();
+      const subscribers = await SubscribersList.find().sort({ _id: -1 });
       res.send(subscribers);
     }
   } catch (e) {

@@ -37,8 +37,12 @@ const SubscriptionForm = () => {
       if (validateEmail(emailPseudo)) {
         try {
           const result = await axios.post("/api/subscription", { emailPseudo });
-          toast(result.data.message);
-          return setemailPending(false);
+          if (result) {
+            toast(result.data.message + "yess");
+            setEmail("");
+
+            return setemailPending(false);
+          }
         } catch (e) {
           toast.error(e.response.data.error);
           return setemailPending(false);

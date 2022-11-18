@@ -4,8 +4,8 @@ const AdminPopUp = ({ click, text }) => {
   const { popup, setPopup } = useStateContext();
   return (
     <div
-      className={`fixed bg-black ${
-        !popup ? "hidden" : ""
+      className={`fixed left-0 transform bg-black ${
+        !popup ? "-left-full" : "left-0"
       } opacity-90 text-c-green h-screen w-full z-50   flex justify-center items-center`}
     >
       <div

@@ -93,7 +93,6 @@ orderRouter.put("/:orderId/pay", isAuth, async (req, res) => {
       let productQuantity = Number(item.quantity);
       product.sold = product.sold + productQuantity;
       await product.save();
-      console.log(product, "this is new product");
     }
     const updatedOrder = await order.save();
 

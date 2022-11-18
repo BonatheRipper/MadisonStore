@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-
 export const isAuth = (req, res, next) => {
   const authorization =
     req.headers.authorization || req.body.headers.authorization;
@@ -10,7 +9,7 @@ export const isAuth = (req, res, next) => {
         res.status(401).send({ message: "Invalid request" });
       } else {
         req.user = decode;
-        console.log(req.user);
+
         next();
       }
     });

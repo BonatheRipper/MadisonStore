@@ -93,7 +93,7 @@ const AdminProducts = () => {
                   <div className={` w-full  mt-20 overflow-hidden md:w-full`}>
                     <table className="w-full flex flex-col flex-1 ">
                       <>
-                        <tr className="flex w-full justify-between  mb-4 text-gray-300 hover:text-white text-sm font-bold">
+                        <tr className="flex px-1 w-full justify-between  mb-4 text-gray-300 hover:text-white text-sm font-bold">
                           <th className="">ProductId</th>
                           <th>Stock</th>
                           <th>Title</th>
@@ -188,7 +188,7 @@ const AdminProducts = () => {
             </>
           }
         </div>
-        {popup && <AdminPopUp click={() => handleProductDelete()} />}
+        <AdminPopUp click={() => handleProductDelete()} />
       </div>
       <AdminFooter />
     </>

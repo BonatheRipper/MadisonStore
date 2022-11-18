@@ -19,12 +19,12 @@ const ProductsPageTopOptions = () => {
           icon={<GrDocumentVerified />}
         />
         <ProductsPageBtn
-          to="/"
-          text="Manage employees"
+          to="/admin/users"
+          text="Manage Users"
           icon={<FaPeopleCarry />}
         />
         <ProductsPageBtn
-          to="/"
+          to="/admin/subscribers"
           text="Manage Subscribers"
           icon={<BsFillPeopleFill />}
         />

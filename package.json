@@ -20,6 +20,7 @@
     "react-icons": "^4.4.0",
     "react-image-magnify": "^2.7.4",
     "react-paystack": "^3.0.5",
+    "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
     "react-scroll-rotate": "^0.0.7",
     "react-simple-star-rating": "^4.0.5",

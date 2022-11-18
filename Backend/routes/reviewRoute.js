@@ -1,8 +1,9 @@
 import express from "express";
 import Products from "../models/products.js";
 import Reviews from "../models/productReview.js";
+import { isAuth } from "../middleware/isAuth.js";
 const reviewRouter = express.Router();
-reviewRouter.post("/", async (req, res) => {
+reviewRouter.post("/", isAuth, async (req, res) => {
   const { ratingVal, userId, productId } = req.body;
   const product = await Products.findById(productId).populate("reviews").exec();
 

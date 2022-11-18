@@ -45,9 +45,14 @@ const Contact = () => {
         text,
       });
       if (result) {
+        setEmail("");
+        setText("");
+        setName("");
         return toast(result.data.message);
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log(e.response.data.message);
+    }
   };
 
   return (

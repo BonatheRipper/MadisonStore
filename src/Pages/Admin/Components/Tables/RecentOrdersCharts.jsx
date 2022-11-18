@@ -51,9 +51,9 @@ const RecentOrdersCharts = ({ Orders }) => {
   };
   return (
     <div
-      className={`${themeBG}  relative self-stretch   ${
+      className={`${themeBG}  relative self-stretch w-full   ${
         !adminOrders.length ? "h-64 " : "h-auto "
-      }  md:w-9/12 md:mr-4 m-0 rounded-md shadow-lg  border  p-1  w-screen overflow overflow-hidden `}
+      }  md:w-9/12 md:mr-4  rounded-md shadow-lg  border  overflow overflow-hidden my-4 md:my-0`}
     >
       {
         <>
@@ -73,7 +73,7 @@ const RecentOrdersCharts = ({ Orders }) => {
               <div className={`  mt-20 w-screen overflow-auto md:w-full`}>
                 <table className="w-full flex flex-col flex-1 ">
                   <>
-                    <tr className="flex w-stretch overflow-clip md:w-full px-2 justify-between mb-4 items-center text-gray-300 hover:text-white text-sm font-bold">
+                    <tr className="flex w-stretch overflow-clip md:w-full px-2 justify-evenly md:justify-between mb-4   text-gray-300 hover:text-white md:text-sm text-xs font-bold ">
                       <th className="">OrderId</th>
                       <th>Status</th>
                       <th>Customer</th>
@@ -118,7 +118,7 @@ const RecentOrdersCharts = ({ Orders }) => {
                               {!item.isPaid ? (
                                 <span className="bg-[#716761]  px-3  rounded-lg py-1">
                                   {/* <small className=""> Unpaid</small> */}
-                                  <span className="mx-1">
+                                  <span className="mx-1 ">
                                     <i
                                       className="fa fa-times"
                                       aria-hidden="true"
@@ -128,7 +128,7 @@ const RecentOrdersCharts = ({ Orders }) => {
                               ) : (
                                 <span className="bg-c-gold  px-3  rounded-lg py-1">
                                   {/* <small> paid</small> */}
-                                  <span className="mx-1">
+                                  <span className="mx-1 ">
                                     <i
                                       className="fa fa-check"
                                       aria-hidden="true"

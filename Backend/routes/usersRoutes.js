@@ -2,7 +2,10 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import expressAsyncHanler from "express-async-handler";
 import Users from "../models/users.js";
-import { generateToken, isAuth } from "../utils/jwt.js";
+import { generateToken } from "../utils/jwt.js";
+import { isAuth } from "../middleware/isAuth.js";
+import { isAdmin } from "../middleware/isAdmin.js";
+
 const usersRouter = express.Router();
 usersRouter.post(
   "/login",
@@ -91,7 +94,7 @@ usersRouter.post(
 usersRouter.get(
   "/admin/users",
   expressAsyncHanler(async (req, res, next) => {
-    const users = await Users.find({}).select("-password");
+    const users = await Users.find({}).select("-password").sort({ _id: -1 });
     if (users) {
       res.send(users);
     }
@@ -99,8 +102,10 @@ usersRouter.get(
 );
 usersRouter.post(
   "/admin/users",
+  isAuth,
+  isAdmin,
   expressAsyncHanler(async (req, res, next) => {
-    const { email, password, username, checked } = req.body;
+    const { email, password, username, checked } = req.body.userToAdd;
     if (email && password && username) {
       const thisEmailExist = await Users.findOne({ email: email });
       const thisUsernameExist = await Users.findOne({ username: username });
@@ -122,8 +127,9 @@ usersRouter.post(
         password: bcrypt.hashSync(password),
       });
       if (newUser) {
-        console.log(newUser);
-        const users = await Users.find({}).select("-password");
+        const users = await Users.find({})
+          .select("-password")
+          .sort({ _id: -1 });
         if (users) {
           return res.send(users);
         }
@@ -131,6 +137,71 @@ usersRouter.post(
       return res.status(401).send({ message: "There was an error " });
     } else {
       return res.status(401).send({ message: "One or more fields  empty" });
+    }
+  })
+);
+
+usersRouter.put(
+  "/admin/users",
+  isAuth,
+  isAdmin,
+  expressAsyncHanler(async (req, res, next) => {
+    const { email, username, isAdmin, password, _id } = req.body.userToEdit;
+    const user = await Users.findById(_id);
+
+    if (email && username) {
+      const thisEmailExist = await Users.findOne({ email: email });
+      const thisUsernameExist = await Users.findOne({ username: username });
+
+      if (thisEmailExist && thisEmailExist.email !== user.email) {
+        return res
+          .status(401)
+          .send({ message: "user with that email already exist" });
+      }
+      if (thisUsernameExist && thisUsernameExist.username !== user.username) {
+        return res
+          .status(401)
+          .send({ message: "user with that username already exist" });
+      }
+
+      if (user) {
+        user.email = email;
+        user.username = username;
+        user.isAdmin = isAdmin;
+        if (password !== undefined && password.length) {
+          user.password = bcrypt.hashSync(password);
+        }
+        const updatedUser = await user.save();
+        if (updatedUser) {
+          const users = await Users.find({})
+            .select("-password")
+            .sort({ _id: -1 });
+
+          if (users) {
+            return res.send(users);
+          }
+        } else {
+          return res.status(401).send({ message: "There was an error " });
+        }
+      }
+
+      return res.status(401).send({ message: "There was an error " });
+    } else {
+      return res.status(401).send({ message: "One or more fields  empty" });
+    }
+  })
+);
+usersRouter.delete(
+  "/admin/users/:userId",
+  isAuth,
+  isAdmin,
+  expressAsyncHanler(async (req, res, next) => {
+    const user = await Users.findByIdAndDelete(req.params.userId);
+    if (user) {
+      const users = await Users.find({}).select("-password").sort({ _id: -1 });
+      if (users) {
+        res.send(users);
+      }
     }
   })
 );

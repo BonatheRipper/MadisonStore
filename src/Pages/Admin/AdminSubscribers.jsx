@@ -196,7 +196,7 @@ const AdminSubscribers = () => {
                   <div className={` w-full  mt-20 overflow-hidden md:w-full`}>
                     <table className="w-full flex flex-col flex-1 ">
                       <>
-                        <tr className="flex w-full justify-between  mb-4 text-gray-300 hover:text-white text-sm font-bold">
+                        <tr className="flex px-1 w-full justify-between  mb-4 text-gray-300 hover:text-white text-sm font-bold">
                           <th className="">Email</th>
 
                           <th className=" md:inline px-4">Date</th>
@@ -210,38 +210,36 @@ const AdminSubscribers = () => {
                           indexOfLastTable
                         )
                           .reverse()
-                          .map((item) => {
+                          .map((item, i) => {
                             return (
-                              <>
-                                <tr
-                                  key={item.orderNo}
-                                  className="flex relative  w-full border px-2 border-c-gold justify-between z-10 md:w-full items-center   text-c-gold "
-                                >
-                                  <td className="h-8 font-bold w-full transition duration-1000 left-0 absolute bg-c-gold hover:opacity-100 opacity-0 hover:visible z-20 text-c-green px-4 border border-c-green flex justify-between items-center text-xl ">
-                                    <button
-                                      onClick={() => setSubscriberToEdit(item)}
-                                      className="underline hover:animate-pulse "
-                                    >
-                                      <FaRegEdit />
-                                    </button>
-                                    <button
-                                      onClick={() =>
-                                        getSubscriberToDeleteId(item._id)
-                                      }
-                                      className="underline hover:animate-pulse hover:text-red-600 transition duration-500 "
-                                    >
-                                      <RiDeleteBin4Line />
-                                    </button>
-                                  </td>
-                                  <td className="text-xs md:text-base hover:underline hover:text-gray-400 border-c-gold md:border-none w-24  px-2  md:px-0">
-                                    {item.email}
-                                  </td>
+                              <tr
+                                key={i}
+                                className="flex relative  w-full border px-2 border-c-gold justify-between z-10 md:w-full items-center   text-c-gold "
+                              >
+                                <td className="h-8 font-bold w-full transition duration-1000 left-0 absolute bg-c-gold hover:opacity-100 opacity-0 hover:visible z-20 text-c-green px-4 border border-c-green flex justify-between items-center text-xl ">
+                                  <button
+                                    onClick={() => setSubscriberToEdit(item)}
+                                    className="underline hover:animate-pulse "
+                                  >
+                                    <FaRegEdit />
+                                  </button>
+                                  <button
+                                    onClick={() =>
+                                      getSubscriberToDeleteId(item._id)
+                                    }
+                                    className="underline hover:animate-pulse hover:text-red-600 transition duration-500 "
+                                  >
+                                    <RiDeleteBin4Line />
+                                  </button>
+                                </td>
+                                <td className="text-xs md:text-base hover:underline hover:text-gray-400 border-c-gold md:border-none w-24  px-2  md:px-0">
+                                  {item.email}
+                                </td>
 
-                                  <td className="  md:inline text-xs md:text-base border-r py-2 border-c-gold md:border-none w-20 flex justify-center px-2  md:px-0">
-                                    {formatDate(new Date(item.createdAt))}
-                                  </td>
-                                </tr>
-                              </>
+                                <td className="  md:inline text-xs md:text-base border-r py-2 border-c-gold md:border-none w-20 flex justify-center px-2  md:px-0">
+                                  {formatDate(new Date(item.createdAt))}
+                                </td>
+                              </tr>
                             );
                           })}
                       </>
@@ -273,12 +271,11 @@ const AdminSubscribers = () => {
             </>
           }
         </div>
-        {popup && (
-          <AdminPopUp
-            text="Are you sure you want to delete this subscriber?"
-            click={() => handleSubscriberDelete()}
-          />
-        )}
+
+        <AdminPopUp
+          text="Are you sure you want to delete this subscriber?"
+          click={() => handleSubscriberDelete()}
+        />
       </div>
       <AdminFooter />
     </>

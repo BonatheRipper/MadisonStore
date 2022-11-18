@@ -41,7 +41,11 @@ const Starratings = ({ productReviews }) => {
       // we then devide and get the total
       total = accumulator / divider;
       // we round total to whole number
-      return Math.floor(total);
+      if (isNaN(parseFloat(Math.floor(total)))) {
+        return 0;
+      } else {
+        return Math.floor(total);
+      }
     } else {
       return 0;
     }

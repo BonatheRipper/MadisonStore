@@ -18,6 +18,7 @@ export const RatingsProductPage = ({ productId, productReviews }) => {
         ratingVal: parseInt(ratingVal),
         userId: user._id,
         productId: productId,
+        headers: { authorization: `Bearer ${user.token}` },
       });
       toast(data);
     } catch (e) {

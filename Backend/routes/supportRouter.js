@@ -4,7 +4,7 @@ import Messages from "../models/messages.js";
 import { isAdmin } from "../middleware/isAdmin.js";
 import { isAuth } from "../middleware/isAuth.js";
 const supportRouter = express.Router();
-supportRouter.post("/message", isAuth, async (req, res) => {
+supportRouter.post("/message", async (req, res) => {
   const { email, name, text } = req.body;
   //   await Messages.deleteMany({});
   const messages = await Messages.find({});

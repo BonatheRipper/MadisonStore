@@ -26,18 +26,10 @@ import RadionInputAdmin from "./Components/RadionInputAdmin";
 const AdminUsers = () => {
   const { user, themeBG, popup, setPopup } = useStateContext();
   const [Users, setUsers] = useState([]);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [checked, setChecked] = useState(false);
-  const [username2, setUsername2] = useState("");
-  const [email2, setEmail2] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [checked2, setChecked2] = useState(false);
   const [currentTable, setCurrentTable] = useState(1);
   const [ordersPerTable, setOrdersPerTable] = useState(10);
-  const [subscriberToDeleteID, setSubscriberToDeleteID] = useState("");
-  const [userToEdit, setEditUser] = useState(false);
+  const [UserToDeleteID, setUserToDeleteID] = useState("");
+  const [userToEdit, setUserToEdit] = useState(false);
   const [userToAdd, setuserToAdd] = useState(false);
   const indexOfLastTable = currentTable * ordersPerTable;
   const indexOfFirstTable = indexOfLastTable - ordersPerTable;
@@ -48,14 +40,16 @@ const AdminUsers = () => {
     })();
   }, []);
 
-  const getSubscriberToDeleteId = async (subId) => {
-    setSubscriberToDeleteID(subId);
+  const getUserToDeleteId = (subId) => {
+    console.log(subId);
+    setUserToDeleteID(subId);
     setPopup(!popup);
   };
-  const handleSubscriberDelete = async () => {
+  const handleUserDelete = async () => {
+    console.log(UserToDeleteID);
     try {
       const results = await axios.delete(
-        `/api/subscription/${subscriberToDeleteID}`,
+        `/api/users/admin/users/${UserToDeleteID}`,
         {
           headers: { authorization: `Bearer ${user.token}` },
         }
@@ -63,28 +57,23 @@ const AdminUsers = () => {
       if (results) {
         setUsers(results.data);
         setPopup(!popup);
-        toast("Subscriber removed successfully");
+        toast("User removed successfully");
       }
     } catch (e) {
       console.log(e);
-      return toast.error(e.response.data.error);
+      return toast.error(e.response.data.message);
     }
   };
   const handleUserUpdate = async () => {
-    if (username2 && email2) {
+    if (userToEdit.username && userToEdit.email) {
       try {
         let UsersFromServer = await axios.put(`/api/users/admin/users`, {
-          email2,
-          password2,
-          username2,
-          checked2,
+          userToEdit,
+          headers: { authorization: `Bearer ${user.token}` },
         });
         setUsers(UsersFromServer.data);
         toast("User Updated successfully");
-        setEmail2("");
-        setPassword2("");
-        setUsername2("");
-        setChecked2(false);
+        setUserToEdit(false);
       } catch (e) {
         toast.error(e.response.data.message);
       }
@@ -93,20 +82,15 @@ const AdminUsers = () => {
     }
   };
   const handleUserAdd = async () => {
-    if (username && email && password) {
+    if (userToAdd.username && userToAdd.email && userToAdd.password) {
       try {
         let UsersFromServer = await axios.post(`/api/users/admin/users`, {
-          email,
-          password,
-          username,
-          checked,
+          userToAdd,
+          headers: { authorization: `Bearer ${user.token}` },
         });
         setUsers(UsersFromServer.data);
         toast("User added successfully");
-        setEmail("");
-        setPassword("");
-        setUsername("");
-        setChecked(false);
+        setuserToAdd(false);
       } catch (e) {
         toast.error(e.response.data.message);
       }
@@ -115,11 +99,7 @@ const AdminUsers = () => {
     }
   };
   function handleEditUser(user) {
-    console.log(user);
-    setEditUser(true);
-    setUsername2(user.username);
-    setEmail2(user.email);
-    setChecked2(user.isAdmin);
+    setUserToEdit(user);
   }
   function padTo2Digits(num) {
     return num.toString().padStart(2, "0");
@@ -139,7 +119,7 @@ const AdminUsers = () => {
 
         <div className="flex  text-c-green  justify-between items-center p-4 mt-16 flex-col md:flex-row">
           <div
-            onClick={() => setuserToAdd("")}
+            onClick={() => setuserToAdd(userToAdd ? false : true)}
             className={`w-full shadow-sm hover:animate-pulse mb-2  rounded-lg border h-auto  font-bold text-xl p-2 md:mx-1 flex flex-col justify-center items-center`}
           >
             <span className="my-1 py-2 ">
@@ -148,11 +128,15 @@ const AdminUsers = () => {
             <button>Add Users</button>
           </div>
         </div>
-        {userToEdit !== false && (
-          <div className="w-full flex justify-center">
+        {
+          <div
+            className={`w-full flex justify-center ${
+              userToEdit !== false ? "scale-x-100" : "scale-x-0 h-0"
+            }`}
+          >
             <div className="w-11/12 flex border my-4 flex-col justify-between items-center px-8 py-2 shadow">
               <div
-                onClick={() => setEditUser(false)}
+                onClick={() => setUserToEdit(false)}
                 className="w-full  hover:text-red-500 flex justify-end text-2xl text-gray-800  font-bold"
               >
                 <MdCancel />
@@ -164,8 +148,10 @@ const AdminUsers = () => {
                 <p>Username</p>
                 <input
                   type="text"
-                  value={username2}
-                  onChange={(e) => setUsername2(e.target.value)}
+                  value={userToEdit.username || ""}
+                  onChange={(e) =>
+                    setUserToEdit({ ...userToEdit, username: e.target.value })
+                  }
                   className="w-full shadow border border-gray-300 rounded-md py-1"
                 />
               </div>
@@ -173,8 +159,10 @@ const AdminUsers = () => {
                 <p>Email</p>
                 <input
                   type="text"
-                  value={email2}
-                  onChange={(e) => setEmail2(e.target.value)}
+                  value={userToEdit.email || ""}
+                  onChange={(e) =>
+                    setUserToEdit({ ...userToEdit, email: e.target.value })
+                  }
                   className="w-full shadow border border-gray-300 rounded-md py-1"
                 />
               </div>
@@ -182,28 +170,42 @@ const AdminUsers = () => {
                 <p>Password</p>
                 <input
                   type="text"
-                  value={password2}
-                  onChange={(e) => setPassword2(e.target.value)}
+                  value={userToEdit.password || ""}
+                  onChange={(e) =>
+                    setUserToEdit({ ...userToEdit, password: e.target.value })
+                  }
                   className="w-full shadow border border-gray-300 rounded-md py-1"
                 />
               </div>
-              <div className="relative my-2 flex flex-row border py-2 px-2 justify-center items-center ">
-                <p className="text-black">Make Admin</p>
-                <div className="mx-6">
-                  <RadionInputAdmin
-                    header="True"
-                    value={""}
-                    checked={checked2}
-                    click={(e) => setChecked2(!checked2)}
-                  />
-                </div>
-                <div className="mx-6">
-                  <RadionInputAdmin
-                    header="False"
-                    value={""}
-                    checked={!checked2}
-                    click={(e) => setChecked2(!checked2)}
-                  />
+              <div className="relative my-2 flex flex-col border py-2 px-2 justify-center items-center ">
+                <p className="text-black text-xs font-bold mt-2">Make Admin</p>
+                <div className="flex flex-row ">
+                  <div className="mx-6">
+                    <RadionInputAdmin
+                      header="True"
+                      value={""}
+                      checked={userToEdit.isAdmin}
+                      click={(e) =>
+                        setUserToEdit({
+                          ...userToEdit,
+                          isAdmin: !userToEdit.isAdmin,
+                        })
+                      }
+                    />
+                  </div>{" "}
+                  <div className="mx-6">
+                    <RadionInputAdmin
+                      header="False"
+                      value={""}
+                      checked={!userToEdit.isAdmin}
+                      click={(e) =>
+                        setUserToEdit({
+                          ...userToEdit,
+                          isAdmin: !userToEdit.isAdmin,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
               </div>
               <button
@@ -214,9 +216,13 @@ const AdminUsers = () => {
               </button>
             </div>
           </div>
-        )}
-        {userToAdd !== false && (
-          <div className="w-full flex justify-center">
+        }
+        {
+          <div
+            className={`w-full flex justify-center transform ${
+              userToAdd !== false ? "scale-x-100" : "scale-x-0 h-0"
+            }`}
+          >
             <div className="w-11/12 flex border my-4 flex-col justify-between items-center px-8 py-2 shadow">
               <div
                 onClick={() => setuserToAdd(false)}
@@ -231,8 +237,10 @@ const AdminUsers = () => {
                 <p>Username</p>
                 <input
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={userToAdd.username || ""}
+                  onChange={(e) =>
+                    setuserToAdd({ ...userToAdd, username: e.target.value })
+                  }
                   className="w-full shadow border border-gray-300 rounded-md py-1"
                 />
               </div>
@@ -240,8 +248,10 @@ const AdminUsers = () => {
                 <p>Email</p>
                 <input
                   type="text"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={userToAdd.email}
+                  onChange={(e) =>
+                    setuserToAdd({ ...userToAdd, email: e.target.value })
+                  }
                   className="w-full shadow border border-gray-300 rounded-md py-1"
                 />
               </div>
@@ -249,28 +259,43 @@ const AdminUsers = () => {
                 <p>Password</p>
                 <input
                   type="text"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={userToAdd.password}
+                  onChange={(e) =>
+                    setuserToAdd({ ...userToAdd, password: e.target.value })
+                  }
                   className="w-full shadow border border-gray-300 rounded-md py-1"
                 />
               </div>
-              <div className="relative my-2 flex flex-row border py-2 px-2 justify-center items-center ">
-                <p className="text-black">Make Admin</p>
-                <div className="mx-6">
-                  <RadionInputAdmin
-                    header="True"
-                    value={""}
-                    checked={checked}
-                    click={(e) => setChecked(!checked)}
-                  />
-                </div>
-                <div className="mx-6">
-                  <RadionInputAdmin
-                    header="False"
-                    value={"liveKey"}
-                    checked={!checked}
-                    click={(e) => setChecked(!checked)}
-                  />
+              <div className="relative my-2 flex flex-col border py-2 px-2 justify-center items-center ">
+                <p className="text-black text-xs font-bold mt-2">Make Admin</p>
+                <div className="flex w-full flex-row">
+                  {" "}
+                  <div className="mx-6">
+                    <RadionInputAdmin
+                      header="True"
+                      value={""}
+                      checked={userToAdd.isAdmin}
+                      click={(e) =>
+                        setuserToAdd({
+                          ...userToAdd,
+                          isAdmin: !userToAdd.isAdmin,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="mx-6">
+                    <RadionInputAdmin
+                      header="False"
+                      value={"liveKey"}
+                      checked={!userToAdd.isAdmin}
+                      click={(e) =>
+                        setuserToAdd({
+                          ...userToAdd,
+                          isAdmin: !userToAdd.isAdmin,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
               </div>
               <button
@@ -281,7 +306,7 @@ const AdminUsers = () => {
               </button>
             </div>
           </div>
-        )}
+        }
         <div
           className={`${themeBG}  relative px-1 md:px-4  ${
             !Users.length ? "h-64" : "h-full "
@@ -297,7 +322,7 @@ const AdminUsers = () => {
                   <div className={` w-full  mt-20 overflow-hidden md:w-full`}>
                     <table className="w-full flex flex-col flex-1 ">
                       <>
-                        <tr className="flex w-full justify-between  mb-4 text-gray-300 hover:text-white text-sm font-bold">
+                        <tr className="flex px-1 w-full justify-between  mb-4 text-gray-300 hover:text-white text-sm font-bold">
                           <th className="">Email</th>
 
                           <th className=" md:inline px-4">Date</th>
@@ -309,42 +334,38 @@ const AdminUsers = () => {
                           Users,
                           indexOfFirstTable,
                           indexOfLastTable
-                        )
-                          .reverse()
-                          .map((item, i) => {
-                            return (
-                              <>
-                                <tr
-                                  key={i}
-                                  className="flex relative  w-full border px-2 border-c-gold justify-between z-10 md:w-full items-center   text-c-gold "
-                                >
-                                  <td className="h-8 font-bold w-full transition duration-1000 left-0 absolute bg-c-gold hover:opacity-100 opacity-0 hover:visible z-20 text-c-green px-4 border border-c-green flex justify-between items-center text-xl ">
-                                    <button
-                                      onClick={() => handleEditUser(item)}
-                                      className="underline hover:animate-pulse "
-                                    >
-                                      <FaRegEdit />
-                                    </button>
-                                    <button
-                                      onClick={() =>
-                                        getSubscriberToDeleteId(item._id)
-                                      }
-                                      className="underline hover:animate-pulse hover:text-red-600 transition duration-500 "
-                                    >
-                                      <RiDeleteBin4Line />
-                                    </button>
-                                  </td>
-                                  <td className="text-xs md:text-base hover:underline hover:text-gray-400 border-c-gold md:border-none w-24  px-2  md:px-0">
-                                    {item.email}
-                                  </td>
+                        ).map((item, i) => {
+                          return (
+                            <>
+                              <tr
+                                key={i}
+                                className="flex relative  w-full border px-2 border-c-gold justify-between z-10 md:w-full items-center   text-c-gold "
+                              >
+                                <td className="h-8 font-bold w-full transition duration-1000 left-0 absolute bg-c-gold hover:opacity-100 opacity-0 hover:visible z-20 text-c-green px-4 border border-c-green flex justify-between items-center text-xl ">
+                                  <button
+                                    onClick={() => handleEditUser(item)}
+                                    className="underline hover:animate-pulse "
+                                  >
+                                    <FaRegEdit />
+                                  </button>
+                                  <button
+                                    onClick={() => getUserToDeleteId(item._id)}
+                                    className="underline hover:animate-pulse hover:text-red-600 transition duration-500 "
+                                  >
+                                    <RiDeleteBin4Line />
+                                  </button>
+                                </td>
+                                <td className="text-xs md:text-base hover:underline hover:text-gray-400 border-c-gold md:border-none w-24  px-2  md:px-0">
+                                  {item.email}
+                                </td>
 
-                                  <td className="  md:inline text-xs md:text-base border-r py-2 border-c-gold md:border-none w-20 flex justify-center px-2  md:px-0">
-                                    {formatDate(new Date(item.createdAt))}
-                                  </td>
-                                </tr>
-                              </>
-                            );
-                          })}
+                                <td className="  md:inline text-xs md:text-base border-r py-2 border-c-gold md:border-none w-20 flex justify-center px-2  md:px-0">
+                                  {formatDate(new Date(item.createdAt))}
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })}
                       </>
                     </table>
                     <div className="Paginate  flex flex-row px-4 py-4 bg-c-gold  text-c-green   w-full ">
@@ -374,12 +395,11 @@ const AdminUsers = () => {
             </>
           }
         </div>
-        {popup && (
-          <AdminPopUp
-            text="Are you sure you want to delete this subscriber?"
-            click={() => handleSubscriberDelete()}
-          />
-        )}
+
+        <AdminPopUp
+          text="Are you sure you want to delete this User?"
+          click={() => handleUserDelete()}
+        />
       </div>
       <AdminFooter />
     </>

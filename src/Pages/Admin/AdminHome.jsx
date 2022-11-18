@@ -355,8 +355,8 @@ const AdminHome = () => {
     }
   };
   return (
-    <div className="relative">
-      {popup && <AdminPopUp click={() => handleOrderDelete()} />}
+    <div className="relative px-1">
+      <AdminPopUp click={() => handleOrderDelete()} />
 
       <AdminSharedHeader />
       <div className=" mt-14 bg-[#F1FFFD] text-c-green">
