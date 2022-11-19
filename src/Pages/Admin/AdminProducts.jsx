@@ -47,9 +47,12 @@ const AdminProducts = () => {
   };
   const handleProductDelete = async () => {
     try {
-      const results = await axios.delete(`/api/products/${productToDeleteID}`, {
-        headers: { authorization: `Bearer ${user.token}` },
-      });
+      const results = await axios.delete(
+        `https://madison.bona9ja.online/api/products/${productToDeleteID}`,
+        {
+          headers: { authorization: `Bearer ${user.token}` },
+        }
+      );
       if (results) {
         setProducts(results.data.updatedProductsList);
         setPopup(!popup);

@@ -17,7 +17,9 @@ const About = () => {
     Aos.init({ duration: 500 });
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/pages/about");
+        const { data } = await axios.get(
+          "https://madison.bona9ja.online/api/pages/about"
+        );
         if (data) {
           setPage(data);
           return setLoading(false);

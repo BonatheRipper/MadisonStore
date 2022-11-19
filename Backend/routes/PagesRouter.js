@@ -1,8 +1,8 @@
-import express from "express";
-import Pages from "../models/pages.js";
+const express = require("express");
+const Pages = require("../models/pages");
 
-import { isAdmin } from "../middleware/isAdmin.js";
-import { isAuth } from "../middleware/isAuth.js";
+const isAdmin = require("../middleware/isAdmin");
+const isAuth = require("../middleware/isAuth");
 
 const pagesRouter = express.Router();
 pagesRouter.get("/:pageName", async (req, res) => {
@@ -69,4 +69,4 @@ pagesRouter.post("/:pageName", isAuth, isAdmin, async (req, res) => {
     return res.status(401).send("There was an error");
   }
 });
-export default pagesRouter;
+module.exports = pagesRouter;

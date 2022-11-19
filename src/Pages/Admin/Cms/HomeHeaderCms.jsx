@@ -16,9 +16,12 @@ const HomeHeaderCms = () => {
   useEffect(() => {
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/pages/homeheader", {
-          headers: { authorization: `Bearer ${user.token}` },
-        });
+        const { data } = await axios.get(
+          "https://madison.bona9ja.online/api/pages/homeheader",
+          {
+            headers: { authorization: `Bearer ${user.token}` },
+          }
+        );
         if (data) {
           setHeader(data.headerText);
           setButton(data.ButtonText);
@@ -43,10 +46,13 @@ const HomeHeaderCms = () => {
       };
       const postPage = async () => {
         try {
-          const { data } = await axios.post("/api/pages/homeheader", {
-            homeHeader,
-            headers: { authorization: `Bearer ${user.token}` },
-          });
+          const { data } = await axios.post(
+            "https://madison.bona9ja.online/api/pages/homeheader",
+            {
+              homeHeader,
+              headers: { authorization: `Bearer ${user.token}` },
+            }
+          );
           setHeader(data.headerText);
           setButton(data.ButtonText);
           setBody(data.BodyText);

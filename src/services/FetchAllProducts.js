@@ -11,7 +11,7 @@ export const FetchAllProducts = async (
   productsDispatch({ type: "FETCH_REQUEST" });
   try {
     const results = await axios.get(
-      `/api/products/allproducts?page=${pageNumber}&searchbyCategoryName=${selects}`
+      `https://madison.bona9ja.online/api/products/allproducts?page=${pageNumber}&searchbyCategoryName=${selects}`
     );
     setCats(results.data.categories[0].category);
     setTotalPages(results.data.totalPages);

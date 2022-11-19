@@ -66,7 +66,7 @@ const PlaceOrder = () => {
     try {
       orderDispatch({ type: "CREATE_REQUEST" });
       const { data } = await axios.post(
-        "/api/orders",
+        "https://madison.bona9ja.online/api/orders",
         {
           orderItems: cart.cart.cartItems,
           ShippingDetails: cart.ShippingDetails,

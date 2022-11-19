@@ -17,9 +17,12 @@ const Paypal = () => {
   useEffect(() => {
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/gateway/Paypal", {
-          headers: { authorization: `Bearer ${user.token}` },
-        });
+        const { data } = await axios.get(
+          "https://madison.bona9ja.online/api/gateway/Paypal",
+          {
+            headers: { authorization: `Bearer ${user.token}` },
+          }
+        );
         if (data) {
           setChecked(data.isActive);
           setLiveKey(data.liveKey);
@@ -46,11 +49,14 @@ const Paypal = () => {
       };
       const postGateway = async () => {
         try {
-          const { data } = await axios.post("/api/gateway/Paypal", {
-            Paypal,
-            user,
-            headers: { authorization: `Bearer ${user.token}` },
-          });
+          const { data } = await axios.post(
+            "https://madison.bona9ja.online/api/gateway/Paypal",
+            {
+              Paypal,
+              user,
+              headers: { authorization: `Bearer ${user.token}` },
+            }
+          );
           if (data) {
             setChecked(data.isActive);
             setLiveKey(data.liveKey);

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const gatewaySchema = new mongoose.Schema(
   {
     Paypal: {
@@ -26,4 +26,4 @@ const gatewaySchema = new mongoose.Schema(
   { timestamps: true }
 );
 const Gateway = mongoose.model("Gateway", gatewaySchema);
-export default Gateway;
+module.exports = Gateway;

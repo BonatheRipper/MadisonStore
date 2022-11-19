@@ -31,7 +31,9 @@ const CheckoutOptions = () => {
   useEffect(() => {
     const fetchGatwayItems = async () => {
       try {
-        const { data } = await axios.get("/api/gateway");
+        const { data } = await axios.get(
+          "https://madison.bona9ja.online/api/gateway"
+        );
         if (data) {
           setPayments(data);
         }

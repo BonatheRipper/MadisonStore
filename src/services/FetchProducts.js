@@ -9,7 +9,7 @@ export const FetchProducts = async (
   productsDispatch({ type: "FETCH_REQUEST" });
   try {
     const results = await axios.get(
-      `/api/products?page=6&productsQuery=${querySearch}`
+      `https://madison.bona9ja.online/api/products?page=6&productsQuery=${querySearch}`
     );
     productsDispatch({
       type: "FETCH_SUCCESS",

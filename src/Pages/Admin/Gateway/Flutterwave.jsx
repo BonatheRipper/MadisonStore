@@ -16,7 +16,9 @@ const Flutterwave = () => {
   useEffect(() => {
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/gateway/Flutterwave");
+        const { data } = await axios.get(
+          "https://madison.bona9ja.online/api/gateway/Flutterwave"
+        );
         if (data) {
           setChecked(data.isActive);
           setLiveKey(data.liveKey);
@@ -43,9 +45,12 @@ const Flutterwave = () => {
       };
       const postGateway = async () => {
         try {
-          const { data } = await axios.post("/api/gateway/Flutterwave", {
-            Flutterwave,
-          });
+          const { data } = await axios.post(
+            "https://madison.bona9ja.online/api/gateway/Flutterwave",
+            {
+              Flutterwave,
+            }
+          );
           if (data) {
             setChecked(data.isActive);
             setLiveKey(data.liveKey);

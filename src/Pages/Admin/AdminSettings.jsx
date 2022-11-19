@@ -27,9 +27,12 @@ const AdminSettings = () => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const { data } = await axios.get(`/api/settings`, {
-          headers: { authorization: `Bearer ${user.token}` },
-        });
+        const { data } = await axios.get(
+          `https://madison.bona9ja.online/api/settings`,
+          {
+            headers: { authorization: `Bearer ${user.token}` },
+          }
+        );
         if (data) {
           const { title, description, tawkTo, logoImage, faviconImage } = data;
           setTitle(title);
@@ -80,9 +83,13 @@ const AdminSettings = () => {
       }
 
       try {
-        const { data } = await axios.post(`/api/settings`, myFormData, {
-          headers: { authorization: `Bearer ${user.token}` },
-        });
+        const { data } = await axios.post(
+          `https://madison.bona9ja.online/api/settings`,
+          myFormData,
+          {
+            headers: { authorization: `Bearer ${user.token}` },
+          }
+        );
 
         if (data) {
           const { title, description, tawkTo, logoImage, faviconImage } = data;

@@ -36,9 +36,12 @@ const AdminSubscribers = () => {
   const indexOfFirstTable = indexOfLastTable - ordersPerTable;
   useEffect(() => {
     (async function () {
-      let subscribersFromServer = await axios.get("/api/subscription", {
-        headers: { authorization: `Bearer ${user.token}` },
-      });
+      let subscribersFromServer = await axios.get(
+        "https://madison.bona9ja.online/api/subscription",
+        {
+          headers: { authorization: `Bearer ${user.token}` },
+        }
+      );
       setSubscribers(subscribersFromServer.data);
     })();
   }, []);
@@ -50,7 +53,7 @@ const AdminSubscribers = () => {
   const handleSubscriberDelete = async () => {
     try {
       const results = await axios.delete(
-        `/api/subscription/${subscriberToDeleteID}`,
+        `https://madison.bona9ja.online/api/subscription/${subscriberToDeleteID}`,
         {
           headers: { authorization: `Bearer ${user.token}` },
         }
@@ -68,7 +71,7 @@ const AdminSubscribers = () => {
   const handleSubscriberUpdate = async () => {
     if (subscriberToEdit.email) {
       let subscribersFromServer = await axios.patch(
-        `/api/subscription/${subscriberToEdit._id}`,
+        `https://madison.bona9ja.online/api/subscription/${subscriberToEdit._id}`,
         { subscriberToEdit }
       );
       setSubscribers(subscribersFromServer.data);
@@ -80,11 +83,14 @@ const AdminSubscribers = () => {
   };
   const handleSubscriberAdd = async () => {
     if (subscriberToAdd) {
-      let subscribersFromServer = await axios.post(`/api/subscription/`, {
-        emailPseudo: subscriberToAdd,
-        fromAdmin: true,
-        headers: { authorization: `Bearer ${user.token}` },
-      });
+      let subscribersFromServer = await axios.post(
+        `https://madison.bona9ja.online/api/subscription/`,
+        {
+          emailPseudo: subscriberToAdd,
+          fromAdmin: true,
+          headers: { authorization: `Bearer ${user.token}` },
+        }
+      );
       setSubscribers(subscribersFromServer.data);
       toast("Subscriber added successfully");
       setSubscriberToEdit(false);

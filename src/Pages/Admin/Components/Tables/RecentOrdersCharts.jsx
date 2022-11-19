@@ -73,27 +73,25 @@ const RecentOrdersCharts = ({ Orders }) => {
               <div className={`  mt-20 w-screen overflow-auto md:w-full`}>
                 <table className="w-full flex flex-col flex-1 ">
                   <>
-                    <tr className="flex w-stretch overflow-clip md:w-full px-2 justify-evenly md:justify-between mb-4   text-gray-300 hover:text-white md:text-sm text-xs font-bold ">
-                      <th className="">OrderId</th>
-                      <th>Status</th>
-                      <th>Customer</th>
-                      <th className="hidden md:inline">Date</th>
-                      <th>Total</th>
-                    </tr>
+                    <thead>
+                      <tr className="flex w-stretch overflow-clip md:w-full px-2 justify-evenly md:justify-between mb-4   text-gray-300 hover:text-white md:text-sm text-xs font-bold ">
+                        <th className="">OrderId</th>
+                        <th>Status</th>
+                        <th>Customer</th>
+                        <th className="hidden md:inline">Date</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
                   </>
                   <>
                     {paginatePageToDisplay(
                       adminOrders,
                       indexOfFirstTable,
                       indexOfLastTable
-                    ).map((item) => {
+                    ).map((item, i) => {
                       return (
-                        <>
-                          {" "}
-                          <tr
-                            key={item._id}
-                            className="flex  relative w-full overflow-auto overflow-x-auto border px-2 border-c-gold justify-between   md:w-full items-center self-center   text-c-gold "
-                          >
+                        <tbody key={i}>
+                          <tr className="flex  relative w-full overflow-auto overflow-x-auto border px-2 border-c-gold justify-between   md:w-full items-center self-center   text-c-gold ">
                             <td className="h-8 font-bold w-full transition duration-1000 left-0 absolute bg-c-gold hover:opacity-100 opacity-0 hover:visible z-40 text-c-green px-4 border border-c-green flex justify-between items-center text-xl ">
                               <button className="underline hover:animate-pulse  ">
                                 <NavLink
@@ -152,7 +150,7 @@ const RecentOrdersCharts = ({ Orders }) => {
                               {formatToCurrency(item.totalPrice)}
                             </td>
                           </tr>
-                        </>
+                        </tbody>
                       );
                     })}
                   </>

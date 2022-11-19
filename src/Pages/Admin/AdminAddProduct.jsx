@@ -80,9 +80,13 @@ const AdminAddProduct = () => {
       try {
         setLoading(true);
 
-        const { data } = await axios.post("/api/products/addNew", myFormData, {
-          headers: { authorization: `Bearer ${user.token}` },
-        });
+        const { data } = await axios.post(
+          "https://madison.bona9ja.online/api/products/addNew",
+          myFormData,
+          {
+            headers: { authorization: `Bearer ${user.token}` },
+          }
+        );
         toast(data.message);
         setLoading(false);
         setTimeout(function () {

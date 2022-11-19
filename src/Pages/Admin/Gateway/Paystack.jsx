@@ -16,7 +16,9 @@ const Paystack = () => {
   useEffect(() => {
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/gateway/Paystack");
+        const { data } = await axios.get(
+          "https://madison.bona9ja.online/api/gateway/Paystack"
+        );
         if (data) {
           setChecked(data.isActive);
           setLiveKey(data.liveKey);
@@ -43,9 +45,12 @@ const Paystack = () => {
       };
       const postGateway = async () => {
         try {
-          const { data } = await axios.post("/api/gateway/Paystack", {
-            Paystack,
-          });
+          const { data } = await axios.post(
+            "https://madison.bona9ja.online/api/gateway/Paystack",
+            {
+              Paystack,
+            }
+          );
           if (data) {
             setChecked(data.isActive);
             setLiveKey(data.liveKey);

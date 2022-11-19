@@ -21,7 +21,9 @@ const WelcomeHome = () => {
     Aos.init({ duration: 2000 });
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/pages/home");
+        const { data } = await axios.get(
+          "https://madison.bona9ja.online/api/pages/home"
+        );
         if (data) {
           setPage(data);
           return setLoading(false);

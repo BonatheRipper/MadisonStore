@@ -16,9 +16,12 @@ const AboutCms = () => {
   useEffect(() => {
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/pages/about", {
-          headers: { authorization: `Bearer ${user.token}` },
-        });
+        const { data } = await axios.get(
+          "https://madison.bona9ja.online/api/pages/about",
+          {
+            headers: { authorization: `Bearer ${user.token}` },
+          }
+        );
         if (data) {
           setTitle(data.title);
           setHeader(data.headerText);
@@ -45,10 +48,13 @@ const AboutCms = () => {
       };
       const postPage = async () => {
         try {
-          const { data } = await axios.post("/api/pages/about", {
-            about,
-            headers: { authorization: `Bearer ${user.token}` },
-          });
+          const { data } = await axios.post(
+            "https://madison.bona9ja.online/api/pages/about",
+            {
+              about,
+              headers: { authorization: `Bearer ${user.token}` },
+            }
+          );
           setTitle(data.title);
           setHeader(data.headerText);
           setButton(data.ButtonText);

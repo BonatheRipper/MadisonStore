@@ -1,10 +1,10 @@
-import express from "express";
-import bcrypt from "bcryptjs";
-import expressAsyncHanler from "express-async-handler";
-import Users from "../models/users.js";
-import { generateToken } from "../utils/jwt.js";
-import { isAuth } from "../middleware/isAuth.js";
-import { isAdmin } from "../middleware/isAdmin.js";
+const express = require("express");
+const bcrypt = require("bcryptjs");
+const expressAsyncHanler = require("express-async-handler");
+const Users = require("../models/users");
+const { generateToken } = require("../utils/jwt");
+const isAuth = require("../middleware/isAuth");
+const isAdmin = require("../middleware/isAdmin");
 
 const usersRouter = express.Router();
 usersRouter.post(
@@ -205,4 +205,4 @@ usersRouter.delete(
     }
   })
 );
-export default usersRouter;
+module.exports = usersRouter;

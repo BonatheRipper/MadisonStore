@@ -1,5 +1,5 @@
-import express from "express";
-import SubscribersList from "../models/subscription.js";
+const express = require("express");
+const SubscribersList = require("../models/subscription");
 const subscribersRouter = express.Router();
 subscribersRouter.get("/", async (req, res) => {
   try {
@@ -58,4 +58,4 @@ subscribersRouter.patch("/:subId", async (req, res) => {
     console.log(e);
   }
 });
-export default subscribersRouter;
+module.exports = subscribersRouter;

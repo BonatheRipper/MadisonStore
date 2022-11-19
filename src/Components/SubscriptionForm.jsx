@@ -15,7 +15,9 @@ const SubscriptionForm = () => {
   useEffect(() => {
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/pages/subscription");
+        const { data } = await axios.get(
+          "https://madison.bona9ja.online/api/pages/subscription"
+        );
         if (data) {
           setPage(data);
           return setLoading(false);
@@ -36,7 +38,10 @@ const SubscriptionForm = () => {
     if (emailPseudo) {
       if (validateEmail(emailPseudo)) {
         try {
-          const result = await axios.post("/api/subscription", { emailPseudo });
+          const result = await axios.post(
+            "https://madison.bona9ja.online/api/subscription",
+            { emailPseudo }
+          );
           if (result) {
             toast(result.data.message + "yess");
             setEmail("");

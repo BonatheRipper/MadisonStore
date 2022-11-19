@@ -36,7 +36,9 @@ const AdminEditProduct = () => {
     const getProducts = async () => {
       try {
         setSingleProduct(false);
-        const results = await axios.get(`/api/products/${productId}`);
+        const results = await axios.get(
+          `https://madison.bona9ja.online/api/products/${productId}`
+        );
         if (results.data) {
           setSingleProduct(results.data);
         } else {
@@ -107,7 +109,7 @@ const AdminEditProduct = () => {
         setLoading(true);
 
         const { data } = await axios.patch(
-          `/api/products/${productId}`,
+          `https://madison.bona9ja.online/api/products/${productId}`,
           myFormData,
           { headers: { authorization: `Bearer ${user.token}` } }
         );
@@ -131,7 +133,7 @@ const AdminEditProduct = () => {
     const imageType = e.target.getAttribute("data-key");
     try {
       const { data } = await axios.patch(
-        `/api/products/imagedestroy/${productId}`,
+        `https://madison.bona9ja.online/api/products/imagedestroy/${productId}`,
         {
           public_id,
           imageType,

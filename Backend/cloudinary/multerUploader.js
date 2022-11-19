@@ -1,5 +1,5 @@
-import multer from "multer";
-import crypto from "crypto";
+const multer = require("multer");
+const crypto = require("crypto");
 const multerConfig = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, "public/images");
@@ -18,4 +18,4 @@ const isImage = (req, file, callback) => {
 };
 
 const upload = multer({ storage: multerConfig, fileFilter: isImage });
-export default upload;
+module.exports = upload;

@@ -15,9 +15,12 @@ const Paypal = () => {
     const getOrder = async () => {
       try {
         paymentDispatch({ type: "FETCH_REQUEST" });
-        const { data } = await axios.get(`/api/orders/${orderId}`, {
-          headers: { authorization: `Bearer ${user.token}` },
-        });
+        const { data } = await axios.get(
+          `https://madison.bona9ja.online/api/orders/${orderId}`,
+          {
+            headers: { authorization: `Bearer ${user.token}` },
+          }
+        );
         paymentDispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (e) {
         paymentDispatch({ type: "FETCH_FAIL", payload: e });
@@ -38,7 +41,7 @@ const Paypal = () => {
     } else {
       const loadGateWayKey = async () => {
         const { data: gatewayKey } = await axios.get(
-          `/api/keys/${orderPay.PaymentMethod.toLowerCase()}`,
+          `https://madison.bona9ja.online/api/keys/${orderPay.PaymentMethod.toLowerCase()}`,
           {
             headers: { authorization: `Bearer ${user.token}` },
           }
@@ -71,7 +74,7 @@ const Paypal = () => {
         paymentDispatch({ type: "PAY_REQUEST" });
 
         const { data } = await axios.put(
-          `/api/orders/${orderId}/pay`,
+          `https://madison.bona9ja.online/api/orders/${orderId}/pay`,
           details,
           {
             headers: { authorization: `Bearer ${user.token}` },

@@ -35,7 +35,9 @@ const AdminUsers = () => {
   const indexOfFirstTable = indexOfLastTable - ordersPerTable;
   useEffect(() => {
     (async function () {
-      let usersFromServer = await axios.get("/api/users/admin/users");
+      let usersFromServer = await axios.get(
+        "https://madison.bona9ja.online/api/users/admin/users"
+      );
       setUsers(usersFromServer.data);
     })();
   }, []);
@@ -49,7 +51,7 @@ const AdminUsers = () => {
     console.log(UserToDeleteID);
     try {
       const results = await axios.delete(
-        `/api/users/admin/users/${UserToDeleteID}`,
+        `https://madison.bona9ja.online/api/users/admin/users/${UserToDeleteID}`,
         {
           headers: { authorization: `Bearer ${user.token}` },
         }
@@ -67,10 +69,13 @@ const AdminUsers = () => {
   const handleUserUpdate = async () => {
     if (userToEdit.username && userToEdit.email) {
       try {
-        let UsersFromServer = await axios.put(`/api/users/admin/users`, {
-          userToEdit,
-          headers: { authorization: `Bearer ${user.token}` },
-        });
+        let UsersFromServer = await axios.put(
+          `https://madison.bona9ja.online/api/users/admin/users`,
+          {
+            userToEdit,
+            headers: { authorization: `Bearer ${user.token}` },
+          }
+        );
         setUsers(UsersFromServer.data);
         toast("User Updated successfully");
         setUserToEdit(false);
@@ -84,10 +89,13 @@ const AdminUsers = () => {
   const handleUserAdd = async () => {
     if (userToAdd.username && userToAdd.email && userToAdd.password) {
       try {
-        let UsersFromServer = await axios.post(`/api/users/admin/users`, {
-          userToAdd,
-          headers: { authorization: `Bearer ${user.token}` },
-        });
+        let UsersFromServer = await axios.post(
+          `https://madison.bona9ja.online/api/users/admin/users`,
+          {
+            userToAdd,
+            headers: { authorization: `Bearer ${user.token}` },
+          }
+        );
         setUsers(UsersFromServer.data);
         toast("User added successfully");
         setuserToAdd(false);

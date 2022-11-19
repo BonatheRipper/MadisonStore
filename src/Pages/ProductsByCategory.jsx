@@ -81,7 +81,9 @@ const ProductsByCategory = () => {
     const fetchProducts = async () => {
       productsDispatch({ type: "FETCH_REQUEST" });
       try {
-        const results = await axios.get(`/api/products/category/${catType}`);
+        const results = await axios.get(
+          `https://madison.bona9ja.online/api/products/category/${catType}`
+        );
         setTotalPages(results.data.totalPages);
         productsDispatch({
           type: "FETCH_SUCCESS",

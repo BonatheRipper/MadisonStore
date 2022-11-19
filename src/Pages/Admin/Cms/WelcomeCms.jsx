@@ -15,7 +15,9 @@ const WelcomeCms = () => {
   useEffect(() => {
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/pages/home");
+        const { data } = await axios.get(
+          "https://madison.bona9ja.online/api/pages/home"
+        );
         if (data) {
           setTitle(data.title);
           setHeader(data.headerText);
@@ -42,7 +44,10 @@ const WelcomeCms = () => {
       };
       const postPage = async () => {
         try {
-          const { data } = await axios.post("/api/pages/home", { home });
+          const { data } = await axios.post(
+            "https://madison.bona9ja.online/api/pages/home",
+            { home }
+          );
           setTitle(data.title);
           setHeader(data.headerText);
           setButton(data.ButtonText);

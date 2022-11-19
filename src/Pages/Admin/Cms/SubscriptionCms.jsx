@@ -15,9 +15,12 @@ const SubscriptionCms = () => {
   useEffect(() => {
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/pages/subscription", {
-          headers: { authorization: `Bearer ${user.token}` },
-        });
+        const { data } = await axios.get(
+          "https://madison.bona9ja.online/api/pages/subscription",
+          {
+            headers: { authorization: `Bearer ${user.token}` },
+          }
+        );
         if (data) {
           console.group(data);
           setTitle(data.title);
@@ -43,10 +46,13 @@ const SubscriptionCms = () => {
       };
       const postPage = async () => {
         try {
-          const { data } = await axios.post("/api/pages/subscription", {
-            subscription,
-            headers: { authorization: `Bearer ${user.token}` },
-          });
+          const { data } = await axios.post(
+            "https://madison.bona9ja.online/api/pages/subscription",
+            {
+              subscription,
+              headers: { authorization: `Bearer ${user.token}` },
+            }
+          );
           setTitle(data.title);
           setButton(data.ButtonText);
           setBody(data.BodyText);

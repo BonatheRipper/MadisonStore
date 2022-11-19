@@ -1,5 +1,5 @@
-import expressAsyncHandler from "express-async-handler";
+const expressAsyncHandler = require("express-async-handler");
 
 const asycHandler = expressAsyncHandler;
 
-export default asycHandler;
+module.exports = asycHandler;

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const pagesSchema = new mongoose.Schema(
   {
     home: {
@@ -37,4 +37,4 @@ const pagesSchema = new mongoose.Schema(
   { timestamps: true }
 );
 const Pages = mongoose.model("Pages", pagesSchema);
-export default Pages;
+module.exports = Pages;

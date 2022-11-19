@@ -14,12 +14,15 @@ export const RatingsProductPage = ({ productId, productReviews }) => {
   }
   const handleReviewRequest = async (productId) => {
     try {
-      const { data } = await axios.post("/api/review", {
-        ratingVal: parseInt(ratingVal),
-        userId: user._id,
-        productId: productId,
-        headers: { authorization: `Bearer ${user.token}` },
-      });
+      const { data } = await axios.post(
+        "https://madison.bona9ja.online/api/review",
+        {
+          ratingVal: parseInt(ratingVal),
+          userId: user._id,
+          productId: productId,
+          headers: { authorization: `Bearer ${user.token}` },
+        }
+      );
       toast(data);
     } catch (e) {
       toast.error(e.response.data.message);

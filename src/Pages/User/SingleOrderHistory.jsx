@@ -17,9 +17,12 @@ const SingleOrderHistory = () => {
     scrollToTop();
     const fetchOrders = async () => {
       try {
-        const { data } = await axios.get(`/api/orders/history/${orderId}`, {
-          headers: { authorization: `Bearer ${user.token}` },
-        });
+        const { data } = await axios.get(
+          `https://madison.bona9ja.online/api/orders/history/${orderId}`,
+          {
+            headers: { authorization: `Bearer ${user.token}` },
+          }
+        );
         setOrder(data);
       } catch (e) {
         alert(e);

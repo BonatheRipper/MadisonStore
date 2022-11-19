@@ -13,9 +13,12 @@ const PayForOrder = () => {
     scrollToTop();
     const GetpaymentType = async () => {
       try {
-        const { data } = await axios.get(`/api/orders/${orderId}`, {
-          headers: { authorization: `Bearer ${user.token}` },
-        });
+        const { data } = await axios.get(
+          `https://madison.bona9ja.online/api/orders/${orderId}`,
+          {
+            headers: { authorization: `Bearer ${user.token}` },
+          }
+        );
         setPaymentType(data.PaymentMethod);
       } catch (e) {
         alert(e);

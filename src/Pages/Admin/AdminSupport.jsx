@@ -73,9 +73,12 @@ const AdminSupport = () => {
     const fetchMessages = async () => {
       //we fetch all messages from server, we set chatbox to first message
       try {
-        const messages = await axios.get("/api/support/message", {
-          headers: { authorization: `Bearer ${user.token}` },
-        });
+        const messages = await axios.get(
+          "https://madison.bona9ja.online/api/support/message",
+          {
+            headers: { authorization: `Bearer ${user.token}` },
+          }
+        );
         setMessages(messages.data);
         setChats(messages.data[0]);
       } catch (e) {
@@ -88,9 +91,12 @@ const AdminSupport = () => {
   // on click of any chat we get the chat from server and setCurrent chatbox to it.
   const HandleChatState = async (messageId) => {
     try {
-      const messages = await axios.get(`/api/support/message/${messageId}`, {
-        headers: { authorization: `Bearer ${user.token}` },
-      });
+      const messages = await axios.get(
+        `https://madison.bona9ja.online/api/support/message/${messageId}`,
+        {
+          headers: { authorization: `Bearer ${user.token}` },
+        }
+      );
       setChats(messages.data);
       SetchatMenu(!chatMenu);
     } catch (e) {
@@ -118,7 +124,7 @@ const AdminSupport = () => {
 
     try {
       const messages = await axios.post(
-        `/api/support/message/admin/${messageId}`,
+        `https://madison.bona9ja.online/api/support/message/admin/${messageId}`,
         { text, headers: { authorization: `Bearer ${user.token}` } }
       );
       toast(messages.data.success);

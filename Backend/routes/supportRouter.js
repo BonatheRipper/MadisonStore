@@ -1,8 +1,8 @@
-import express from "express";
-import Messages from "../models/messages.js";
+const express = require("express");
+const Messages = require("../models/messages");
 
-import { isAdmin } from "../middleware/isAdmin.js";
-import { isAuth } from "../middleware/isAuth.js";
+const isAdmin = require("../middleware/isAdmin");
+const isAuth = require("../middleware/isAuth");
 const supportRouter = express.Router();
 supportRouter.post("/message", async (req, res) => {
   const { email, name, text } = req.body;
@@ -90,4 +90,4 @@ supportRouter.get("/message/:messageId", async (req, res) => {
   }
   return res.status(401).send({ error: "Messages not found" });
 });
-export default supportRouter;
+module.exports = supportRouter;

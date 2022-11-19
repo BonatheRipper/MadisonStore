@@ -1,10 +1,10 @@
-import jwt from "jsonwebtoken";
-export const isAuth = (req, res, next) => {
+const jwt = require("jsonwebtoken");
+const isAuth = (req, res, next) => {
   const authorization =
     req.headers.authorization || req.body.headers.authorization;
   if (authorization) {
     const token = authorization.slice(7, authorization.length); //BEARER XXXXXXX
-    jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
+    jwt.verify(token, "somethingcat", (err, decode) => {
       if (err) {
         res.status(401).send({ message: "Invalid request" });
       } else {
@@ -19,3 +19,4 @@ export const isAuth = (req, res, next) => {
     });
   }
 };
+module.exports = isAuth;

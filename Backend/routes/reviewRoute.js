@@ -1,7 +1,7 @@
-import express from "express";
-import Products from "../models/products.js";
-import Reviews from "../models/productReview.js";
-import { isAuth } from "../middleware/isAuth.js";
+const express = require("express");
+const Products = require("../models/products");
+const Reviews = require("../models/productReview");
+const isAuth = require("../middleware/isAuth");
 const reviewRouter = express.Router();
 reviewRouter.post("/", isAuth, async (req, res) => {
   const { ratingVal, userId, productId } = req.body;
@@ -39,4 +39,4 @@ reviewRouter.get("/", async (req, res) => {
   return res.status(401).send({ message: "Reviews failed or not found" });
 });
 
-export default reviewRouter;
+module.exports = reviewRouter;

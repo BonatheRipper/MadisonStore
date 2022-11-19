@@ -7,7 +7,9 @@ export const FetchSingleProduct = async (
 ) => {
   try {
     setSingleProduct(false);
-    const results = await axios.get(`/api/products/${id}`);
+    const results = await axios.get(
+      `https://madison.bona9ja.online/api/products/${id}`
+    );
     setSingleProduct(results.data);
     setCurrentImg(singleProduct.image.url);
   } catch (e) {

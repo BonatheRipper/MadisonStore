@@ -28,12 +28,15 @@ const Register = () => {
       return toast.error("password does not match");
     }
     try {
-      const { data } = await axios.post("/api/users/register", {
-        email,
-        password,
-        username,
-        confirmPassword,
-      });
+      const { data } = await axios.post(
+        "https://madison.bona9ja.online/api/users/register",
+        {
+          email,
+          password,
+          username,
+          confirmPassword,
+        }
+      );
       if (data) {
         localStorage.setItem("user", JSON.stringify(data));
         setUser(data);

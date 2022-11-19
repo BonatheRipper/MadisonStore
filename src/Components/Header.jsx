@@ -15,7 +15,9 @@ const Header = () => {
     Aos.init({ duration: 500 });
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/pages/homeheader");
+        const { data } = await axios.get(
+          "https://madison.bona9ja.online/api/pages/homeheader"
+        );
         if (data) {
           setPage(data);
         }

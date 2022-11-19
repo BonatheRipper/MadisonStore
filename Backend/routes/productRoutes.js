@@ -1,12 +1,12 @@
-import express from "express";
-import { CloudinaryUploader } from "../cloudinary/cloudinary.js";
-import { CloudinaryDeleter } from "../cloudinary/cloudinary.js";
-import upload from "../cloudinary/multerUploader.js";
-import Products from "../models/products.js";
-import asycHandler from "../middleware/asycHandler.js";
-import Reviews from "../models/productReview.js";
-import { isAuth } from "../middleware/isAuth.js";
-import { isAdmin } from "../middleware/isAdmin.js";
+const express = require("express");
+const { CloudinaryUploader } = require("../cloudinary/cloudinary");
+const { CloudinaryDeleter } = require("../cloudinary/cloudinary");
+const upload = require("../cloudinary/multerUploader");
+const Products = require("../models/products");
+const asycHandler = require("../middleware/asycHandler");
+const Reviews = require("../models/productReview");
+const isAuth = require("../middleware/isAuth");
+const isAdmin = require("../middleware/isAdmin");
 const productRouter = express.Router();
 
 productRouter.get("/", async (req, res, next) => {
@@ -251,4 +251,4 @@ const getCategories = () => {
     },
   ]);
 };
-export default productRouter;
+module.exports = productRouter;

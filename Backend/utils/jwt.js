@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken";
-export const generateToken = (user) => {
+const jwt = require("jsonwebtoken");
+const generateToken = (user) => {
   return jwt.sign(
     {
       _id: user._id,
@@ -7,9 +7,10 @@ export const generateToken = (user) => {
       email: user.email,
       isAdmin: user.isAdmin,
     },
-    process.env.JWT_SECRET
+    "somethingcat"
   );
 };
+module.exports = generateToken;
 // export const isAuth = (req, res, next) => {
 //   const auth = req.headers.authorization;
 //   if (auth) {

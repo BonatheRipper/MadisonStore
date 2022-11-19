@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const coversationSchema = new mongoose.Schema({
   member: {
     type: Array,
@@ -6,4 +6,4 @@ const coversationSchema = new mongoose.Schema({
 });
 
 const Conversations = mongoose.model("Conversations", coversationSchema);
-export default Conversations;
+module.exports = Conversations;

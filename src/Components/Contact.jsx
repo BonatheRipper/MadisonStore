@@ -18,7 +18,9 @@ const Contact = () => {
   useEffect(() => {
     const getPage = async () => {
       try {
-        const { data } = await axios.get("/api/pages/contact");
+        const { data } = await axios.get(
+          "https://madison.bona9ja.online/api/pages/contact"
+        );
         if (data) {
           setPage(data);
           return setLoading(false);
@@ -39,11 +41,14 @@ const Contact = () => {
     }
 
     try {
-      const result = await axios.post("/api/support/message", {
-        email,
-        name,
-        text,
-      });
+      const result = await axios.post(
+        "https://madison.bona9ja.online/api/support/message",
+        {
+          email,
+          name,
+          text,
+        }
+      );
       if (result) {
         setEmail("");
         setText("");

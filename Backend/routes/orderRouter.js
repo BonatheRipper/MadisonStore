@@ -1,9 +1,9 @@
-import express from "express";
-import Orders from "../models/orders.js";
-import asycHandler from "../middleware/asycHandler.js";
-import { isAuth } from "../middleware/isAuth.js";
-import Products from "../models/products.js";
-import { isAdmin } from "../middleware/isAdmin.js";
+const express = require("express");
+const Orders = require("../models/orders");
+const asycHandler = require("../middleware/asycHandler");
+const isAuth = require("../middleware/isAuth");
+const Products = require("../models/products");
+const isAdmin = require("../middleware/isAdmin");
 
 const orderRouter = express.Router();
 
@@ -101,4 +101,4 @@ orderRouter.put("/:orderId/pay", isAuth, async (req, res) => {
     res.status(404).send({ message: "Order Not Found" });
   }
 });
-export default orderRouter;
+module.exports = orderRouter;

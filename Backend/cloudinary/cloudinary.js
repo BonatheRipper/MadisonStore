@@ -1,6 +1,6 @@
-import { v2 as cloudinary } from "cloudinary";
-import path from "path";
-import fs from "fs";
+const cloudinary = require("cloudinary").v2;
+const path = require("path");
+const fs = require("fs");
 cloudinary.config({
   cloud_name: "yelp-camp100",
   api_key: "587559537283863",
@@ -46,4 +46,4 @@ const CloudinaryDeleter = async (id) => {
     return console.log(error);
   });
 };
-export { CloudinaryUploader, CloudinaryDeleter };
+module.exports = { CloudinaryUploader, CloudinaryDeleter };

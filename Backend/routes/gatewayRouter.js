@@ -1,7 +1,7 @@
-import express from "express";
-import Gateway from "../models/gateways.js";
-import { isAdmin } from "../middleware/isAdmin.js";
-import { isAuth } from "../middleware/isAuth.js";
+const express = require("express");
+const Gateway = require("../models/gateways");
+const isAdmin = require("../middleware/isAdmin");
+const isAuth = require("../middleware/isAuth");
 const gatewayRouterDB = express.Router();
 gatewayRouterDB.get("/", async (req, res) => {
   try {
@@ -65,4 +65,4 @@ gatewayRouterDB.post("/:gatewayTitle", isAuth, isAdmin, async (req, res) => {
     return res.status(401).send("There was an error");
   }
 });
-export default gatewayRouterDB;
+module.exports = gatewayRouterDB;

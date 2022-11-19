@@ -220,7 +220,9 @@ export const ContextProvider = ({ children }) => {
         (x) => x._id === productToAddToCart._id
       );
       const id = productToAddToCart._id;
-      const results = await axios.get(`/api/products/${id}`);
+      const results = await axios.get(
+        `https://madison.bona9ja.online/api/products/${id}`
+      );
       const quantity = existItem ? existItem.quantity : 1;
       if (results.data.countInStock <= quantity) {
         return toast.error("Item out of stock");
@@ -235,7 +237,9 @@ export const ContextProvider = ({ children }) => {
     try {
       const existItem = cart.cart.cartItems.find((x) => x._id === item._id);
       const id = item._id;
-      const results = await axios.get(`/api/products/${id}`);
+      const results = await axios.get(
+        `https://madison.bona9ja.online/api/products/${id}`
+      );
       const quantity = existItem ? existItem.quantity : 1;
       if (action === "DELETE") {
         cartDispatch({ type: "REMOVE_FROM_CART", payload: item });

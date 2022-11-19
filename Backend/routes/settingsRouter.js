@@ -1,10 +1,10 @@
-import express from "express";
-import upload from "../cloudinary/multerUploader.js";
-import { CloudinaryUploader } from "../cloudinary/cloudinary.js";
-import { CloudinaryDeleter } from "../cloudinary/cloudinary.js";
-import Settings from "../models/settings.js";
-import { isAuth } from "../middleware/isAuth.js";
-import { isAdmin } from "../middleware/isAdmin.js";
+const express = require("express");
+const upload = require("../cloudinary/multerUploader");
+const { CloudinaryUploader } = require("../cloudinary/cloudinary");
+const { CloudinaryDeleter } = require("../cloudinary/cloudinary");
+const Settings = require("../models/settings");
+const isAuth = require("../middleware/isAuth");
+const isAdmin = require("../middleware/isAdmin");
 
 const settingsRouter = express.Router();
 settingsRouter.get("/", async (req, res, next) => {
@@ -56,4 +56,4 @@ settingsRouter.post(
     }
   }
 );
-export default settingsRouter;
+module.exports = settingsRouter;

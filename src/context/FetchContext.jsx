@@ -10,7 +10,9 @@ export const FetchContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const { data } = await axios.get(`/api/settings`);
+        const { data } = await axios.get(
+          `https://madison.bona9ja.online/api/settings`
+        );
         if (data) {
           const { logoImage, faviconImage, title } = data;
           setSiteLogo(logoImage.url);

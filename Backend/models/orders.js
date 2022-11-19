@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
-import cryptoRandomString from "crypto-random-string";
+const mongoose = require("mongoose");
+const crypto = require("crypto");
+const buf = crypto.randomBytes(10);
 
 const ordersSchema = new mongoose.Schema(
   {
@@ -46,7 +47,7 @@ const ordersSchema = new mongoose.Schema(
     deliveredAt: { type: Date },
     orderNo: {
       type: String,
-      default: "#" + cryptoRandomString({ length: 10 }),
+      default: `# ${buf}`,
     },
   },
   {
@@ -55,4 +56,4 @@ const ordersSchema = new mongoose.Schema(
 );
 
 const Orders = mongoose.model("Orders", ordersSchema);
-export default Orders;
+module.exports = Orders;

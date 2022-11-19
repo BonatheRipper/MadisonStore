@@ -342,9 +342,12 @@ const AdminHome = () => {
   }, [setOrdersAdmin, user]);
   const handleOrderDelete = async () => {
     try {
-      const results = await axios.delete(`/api/orders/${orderToDeleteID}`, {
-        headers: { authorization: `Bearer ${user.token}` },
-      });
+      const results = await axios.delete(
+        `https://madison.bona9ja.online/api/orders/${orderToDeleteID}`,
+        {
+          headers: { authorization: `Bearer ${user.token}` },
+        }
+      );
       setPopup(!popup);
       setOrdersAdmin(results.data.updatedOrders);
       return toast(results.data.message);

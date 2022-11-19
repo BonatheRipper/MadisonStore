@@ -1,6 +1,5 @@
 {
   "name": "back_end_of_ecom",
-  "type": "module",
   "version": "1.0.0",
   "description": "This is just the backend to marple store",
   "main": "app.js",

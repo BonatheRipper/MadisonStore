@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const reviewsSchema = new mongoose.Schema({
   rating: { type: Number, require: true },
   author: {
@@ -11,4 +11,4 @@ const reviewsSchema = new mongoose.Schema({
   },
 });
 const Reviews = mongoose.model("Reviews", reviewsSchema);
-export default Reviews;
+module.exports = Reviews;
