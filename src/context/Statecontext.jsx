@@ -157,7 +157,7 @@ const ThemeBorders = {
 };
 export const ContextProvider = ({ children }) => {
   const [themeShape, setThemeShape] = useState(
-    localStorage.getItem("themeShape") || ThemeShapes.Rounded
+    localStorage.getItem("themeShape") || ThemeShapes.Square
   );
   const [categories, setCats] = useState([]);
   const [user, setUser] = useState(

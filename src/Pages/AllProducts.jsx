@@ -44,7 +44,6 @@ const AllProducts = () => {
   const indexOfFirstTable = indexOfLastTable - ordersPerTable;
   const [totalPages, setTotalPages] = useState(1);
   const pages = new Array(totalPages).fill(totalPages);
-  let num = -1;
   const handleClick = (currentPageNum) => {
     setPageNumber(currentPageNum);
   };
