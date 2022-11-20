@@ -43,11 +43,11 @@ import AdminUsers from "./Pages/Admin/AdminUsers";
 const App = () => {
   const { themeBG } = useStateContext();
   return (
-    <BrowserRouter>
-      <div
-        className={`
+    <div
+      className={`
       ${themeBG ? `text-c-gold  ` : ""} relative`}
-      >
+    >
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutPage />} />
@@ -105,8 +105,8 @@ const App = () => {
 
           <Route path="*" element={<Four0Four />} />
         </Routes>
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </div>
   );
 };
 // npm link ../node_modules/react

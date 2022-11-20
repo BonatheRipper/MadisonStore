@@ -18,7 +18,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const userData = await getUser(usernameEmail, password);
-      console.log(userData);
+      // console.log(userData);
       setUser(userData);
       toast("Login success");
       localStorage.setItem("user", JSON.stringify(userData));
