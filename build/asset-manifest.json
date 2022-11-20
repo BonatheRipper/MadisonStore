@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.59b979f2.css",
+    "main.js": "/static/js/main.7a9cb697.js",
+    "static/js/787.f055211e.chunk.js": "/static/js/787.f055211e.chunk.js",
+    "static/media/headerImg.png": "/static/media/headerImg.53065f8e233fe028c733.png",
+    "static/media/CatBag.png": "/static/media/CatBag.20d11b72df5d7c48f702.png",
+    "static/media/CatShoe.png": "/static/media/CatShoe.e0764fa1634b08bfdf07.png",
+    "static/media/CatWatch.png": "/static/media/CatWatch.091fbf9e21aa35419c68.png",
+    "static/media/CatShirt.png": "/static/media/CatShirt.1e6ba99d1e00f4cdf176.png",
+    "static/media/AboutImg.jpeg": "/static/media/AboutImg.951ee0489645b32e587a.jpeg",
+    "static/media/CatRing.png": "/static/media/CatRing.7fc1f18cfb7aea6a4f64.png",
+    "static/media/CatNecklace.png": "/static/media/CatNecklace.1cd06d65c10bf360c489.png",
+    "static/media/CatEarrings.png": "/static/media/CatEarrings.f59deba4d263cce88679.png",
+    "static/media/headerImg2.webp": "/static/media/headerImg2.7fe7fc2f184ddff95cae.webp",
+    "static/media/test2.jpeg": "/static/media/test2.d456ef846f927e94b32b.jpeg",
+    "static/media/headerImg1.webp": "/static/media/headerImg1.09ef00a00dab8de24987.webp",
+    "static/media/test1.jpeg": "/static/media/test1.94c7c747135846660a83.jpeg",
+    "static/media/test4.jpeg": "/static/media/test4.690fb448aa64bd81eeab.jpeg",
+    "static/media/test3.jpeg": "/static/media/test3.27dd3ee090850899d6dd.jpeg",
+    "index.html": "/index.html",
+    "main.59b979f2.css.map": "/static/css/main.59b979f2.css.map",
+    "main.7a9cb697.js.map": "/static/js/main.7a9cb697.js.map",
+    "787.f055211e.chunk.js.map": "/static/js/787.f055211e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.59b979f2.css",
+    "static/js/main.7a9cb697.js"
+  ]
+}
