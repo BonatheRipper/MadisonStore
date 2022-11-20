@@ -44,13 +44,18 @@ const Sidebar = () => {
           <NavLink to="/" className={sidebarButtonsClass}>
             Wishlist
           </NavLink>
+          <NavLink to="/admin" className={sidebarButtonsClass}>
+            Admin
+          </NavLink>
           {user && (
-            <button
-              onClick={() => handleLogout()}
-              className={sidebarButtonsClass()}
-            >
-              Logout
-            </button>
+            <>
+              <button
+                onClick={() => handleLogout()}
+                className={sidebarButtonsClass()}
+              >
+                Logout
+              </button>
+            </>
           )}
           {!user && (
             <>

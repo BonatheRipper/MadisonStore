@@ -69,32 +69,38 @@ const App = () => {
           <Route path="/shop/:catType" element={<ProductsByCategory />} />
 
           {/* PRIVATE ROUTES */}
-          {/* <Route element={<PrivateRoutes />}> */}
-          <Route path="/account" element={<Account />} />
-          <Route path="/account/:id" element={<UpdateAccount />} />
-          <Route path="/admin" element={<AdminHome />} />
-          <Route path="/admin/products" element={<AdminProducts />} />
-          <Route path="/admin/support" element={<AdminSupport />} />
-          <Route
-            path="/admin/products/addproduct"
-            element={<AdminAddProduct />}
-          />
-          <Route
-            path="/admin/products/update/:productId"
-            element={<AdminEditProduct />}
-          />
-          <Route path="/admin/cms/welcome" element={<WelcomeCms />} />
-          <Route path="/admin/cms/about" element={<AboutCms />} />
-          <Route path="/admin/cms/subscription" element={<SubscriptionCms />} />
-          <Route path="/admin/cms/contact" element={<ContactCms />} />
-          <Route path="/admin/cms/header" element={<HomeHeaderCms />} />
-          <Route path="/admin/gateway/paypal" element={<Paypal />} />
-          <Route path="/admin/gateway/paystack" element={<Paystack />} />
-          <Route path="/admin/gateway/flutterwave" element={<Flutterwave />} />
-          <Route path="/admin/settings" element={<AdminSettings />} />
-          <Route path="/admin/subscribers" element={<AdminSubscribers />} />
-          <Route path="/admin/users" element={<AdminUsers />} />
-          {/* </Route> */}
+          <Route element={<PrivateRoutes />}>
+            <Route path="/account" element={<Account />} />
+            <Route path="/account/:id" element={<UpdateAccount />} />
+            <Route path="/admin" element={<AdminHome />} />
+            <Route path="/admin/products" element={<AdminProducts />} />
+            <Route path="/admin/support" element={<AdminSupport />} />
+            <Route
+              path="/admin/products/addproduct"
+              element={<AdminAddProduct />}
+            />
+            <Route
+              path="/admin/products/update/:productId"
+              element={<AdminEditProduct />}
+            />
+            <Route path="/admin/cms/welcome" element={<WelcomeCms />} />
+            <Route path="/admin/cms/about" element={<AboutCms />} />
+            <Route
+              path="/admin/cms/subscription"
+              element={<SubscriptionCms />}
+            />
+            <Route path="/admin/cms/contact" element={<ContactCms />} />
+            <Route path="/admin/cms/header" element={<HomeHeaderCms />} />
+            <Route path="/admin/gateway/paypal" element={<Paypal />} />
+            <Route path="/admin/gateway/paystack" element={<Paystack />} />
+            <Route
+              path="/admin/gateway/flutterwave"
+              element={<Flutterwave />}
+            />
+            <Route path="/admin/settings" element={<AdminSettings />} />
+            <Route path="/admin/subscribers" element={<AdminSubscribers />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+          </Route>
           {/* PRIVATE ROUTES ENDS*/}
 
           <Route path="*" element={<Four0Four />} />

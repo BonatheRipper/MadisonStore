@@ -95,6 +95,12 @@ const Navbar = () => {
             >
               Login
             </NavLink>
+            <NavLink
+              to="/admin"
+              className={`${themeShape} hidden md:block border-c-gold border px-5 py-1 hover:bg-transparent bg-c-gold hover:text-c-gold text-black mx-2`}
+            >
+              Admin
+            </NavLink>
           </>
         )}
         {user && (
